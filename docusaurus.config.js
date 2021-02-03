@@ -1,11 +1,11 @@
 module.exports = {
   title: 'Chaos Mesh®',
   tagline: '强大的混沌工程平台',
-  url: 'https://chaos-mesh.org',
+  url: 'https://chaos-mesh.github.io/website-zh',
   baseUrl: '/',
   favicon: 'img/favicon.ico',
   organizationName: 'chaos-mesh', // Usually your GitHub org/user name.
-  projectName: 'chaos-mesh.github.io', // Usually your repo name.
+  projectName: 'website-zh', // Usually your repo name.
   themeConfig: {
     image: 'img/logos/logo-mini.svg',
     algolia: {
