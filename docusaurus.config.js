@@ -2,7 +2,7 @@ module.exports = {
   title: 'Chaos Mesh®',
   tagline: '强大的混沌工程平台',
   url: 'https://chaos-mesh.github.io/website-zh',
-  baseUrl: '/',
+  baseUrl: '/website-zh/',
   favicon: 'img/favicon.ico',
   organizationName: 'chaos-mesh', // Usually your GitHub org/user name.
   projectName: 'website-zh', // Usually your repo name.

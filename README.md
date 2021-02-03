@@ -4,7 +4,7 @@
 <p align="center">
   <img src="logo.svg" width="256" alt="Chaos Mesh Logo" />
 </p>
-<h1 align="center">Website</h1>
+<h1 align="center">Chaos Mesh 中文文档</h1>
 <p align="center">
   Built using <a href="https://v2.docusaurus.io/" target="_blank">Docusaurus 2</a>, a modern static website generator.
 </p>
