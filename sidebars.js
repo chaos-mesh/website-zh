@@ -34,6 +34,7 @@ module.exports = {
         `user_guides/scheduler_rule`,
         `user_guides/chaos_experiment_result`,
         `user_guides/clean_chaos_experiment`,
+        `user_guides/debug`,
       ],
     },
     {
@@ -49,16 +50,26 @@ module.exports = {
         `chaos_experiments/jvmchaos_experiment`,
         `chaos_experiments/kernelchaos_experiment`,
         `chaos_experiments/awschaos_experiment`,
+        `chaos_experiments/gcpchaos_experiment`,
+        `chaos_experiments/httpchaos_experiment`,
       ],
     },
     {
       type: 'category',
       label: '物理节点混沌实验',
       items: [
-        'chaos_experiments_physic_node/chaosd',
+        `chaos_experiments_physic_node/chaosd`,
         `chaos_experiments_physic_node/processchaos_experiment`,
         `chaos_experiments_physic_node/networkchaos_experiment`,
         `chaos_experiments_physic_node/stresschaos_experiment`,
+      ],
+    },
+    {
+      type: "category",
+      label: "设计混沌实验场景",
+      items: [
+        `chaos_scenarios/init`,
+        `chaos_scenarios/status_check`,
       ],
     },
     {
