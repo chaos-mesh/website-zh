@@ -17,9 +17,9 @@ module.exports = {
         type: 'category',
         label: '安装部署',
         items: [
-        `quick-start`,
-        `production-installation-using-helm`,
-        `offline-installation`,
+            `quick-start`,
+            `production-installation-using-helm`,
+            `offline-installation`,
           ],
         },
         {
