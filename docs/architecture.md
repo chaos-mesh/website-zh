@@ -1,7 +1,6 @@
 ---
-id: architecture
-title: 架构设计
-sidebar_label: 架构设计
+title: Chaos Mesh 架构
+sidebar_label: Chaos Mesh 架构
 ---
 
 ## TODO

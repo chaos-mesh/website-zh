@@ -1,10 +1,9 @@
 ---
-id: faqs
-title: FAQs
-sidebar_label: FAQs
+title: 常见问题解答 (FAQ)
+sidebar_label: 常见问题解答 (FAQ)
 ---
 
-## Question
+## 常见问题解答 (FAQ)
 
 ### Q: If I do not have Kubernetes clusters deployed, can I use Chaos Mesh to create chaos experiments?
 
