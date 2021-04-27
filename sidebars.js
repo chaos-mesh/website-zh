@@ -4,9 +4,9 @@ module.exports = {
       type: 'category',
       label: '关于 Chaos Mesh',
       items: [
-        'overview',
-        'basic-features',
-        'release-2.0.0'
+        `overview`,
+        `basic-features`,
+        `release-2.0.0`,
       ],
     },
     {
