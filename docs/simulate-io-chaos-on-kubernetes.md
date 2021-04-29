@@ -21,7 +21,7 @@ IOChaos能够帮助你模拟文件系统故障。目前支持以下类型的故�
 1. 单击实验页面中的“新的实验”按钮进行创建实验。
 
    ![img](../static/img/create-io-chaos-on-dashborad-1.jpg)
-   
+
 2. 在“选择目标”处选择“文件系统注入”，并选择具体行为，如“LATENCY”
 
    ![image-20210429155026408](../static/img/create-io-chaos-on-dashborad-2.jpg)
@@ -164,6 +164,8 @@ spec:
   |---|---|---|---|---|---|
   |errno|int|返回的错误号||是|22|
 
+  常见的错误号参见附录B
+
 - attrOverride
   |参数|类型|说明|默认值|是否必填|示例|
   |---|---|---|---|---|---|
@@ -175,9 +177,9 @@ spec:
   |ino|int|inode号||否||
   |size|int|文件大小||否||
   |blocks|int|文件占用块数||否||
-  |atime|Timespec|最后访问时间||否||
-  |mtime|Timespec|最后修改时间||否||
-  |ctime|Timespec|最后状态变更时间||否||
+  |atime|TimeSpec|最后访问时间||否||
+  |mtime|TimeSpec|最后修改时间||否||
+  |ctime|TimeSpec|最后状态变更时间||否||
   |kind|string|文件类型，详见 [fuser::FileType](https://docs.rs/fuser/0.7.0/fuser/enum.FileType.html)||否||
   |perm|int|文件权限的10进制表示||否|72（8进制下为110）|
   |nlink|int|硬链接数量||否||
@@ -185,7 +187,7 @@ spec:
   |gid|int|所有者的组ID||否||
   |rdev|int|设备ID||否||
 
-  Timespec定义如下
+  TimeSpec定义如下
   |参数|类型|说明|默认值|是否必填|示例|
   |---|---|---|---|---|---|
   |sec|int|以秒为单位的时间戳||否||
@@ -208,3 +210,54 @@ spec:
 
 ## 本地调试
 如果你不确定某个chaos的效果，也可以使用 [toda](https://github.com/chaos-mesh/toda) 在本地测试相应功能。chaos mesh 同样使用 toda 实现 IOChaos。
+
+## 附录A：methods 类型
+- lookup
+- forget
+- getattr
+- setattr
+- readlink
+- mknod
+- mkdir
+- unlink
+- rmdir
+- symlink
+- rename
+- link
+- open
+- read
+- write
+- flush
+- release
+- fsync
+- opendir
+- readdir
+- releasedir
+- fsyncdir
+- statfs
+- setxattr
+- getxattr
+- listxattr
+- removexattr
+- access
+- create
+- getlk
+- setlk
+- bmap
+
+详见 [fuser::Filesystem](https://docs.rs/fuser/0.7.0/fuser/trait.Filesystem.html)
+
+## 附录B：常见错误号
+- 1: Operation not permitted
+- 2: No such file or directory
+- 5: I/O error
+- 6: No such device or address
+- 12: Out of memory
+- 16: Device or resource busy
+- 17: File exists
+- 20: Not a directory
+- 22: Invalid argument
+- 24: Too many open files
+- 28: No space left on device
+
+详见 [linux源码](https://raw.githubusercontent.com/torvalds/linux/master/include/uapi/asm-generic/errno-base.h)
