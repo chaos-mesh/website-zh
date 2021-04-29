@@ -207,6 +207,8 @@ spec:
   |maxOccurrences|int|错误在每一次操作中最多出现次数||是|1|
   |maxLength|int|每次错误的最大长度（单位为字节）||是|1|
 
+  我们不推荐在除了 READ 和 WRITE 之外的文件系统调用上使用 mistake 。这可能会导致预期之外的结果，包括但不限于文件系统损坏，程序崩溃等。
+
 
 ## 本地调试
 如果你不确定某个chaos的效果，也可以使用 [toda](https://github.com/chaos-mesh/toda) 在本地测试相应功能。chaos mesh 同样使用 toda 实现 IOChaos。
