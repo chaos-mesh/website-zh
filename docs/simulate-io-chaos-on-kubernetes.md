@@ -11,7 +11,7 @@ IOChaos能够帮助你模拟文件系统故障。目前支持以下类型的故�
 3. attrOverride：修改文件属性
 4. mistake：使文件读到或写入错误的值
 
-详细的故障类型介绍将在“使用yaml文件创建实验”展开。
+详细的功能介绍参见“使用yaml文件创建实验”。
 
 ## 注意事项
 1. 请确保目标Pod上没有运行 Chaos Mesh 的 Control Manager。
