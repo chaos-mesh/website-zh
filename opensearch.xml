@@ -4,8 +4,8 @@
   <ShortName>Chaos Mesh®</ShortName>
   <Description>Search Chaos Mesh®</Description>
   <InputEncoding>UTF-8</InputEncoding>
-  <Image width="16" height="16" type="image/x-icon">https://chaos-mesh.github.io/website-zh/img/favicon.ico</Image>
-  <Url type="text/html" method="get" template="https://chaos-mesh.github.io/website-zh/search?q={searchTerms}"/>
-  <Url type="application/opensearchdescription+xml" rel="self" template="https://chaos-mesh.github.io/website-zh/opensearch.xml" />
-  <moz:SearchForm>https://chaos-mesh.github.io/website-zh</moz:SearchForm>
+  <Image width="16" height="16" type="image/x-icon">https://chaos-mesh.org/website-zh/img/favicon.ico</Image>
+  <Url type="text/html" method="get" template="https://chaos-mesh.org/website-zh/search?q={searchTerms}"/>
+  <Url type="application/opensearchdescription+xml" rel="self" template="https://chaos-mesh.org/website-zh/opensearch.xml" />
+  <moz:SearchForm>https://chaos-mesh.org/website-zh/</moz:SearchForm>
 </OpenSearchDescription>
