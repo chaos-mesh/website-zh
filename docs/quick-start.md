@@ -36,6 +36,8 @@ import PickVersion from '@site/src/components/PickVersion'
 
 以上的脚本将会自动应用与版本相符的 CRD，所有的组件及相关的 Service Account 配置。
 
+如果想了解更多的安装细节，请参考 `install.sh` 的源代码：<https://github.com/chaos-mesh/chaos-mesh/blob/master/install.sh>。
+
 :::caution
 
 **通过脚本安装 Chaos Mesh 的方式只适用于快速试用。**
@@ -90,7 +92,3 @@ kubectl describe po -n chaos-testing chaos-controller-manager-69fd5c46c8-xlqpc
 ```sh
 kubectl delete ns chaos-testing
 ```
-
-## 最后
-
-如果想了解更多的安装细节，请参考 `install.sh` 的源代码：<https://github.com/chaos-mesh/chaos-mesh/blob/master/install.sh>。
