@@ -1,7 +1,7 @@
 module.exports = {
   title: 'Chaos Mesh®',
   tagline: '强大的混沌工程平台',
-  url: 'https://chaos-mesh.github.io/website-zh',
+  url: 'https://chaos-mesh.org',
   baseUrl: '/website-zh/',
   favicon: 'img/favicon.ico',
   organizationName: 'chaos-mesh', // Usually your GitHub org/user name.
@@ -33,7 +33,7 @@ module.exports = {
           activeBasePath: 'docs',
           label: '文档',
         },
-        { to: 'interactiveTutorial', label: '在线教程' },
+        { to: 'interactive-tutorial', label: '在线教程' },
         {
           href: 'https://github.com/chaos-mesh/chaos-mesh',
           label: 'GitHub',
@@ -47,12 +47,8 @@ module.exports = {
           title: '文档',
           items: [
             {
-              label: '快速开始',
-              to: 'https://chaos-mesh.org/docs/get_started/get_started_on_kind',
-            },
-            {
-              label: '使用指导',
-              to: 'https://chaos-mesh.org/docs/user_guides/installation',
+              label: '快速试用',
+              to: 'docs/quick-start',
             },
           ],
         },
@@ -65,7 +61,7 @@ module.exports = {
             },
             {
               label: 'Slack (#project-chaos-mesh)',
-              href: 'https://join.slack.com/t/cloud-native/shared_invite/zt-fyy3b8up-qHeDNVqbz1j8HDY6g1cY4w',
+              href: 'https://slack.cncf.io/',
             },
           ],
         },
