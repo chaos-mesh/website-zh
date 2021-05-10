@@ -26,11 +26,17 @@ import PickVersion from '@site/src/components/PickVersion'
 
 :::note
 
-如果当前环境为 [k3s](https://k3s.io/)，请在脚本后添加 `--k3s` 参数。
+- 如果当前环境为 [kind](https://kind.sigs.k8s.io/)，请在脚本后添加 `--local kind` 参数。
 
-<PickVersion className="language-bash">
-  curl -sSL https://mirrors.chaos-mesh.org/latest/install.sh | bash -s -- --k3s
-</PickVersion>
+  <PickVersion className="language-bash">
+    curl -sSL https://mirrors.chaos-mesh.org/latest/install.sh | bash -s -- --local kind
+  </PickVersion>
+
+- 如果当前环境为 [k3s](https://k3s.io/)，请在脚本后添加 `--k3s` 参数。
+
+  <PickVersion className="language-bash">
+    curl -sSL https://mirrors.chaos-mesh.org/latest/install.sh | bash -s -- --k3s
+  </PickVersion>
 
 :::
 
