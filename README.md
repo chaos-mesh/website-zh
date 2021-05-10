@@ -13,6 +13,8 @@
 
 ## 目前的工作
 
+<!-- markdown-link-check-disable-next-line -->
+
 目前 Chaos Mesh 中文文档正在准备中，中文文档目录见 [思维导图 - Chaos Mesh 中文文档架构（将随 v2.0 一起发布）](https://pingcap.feishu.cn/mindnotes/bmncnfTQGCUvaPWAi1xKjeDCL6c)。
 
 **欢迎社区的成员一起参与审校 Chaos Mesh 文档目录，如有问题请在思维导图中评论。**
