@@ -31,7 +31,7 @@ Chaos Mesh 基于 Kubernetes CRD (Custom Resource Definition) 构建，按照不
 - **Chaos Daemon**：Chaos Mesh 主要执行组件，Chaos Daemon 以 [DaemonSet](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/) 的方式运行，
   默认具有 Privileged 权限（可以关闭），该组件主要通过侵入到目标 Pod Namespace，干扰具体的网络设备，文件系统，内核等。
 
-![Architecture](/img/docs/architecture.png)
+![Architecture](img/architecture.png)
 
 Chaos Mesh 的整体架构如上图所展示，可以自上而下分为三个部分：
 
