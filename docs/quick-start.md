@@ -15,13 +15,14 @@ import PickVersion from '@site/src/components/PickVersion'
 - [minikube](https://minikube.sigs.k8s.io/docs/start/)
 - [kind](https://kind.sigs.k8s.io/docs/user/quick-start/)
 - [k3s](https://rancher.com/docs/k3s/latest/en/quick-start/)
+- [microk8s](https://microk8s.io/)
 
 ## 安装
 
 运行如下脚本安装 Chaos Mesh：
 
 <PickVersion className="language-bash">
-  curl -sSL https://mirrors.chaos-mesh.org/latest/install.sh | bash
+curl -sSL https://mirrors.chaos-mesh.org/latest/install.sh | bash
 </PickVersion>
 
 :::note
@@ -29,15 +30,20 @@ import PickVersion from '@site/src/components/PickVersion'
 - 如果当前环境为 [kind](https://kind.sigs.k8s.io/)，请在脚本后添加 `--local kind` 参数。
 
   <PickVersion className="language-bash">
-    curl -sSL https://mirrors.chaos-mesh.org/latest/install.sh | bash -s -- --local kind
+  curl -sSL https://mirrors.chaos-mesh.org/latest/install.sh | bash -s -- --local kind
   </PickVersion>
 
 - 如果当前环境为 [k3s](https://k3s.io/)，请在脚本后添加 `--k3s` 参数。
 
   <PickVersion className="language-bash">
-    curl -sSL https://mirrors.chaos-mesh.org/latest/install.sh | bash -s -- --k3s
+  curl -sSL https://mirrors.chaos-mesh.org/latest/install.sh | bash -s -- --k3s
   </PickVersion>
 
+- 如果当前环境为 [microk8s](https://microk8s.io/)，请在脚本后添加 `--microk8s` 参数。
+
+  <PickVersion className="language-bash">
+  curl -sSL https://mirrors.chaos-mesh.org/latest/install.sh | bash -s -- --microk8s
+  </PickVersion>
 :::
 
 以上的脚本将会自动应用与版本相符的 CRD，所有的组件及相关的 Service Account 配置。
@@ -90,7 +96,7 @@ kubectl describe po -n chaos-testing chaos-controller-manager-69fd5c46c8-xlqpc
 通过执行如下命令卸载 Chaos Mesh：
 
 <PickVersion className="language-bash">
-  curl -sSL https://mirrors.chaos-mesh.org/latest/install.sh | bash -s -- --template | kubectl delete -f -
+curl -sSL https://mirrors.chaos-mesh.org/latest/install.sh | bash -s -- --template | kubectl delete -f -
 </PickVersion>
 
 也可以通过删除 `chaos-testing` 命名空间直接卸载 Chaos Mesh：
@@ -98,3 +104,23 @@ kubectl describe po -n chaos-testing chaos-controller-manager-69fd5c46c8-xlqpc
 ```sh
 kubectl delete ns chaos-testing
 ```
+
+## FAQ
+
+### 为什么会出现安装后根目录会出现 `local` 目录
+
+如果使用了 `--local kind` 参数但是当前环境并没有安装 kind，`install.sh` 将会自动安装 kind 到根目录的 `local` 中。
+
+### 如何指定 `kind` 版本
+
+在脚本后添加 `--kind-version xxx` 参数，如：
+
+<PickVersion className="language-bash">
+curl -sSL https://mirrors.chaos-mesh.org/latest/install.sh | bash -s -- --local kind --kind-version v0.10.0
+</PickVersion>
+
+### 在中国大陆拉取镜像
+
+在脚本后添加 `--docker-mirror` 参数。
+
+这将让 `install.sh` 使用 `dockerhub.azk8s.cn` 和 `gcr.azk8s.cn` 拉取镜像。
