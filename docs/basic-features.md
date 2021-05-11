@@ -35,13 +35,13 @@ sidebar_label: 基本功能
 - 支持使用 YAML 文件方式定义和管理混沌实验场景
 - 支持通过 Web UI 定义和管理混沌实验场景
 
-具体的实验场景配置，参考具体[使用文档](create-chaos-mesh-workflow)。
+具体的实验场景配置，参考具体[使用文档](create-chaos-mesh-workflow.md)。
 
 ## 可视化操作
 
 Chaos Mesh 从用户角度出发，不仅可以提供通过 YAML 文件定义混沌实验和编排混沌实验场景的方式，还单独开发了 Chaos Dashbaord 组件，提供可视化支持。Chaos Dashboard 极大简化了混沌实验的复杂度，用户可以直接通过可视化界面来管理和监控混沌实验，仅需鼠标点一点就能够定义混沌实验的范围、指定混沌注入类型、定义调度规则，以及在界面上获取到混沌实验的结果等。
 
-![混沌实验场景](/img/docs/dashboard-overview.png)
+![混沌实验场景](img/dashboard-overview.png)
 
 ## 安全保障
 
