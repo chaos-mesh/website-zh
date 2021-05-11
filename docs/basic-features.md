@@ -8,19 +8,19 @@ sidebar_label: 基本功能
 混沌实验的核心是注入故障，Chaos Mesh 从分布式系统的出发，充分考虑分布式系统可能出现的故障，提供全面、细粒度的故障类型，整体 Chaos Mesh 支持的故障类型可以分成三类：基础资源类型故障；平台类型故障；应用层故障。
 
 - 基础资源类型故障
-  - **[PodChaos](simulate-pod-chaos-on-kubernetes)**：模拟 Pod 故障，如 Pod 节点重启，持续不可用，以及具体 Pod 中的某些容器故障。
-  - **[NetworkChaos](simulate-network-chaos-on-kubernetes)**：模拟网络故障，如网络延迟、网络丢包、包乱序、各类网络分区。
-  - **[DNSChaos](simulate-dns-chaos-on-kubernetes)**：模拟 DNS 故障，如 DNS 域名解析失败、返回错误 IP 地址。
-  - **[HTTPChaos](simulate-http-chaos-on-kubernetes)**：模拟 HTTP 通信故障，如 HTTP 通信延迟。
-  - **[StressChaos](simulate-heavy-stress-on-kubernetes)**：模拟 CPU 抢占，或 Memory 抢占场景。
-  - **[IOChaos](simulate-io-chaos-on-kubernetes)**：模拟具体某个应用的文件 I/O 故障，如 I/O 延迟、读写失败。
-  - **[TimeChaos](simulate-time-chaos-on-kubernetes)**：模拟时间跳动异常。
-  - **[KernelChaos](simulate-kernel-chaos-on-kubernetes)**：模拟内核故障，如应用内存分配异常。
+  - **[PodChaos](simulate-pod-chaos-on-kubernetes.md)**：模拟 Pod 故障，如 Pod 节点重启，持续不可用，以及具体 Pod 中的某些容器故障。
+  - **[NetworkChaos](simulate-network-chaos-on-kubernetes.md)**：模拟网络故障，如网络延迟、网络丢包、包乱序、各类网络分区。
+  - **[DNSChaos](simulate-dns-chaos-on-kubernetes.md)**：模拟 DNS 故障，如 DNS 域名解析失败、返回错误 IP 地址。
+  - **[HTTPChaos](simulate-http-chaos-on-kubernetes.md)**：模拟 HTTP 通信故障，如 HTTP 通信延迟。
+  - **[StressChaos](simulate-heavy-stress-on-kubernetes.md)**：模拟 CPU 抢占，或 Memory 抢占场景。
+  - **[IOChaos](simulate-io-chaos-on-kubernetes.md)**：模拟具体某个应用的文件 I/O 故障，如 I/O 延迟、读写失败。
+  - **[TimeChaos](simulate-time-chaos-on-kubernetes.md)**：模拟时间跳动异常。
+  - **[KernelChaos](simulate-kernel-chaos-on-kubernetes.md)**：模拟内核故障，如应用内存分配异常。
 - 平台类型故障
-  - **[AWSChaos](simulate-aws-chaos)**：模拟 AWS 平台故障，如 AWS 节点重启。
-  - **[GCPChaos](simulate-gcp-chaos)**：模拟 GCP 平台故障，如 GCP 节点重启。
+  - **[AWSChaos](simulate-aws-chaos.md)**：模拟 AWS 平台故障，如 AWS 节点重启。
+  - **[GCPChaos](simulate-gcp-chaos.md)**：模拟 GCP 平台故障，如 GCP 节点重启。
 - 应用层故障
-  - **[JVMChaos](simulate-jvm-application-chaos)**：模拟 JVM 应用故障，如函数调用延迟。
+  - **[JVMChaos](simulate-jvm-application-chaos.md)**：模拟 JVM 应用故障，如函数调用延迟。
 
 ## 混沌实验场景
 
