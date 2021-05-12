@@ -13,6 +13,11 @@ sidebar_label: 模拟压力场景
 
 ```bash
 chaosd attack stress --help
+```
+
+输出如下所示：
+
+```bash
 Stress attack related commands
 
 Usage:
@@ -35,6 +40,11 @@ Use "chaosd attack stress [command] --help" for more information about a command
 
 ```bash
 chaosd attack stress cpu --help
+```
+
+输出如下所示：
+
+```bash
 continuously stress CPU out
 
 Usage:
@@ -54,6 +64,11 @@ Global Flags:
 
 ```bash
 chaosd attack stress mem --help
+```
+
+输出如下所示：
+
+```bash
 continuously stress virtual memory out
 
 Usage:
@@ -94,6 +109,11 @@ Global Flags:
 
 ```bash
 chaosd attack stress cpu --workers 2 --load 10
+```
+
+输出如下所示：
+
+```bash
 [2021/05/12 03:38:33.698 +00:00] [INFO] [stress.go:66] ["stressors normalize"] [arguments=" --cpu 2 --cpu-load 10"]
 [2021/05/12 03:38:33.702 +00:00] [INFO] [stress.go:82] ["Start stress-ng process successfully"] [command="/usr/bin/stress-ng --cpu 2 --cpu-load 10"] [Pid=27483]
 Attack stress cpu successfully, uid: 4f33b2d4-aee6-43ca-9c43-0f12867e5c9c
@@ -103,15 +123,25 @@ Attack stress cpu successfully, uid: 4f33b2d4-aee6-43ca-9c43-0f12867e5c9c
 
 ```bash
 chaosd attack stress mem --workers 2 --size 100M
+```
+
+输出如下所示：
+
+```bash
 [2021/05/12 03:37:19.643 +00:00] [INFO] [stress.go:66] ["stressors normalize"] [arguments=" --vm 2 --vm-keep --vm-bytes 100000000"]
 [2021/05/12 03:37:19.654 +00:00] [INFO] [stress.go:82] ["Start stress-ng process successfully"] [command="/usr/bin/stress-ng --vm 2 --vm-keep --vm-bytes 100000000"] [Pid=26799]
 Attack stress mem successfully, uid: c2bff2f5-3aac-4ace-b7a6-322946ae6f13
 ```
 
-在运行实验时，请注意保管好实验的 uid 信息。在不需要模拟压力场景时，使用 recover 命令来结束 uid 对应的实验，如下所示：
+在运行实验时，请注意保管好实验的 uid 信息。在不需要模拟压力场景时，使用 recover 命令来结束 uid 对应的实验：
 
 ```bash
 chaosd recover c2bff2f5-3aac-4ace-b7a6-322946ae6f13
+```
+
+输出如下所示：
+
+```bash
 Recover c2bff2f5-3aac-4ace-b7a6-322946ae6f13 successfully
 ```
 
