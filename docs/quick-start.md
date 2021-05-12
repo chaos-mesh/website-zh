@@ -9,7 +9,7 @@ import PickVersion from '@site/src/components/PickVersion'
 
 :::caution
 
-**通过脚本安装 Chaos Mesh 的方式只适用于快速试用。**
+**本文档提供的 Chaos Mesh 安装方式为脚本安装，仅供快速试用。**
 
 如果需要在生产环境或者是其他严格的非测试场景下安装，推荐使用 [Helm](https://helm.sh/)，详情请参考[使用 Helm 安装（生产推荐）](production-installation-using-helm.md)。
 
@@ -61,7 +61,7 @@ curl -sSL https://mirrors.chaos-mesh.org/latest/install.sh | bash
 
 ## 验证安装
 
-通过执行如下命令查看 Chaos Mesh 的运行情况：
+如要查看 Chaos Mesh 的运行情况，请执行如下命令：
 
 ```sh
 kubectl get po -n chaos-testing
@@ -97,7 +97,7 @@ kubectl describe po -n chaos-testing chaos-controller-manager-69fd5c46c8-xlqpc
 
 ## 卸载 Chaos Mesh
 
-可以通过执行如下命令卸载 Chaos Mesh：
+如要卸载 Chaos Mesh，请执行以下命令：
 
 <PickVersion className="language-bash">
 curl -sSL https://mirrors.chaos-mesh.org/latest/install.sh | bash -s -- --template | kubectl delete -f -
