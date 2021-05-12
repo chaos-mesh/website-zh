@@ -5,7 +5,7 @@ sidebar_label: 模拟压力场景
 
 ## 模拟压力场景
 
-该功能通过使用 [stress-ng](https://wiki.ubuntu.com/Kernel/Reference/stress-ng) ,在主机上生成 CPU 或者内存压力。
+该功能通过使用 [stress-ng](https://wiki.ubuntu.com/Kernel/Reference/stress-ng) ，在主机上生成 CPU 或者内存压力。
 
 ### 使用命令行模式创建实验
 
