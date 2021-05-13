@@ -113,5 +113,3 @@ spec:
 |0|否|0|
 |duration|string|指定具体实验的持续时间||是|30s|
 |scheduler|string|指定具体实验的运行时间调度规则||否|5 * * * *|
-
-
