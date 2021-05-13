@@ -7,7 +7,7 @@ import PickVersion from '@site/src/components/PickVersion'
 
 本篇文档描述如何在测试环境或本机环境快速试用 Chaos Mesh。
 
-:::caution
+:::caution 小心
 
 **本文档提供的 Chaos Mesh 安装方式为脚本安装，仅供快速试用。**
 
@@ -33,7 +33,7 @@ import PickVersion from '@site/src/components/PickVersion'
 curl -sSL https://mirrors.chaos-mesh.org/latest/install.sh | bash
 </PickVersion>
 
-:::note
+:::note 注意
 
 - 如果当前环境为 [kind](https://kind.sigs.k8s.io/)，请在脚本后添加 `--local kind` 参数。
 
@@ -61,7 +61,7 @@ curl -sSL https://mirrors.chaos-mesh.org/latest/install.sh | bash
 
 :::
 
-:::tip
+:::tip 建议
 
 中国大陆地区的用户可在脚本后添加 `--docker-mirror` 参数来加快拉取镜像的速度。添加该参数后，`install.sh` 安装脚本将从 `dockerhub.azk8s.cn` 和 `gcr.azk8s.cn` 拉取镜像。
 
@@ -90,7 +90,7 @@ chaos-dashboard-98c4c5f97-tx5ds             1/1     Running   0          2d5h
 
 如果你的实际输出与预期输出一致，表示 Chaos Mesh 已经成功安装。
 
-:::info
+:::note 注意
 
 如果实际输出的 `STATUS` 状态不是 `Running`，则需要运行以下命令查看 Pod 的详细信息，然后依据错误提示排查并解决问题。
 
