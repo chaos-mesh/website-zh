@@ -63,9 +63,7 @@ curl -sSL https://mirrors.chaos-mesh.org/latest/install.sh | bash
 
 :::tip
 
-中国大陆地区的用户可在脚本后添加 `--docker-mirror` 参数来加快拉取镜像的速度。
-
-指定该参数后，`install.sh` 安装脚本将从 `dockerhub.azk8s.cn` 和 `gcr.azk8s.cn` 拉取镜像。
+中国大陆地区的用户可在脚本后添加 `--docker-mirror` 参数来加快拉取镜像的速度。添加该参数后，`install.sh` 安装脚本将从 `dockerhub.azk8s.cn` 和 `gcr.azk8s.cn` 拉取镜像。
 
 :::
 
@@ -94,7 +92,7 @@ chaos-dashboard-98c4c5f97-tx5ds             1/1     Running   0          2d5h
 
 :::info
 
-如果输出的 `Status` 状态不是 `Running`，则需要通过以下命令检查 Pod 的细节：
+如果实际输出的 `STATUS` 状态不是 `Running`，则需要运行以下命令查看 Pod 的详细信息，然后依据错误提示排查并解决问题。
 
 ```sh
 # 以 chaos-controller 为例
