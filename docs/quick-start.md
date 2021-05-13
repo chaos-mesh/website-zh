@@ -88,7 +88,7 @@ chaos-daemon-jb8xh                          1/1     Running   0          2d5h
 chaos-dashboard-98c4c5f97-tx5ds             1/1     Running   0          2d5h
 ```
 
-如果你的实际输出与预期输出一致，表示 Chaos Mesh 已经成功安装。
+如果你的实际输出与预期输出相符，表示 Chaos Mesh 已经成功安装。
 
 :::note 注意
 
