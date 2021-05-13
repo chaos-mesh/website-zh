@@ -91,7 +91,7 @@ Global Flags:
 | 配置项 | 配置缩写 | 说明 | 值 |
 | :---- | :------ | :-- | :- |
 | load | l | 指定使用每个 worker 占用 CPU 负载的百分比。如果为 0，则表示为一个空负载；为 100 则表示满负载。 | int 类型，值范围为 0 到 100， 默认值为 10 |
-| workers | w | 指定使用多少个 worker 来生成 CPU 压力 | int 类型，值范围为 1 到 CPU 核的数量，默认值为 1 |
+| workers | w | 指定使用多少个 worker 来生成 CPU 压力 | int 类型，默认值为 1 |
 | options | o | stress-ng 的其他参数设置，一般情况下不需要配置 | string 类型，默认值为 "" |
 
 
@@ -100,7 +100,7 @@ Global Flags:
 | 配置项 | 配置缩写 | 说明 | 值 |
 | :---- | :------ | :-- | :- |
 | size | s | 指定每个 vm worker 占用内存的大小 | 支持使用单位 B，KB/KiB，MB/MiB，GB/GiB，TB/TiB 来设置占用的内存大小。如果不设置，则默认占用所有可用的内存。 |
-| workers | w | 指定使用多少个 worker 来生成 CPU 压力 | int 类型，值范围为 1 到 CPU 核的数量，默认值为 1 |
+| workers | w | 指定使用多少个 worker 来生成 CPU 压力 | int 类型，默认值为 1 |
 | options | o | stress-ng 的其他参数设置，一般情况下不需要配置 | string 类型，默认值为 "" |
 
 #### 示例
