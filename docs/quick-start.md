@@ -7,7 +7,7 @@ import PickVersion from '@site/src/components/PickVersion'
 
 本篇文档描述如何在测试环境或本机环境快速试用 Chaos Mesh。
 
-:::caution 小心
+:::note 注意
 
 **本文档提供的 Chaos Mesh 安装方式为脚本安装，仅供快速试用。**
 
