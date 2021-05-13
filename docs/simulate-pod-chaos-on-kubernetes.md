@@ -107,9 +107,7 @@ spec:
 |mode|string|表示运行实验时候的运行方式，支持one、all、fixed、fixed-percent、random-random-max-percent||是|one|
 |value|string|取决与mode的取值，为mode提供参数||否|2|
 |selector|struct|指定注入故障的目标pod||是||
-|containerName|string|当action为container-kill必填，指定注入故障的目标container名
-|否|prometheus|
-|gracePeriod|int64|当action为pod-kill的时候需要，指定删除pod之前的持续时间
-|0|否|0|
+|containerName|string|当action为container-kill必填，指定注入故障的目标container名||否|prometheus|
+|gracePeriod|int64|当action为pod-kill的时候需要，指定删除pod之前的持续时间 |0|否|0|
 |duration|string|指定具体实验的持续时间||是|30s|
 |scheduler|string|指定具体实验的运行时间调度规则||否|5 * * * *|
