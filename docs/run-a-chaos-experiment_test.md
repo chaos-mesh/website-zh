@@ -56,7 +56,7 @@ apiVersion: chaos-mesh.org/v1alpha1
 
 ## 第三步：应用混沌实验
 
-运行下面的命令来应用实验。
+运行下面的命令来应用实验。 
 
 ```bash
 # 确保你在 chaos-mesh/examples/web-show 目录中
