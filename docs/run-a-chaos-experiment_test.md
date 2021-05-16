@@ -15,7 +15,7 @@ import PickVersion from '@site/src/components/PickVersion'
 
 ## 步骤1：部署目标集群
 
-第一步总是要部署一个测试集群。为了说明问题，[web-show](https://github.com/chaos-mesh/web-show)被用作例子集群，因为它允许我们直接观察网络混沌的效果。你也可以部署你自己的应用程序进行测试。
+部署一个测试集群。为了说明问题，[web-show](https://github.com/chaos-mesh/web-show)被用作例子集群，因为它允许我们直接观察网络混沌的效果。你也可以部署你自己的应用程序进行测试。
 
 <PickVersion className="language-bash">
   curl -sSL https://mirrors.chaos-mesh.org/latest/web-show/deploy.sh | bash
