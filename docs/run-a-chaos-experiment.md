@@ -65,6 +65,8 @@ kubectl apply -f network-delay.yaml
 
 然后你可以在浏览器中访问[`http://localhost:8081`](http://localhost:8081)，查看混沌实验的结果。
 
+![network-delay](/img/using-chaos-mesh-to-insert-delays-in-web-show.png)
+
 从线图中可以看出，每60秒有一个10毫秒的网络延迟。如果你感到好奇，想用混沌网格尝试更多的混沌实验，请查看[examples/web-show](https://github.com/pingcap/chaos-mesh/tree/master/examples/web-show)。
 
 ## 混沌实验的常规操作
