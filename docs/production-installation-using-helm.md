@@ -3,6 +3,9 @@ title: 使用 Helm 安装（生产推荐）
 sidebar_label: 使用 Helm 安装（生产推荐）
 ---
 
+import VerifyInstallation from './common/verify-installation.md'
+import QuickRun from './common/quick-run.md'
+
 本片文档描述如何在生产环境安装 Chaos Mesh。
 
 ## 环境准备
@@ -47,7 +50,7 @@ helm search repo chaos-mesh
 
 ### 创建命名空间
 
-推荐将 Chaos Mesh 安装在 `chaos-testing` 命名空间下，你也可以指定任何命名空间安装 Chaos Mesh：
+推荐将 Chaos Mesh 安装在 `chaos-testing` 命名空间下，也可以指定任意命名空间安装 Chaos Mesh：
 
 ```sh
 kubectl create ns chaos-testing
@@ -55,7 +58,7 @@ kubectl create ns chaos-testing
 
 ### 在不同环境下安装
 
-由于存在多种容器环境，在安装的时候需要指定不同的值，可以根据不同的环境来运行不同的安装命令。
+由于存在多种容器环境，在安装时需要设置不同的值，可以根据不同的环境来运行如下不同的安装命令。
 
 #### Docker
 
@@ -77,30 +80,43 @@ helm install chaos-mesh chaos-mesh/chaos-mesh --namespace=chaos-testing --set ch
 
 ## 验证安装
 
-要查看 Chaos Mesh 的运行情况，请执行以下命令：
+<VerifyInstallation />
+
+## 运行 Chaos 实验
+
+<QuickRun />
+
+## 升级 Chaos Mesh
+
+如要升级 Chaos Mesh，请根据需要设置不同的值。例如如下命令会卸载 `chaos-dashboard`：
 
 ```sh
-kubectl get po -n chaos-testing
+helm upgrade chaos-mesh chaos-mesh/chaos-mesh --namespace=chaos-testing --set dashboard.create=false
 ```
 
-以下是预期输出：
+:::note
 
-```sh
-NAME                                        READY   STATUS    RESTARTS   AGE
-chaos-controller-manager-69fd5c46c8-xlqpc   1/1     Running   0          2d5h
-chaos-daemon-jb8xh                          1/1     Running   0          2d5h
-chaos-dashboard-98c4c5f97-tx5ds             1/1     Running   0          2d5h
-```
-
-如果你的实际输出与预期输出一致，表示 Chaos Mesh 已经成功安装。
-
-:::info
-
-如果实际输出的 `STATUS` 状态不是 `Running`，则需要运行以下命令查看 Pod 的详细信息，然后依据错误提示排查并解决问题。
-
-```sh
-# 以 chaos-controller 为例
-kubectl describe po -n chaos-testing chaos-controller-manager-69fd5c46c8-xlqpc
-```
+如果想了解更多的值及其相关的用法，请参考 [所有的值](https://github.com/chaos-mesh/chaos-mesh/blob/master/helm/chaos-mesh/values.yaml)。
 
 :::
+
+## 卸载 Chaos Mesh
+
+如要卸载 Chaos Mesh，请执行以下命令：
+
+```sh
+helm uninstall chaos-mesh -n chaos-testing
+```
+
+## 常见问题解答
+
+### 如何安装最新版本的 Chaos Mesh
+
+Chaos Mesh 仓库中的 `helm/chaos-mesh/values.yaml` 定义了最新版本的 images，若想要安装最新版本的 Chaos Mesh，请执行一下命令：
+
+```sh
+git clone https://github.com/chaos-mesh/chaos-mesh.git
+cd chaos-mesh
+
+helm install chaos-mesh helm/chaos-mesh --namespace=chaos-testing
+```
