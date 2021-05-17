@@ -3,10 +3,12 @@ title: 使用 Helm 安装（生产推荐）
 sidebar_label: 使用 Helm 安装（生产推荐）
 ---
 
+import PickVersion from '@site/src/components/PickVersion'
+
 import VerifyInstallation from './common/verify-installation.md'
 import QuickRun from './common/quick-run.md'
 
-本片文档描述如何在生产环境安装 Chaos Mesh。
+本篇文档描述如何在生产环境安装 Chaos Mesh。
 
 ## 环境准备
 
@@ -26,9 +28,9 @@ version.BuildInfo{Version:"v3.5.4", GitCommit:"1b5edb69df3d3a08df77c9902dc17af86
 
 如果你的实际输出与预期输出一致，这表示 Helm 已经成功安装了。
 
-:::note
+:::note 注意
 
-后续的命令将会使用 Helm v3 来安装 Chaos Mesh。如果你使用的是 Helm v2，请参考 [Migrating Helm v2 to v3](https://helm.sh/docs/topics/v2_v3_migration/) 或按照 v2 的格式进行修改。
+后续的命令将会使用 Helm v3 来操作 Chaos Mesh。如果环境中的 Helm 版本为 v2，请参考 [将 Helm v2 迁移到 v3](https://helm.sh/docs/topics/v2_v3_migration/) 或按照 v2 的格式进行修改。
 
 :::
 
@@ -63,19 +65,19 @@ kubectl create ns chaos-testing
 #### Docker
 
 ```sh
-helm install chaos-mesh chaos-mesh/chaos-mesh --namespace=chaos-testing
+helm install chaos-mesh chaos-mesh/chaos-mesh -n=chaos-testing
 ```
 
 #### containerd
 
 ```sh
-helm install chaos-mesh chaos-mesh/chaos-mesh --namespace=chaos-testing --set chaosDaemon.runtime=containerd --set chaosDaemon.socketPath=/run/containerd/containerd.sock
+helm install chaos-mesh chaos-mesh/chaos-mesh -n=chaos-testing --set chaosDaemon.runtime=containerd --set chaosDaemon.socketPath=/run/containerd/containerd.sock
 ```
 
 #### K3s
 
 ```sh
-helm install chaos-mesh chaos-mesh/chaos-mesh --namespace=chaos-testing --set chaosDaemon.runtime=containerd --set chaosDaemon.socketPath=/run/k3s/containerd/containerd.sock
+helm install chaos-mesh chaos-mesh/chaos-mesh -n=chaos-testing --set chaosDaemon.runtime=containerd --set chaosDaemon.socketPath=/run/k3s/containerd/containerd.sock
 ```
 
 ## 验证安装
@@ -88,15 +90,31 @@ helm install chaos-mesh chaos-mesh/chaos-mesh --namespace=chaos-testing --set ch
 
 ## 升级 Chaos Mesh
 
-如要升级 Chaos Mesh，请根据需要设置不同的值。例如如下命令会卸载 `chaos-dashboard`：
+如要升级 Chaos Mesh，请执行如下命令：
 
 ```sh
-helm upgrade chaos-mesh chaos-mesh/chaos-mesh --namespace=chaos-testing --set dashboard.create=false
+helm upgrade chaos-mesh chaos-mesh/chaos-mesh
 ```
 
-:::note
+如要修改配置，请根据需要设置不同的值。例如，如下命令会升级并卸载 `chaos-dashboard`：
 
-如果想了解更多的值及其相关的用法，请参考 [所有的值](https://github.com/chaos-mesh/chaos-mesh/blob/master/helm/chaos-mesh/values.yaml)。
+```sh
+helm upgrade chaos-mesh chaos-mesh/chaos-mesh -n=chaos-testing --set dashboard.create=false
+```
+
+:::note 注意
+
+如果想了解更多的值及其相关的用法，请参考[所有的值](https://github.com/chaos-mesh/chaos-mesh/blob/master/helm/chaos-mesh/values.yaml)。
+
+:::
+
+:::caution 警告
+
+目前，Helm 在升级时不会应用最新的 CustomResourceDefinition (CRD)，这可能会导致一些错误的发生。为了避免这种情况，建议在升级前手动应用最新的 CRD：
+
+<PickVersion className="language-bash">
+curl -sSL https://mirrors.chaos-mesh.org/latest/crd.yaml | kubectl apply -f -
+</PickVersion>
 
 :::
 
@@ -112,11 +130,20 @@ helm uninstall chaos-mesh -n chaos-testing
 
 ### 如何安装最新版本的 Chaos Mesh
 
-Chaos Mesh 仓库中的 `helm/chaos-mesh/values.yaml` 定义了最新版本的 images，若想要安装最新版本的 Chaos Mesh，请执行一下命令：
+Chaos Mesh 仓库中的 `helm/chaos-mesh/values.yaml` 定义了最新版本（master 分支）的镜像。若想安装最新版本的 Chaos Mesh，请执行以下命令：
 
 ```sh
+# 克隆仓库
 git clone https://github.com/chaos-mesh/chaos-mesh.git
 cd chaos-mesh
 
-helm install chaos-mesh helm/chaos-mesh --namespace=chaos-testing
+helm install chaos-mesh helm/chaos-mesh -n=chaos-testing
+```
+
+### 如何关闭安全模式
+
+安全模式是默认启用的。如需关闭，请在安装或升级时指定 `dashboard.securityMode` 为 `false`：
+
+```sh
+helm install chaos-mesh helm/chaos-mesh -n=chaos-testing --set dashboard.securityMode=false
 ```
