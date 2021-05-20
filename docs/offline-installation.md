@@ -9,7 +9,7 @@ import PickVersion from '@site/src/components/PickVersion'
 
 ## 环境准备
 
-在离线安装前，请先确保环境中已经安装 Docker 并部署 Kubernetes 集群。如果环境尚未准备好，可以参考以下链接进行安装和部署：
+在离线安装前，请先确保环境中已经安装 Docker 并部署了 Kubernetes 集群。如果环境尚未准备好，可以参考以下链接进行 Docker 的安装和 Kubernetes 的部署：
 
 - [Docker](https://www.docker.com/get-started)
 - [Kubernetes](https://kubernetes.io/docs/setup/)
@@ -25,3 +25,21 @@ import PickVersion from '@site/src/components/PickVersion'
 <PickVersion className="language-bash">
 export CHAOS_MESH_VERSION=latest
 </PickVersion>
+
+### 归档 Chaos Mesh 镜像
+
+拉取指定镜像：
+
+```sh
+docker pull pingcap/chaos-mesh:${CHAOS_MESH_VERSION}
+docker pull pingcap/chaos-daemon:${CHAOS_MESH_VERSION}
+docker pull pingcap/chaos-dashboard:${CHAOS_MESH_VERSION}
+```
+
+保存镜像为 tar 包：
+
+```sh
+docker save pingcap/chaos-mesh:${CHAOS_MESH_VERSION} > chaos-mesh-${CHAOS_MESH_VERSION}.tar
+docker save pingcap/chaos-daemon:${CHAOS_MESH_VERSION} > chaos-daemon-${CHAOS_MESH_VERSION}.tar
+docker save pingcap/chaos-dashboard:${CHAOS_MESH_VERSION} > chaos-dashboard:${CHAOS_MESH_VERSION}.tar
+```
