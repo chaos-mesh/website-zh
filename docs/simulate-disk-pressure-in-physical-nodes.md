@@ -1,9 +1,9 @@
 ---
-title: 模拟磁盘压力场景
-sidebar_label: 模拟磁盘压力场景
+title: 模拟磁盘故障
+sidebar_label: 模拟磁盘故障
 ---
 
-## 模拟磁盘压力场景
+## 模拟磁盘故障
 
 该功能可以通过使用 [dd](https://man7.org/linux/man-pages/man1/dd.1.html)在物理机器上模拟磁盘读写负载和使用 [dd](https://man7.org/linux/man-pages/man1/dd.1.html)与[falloacte](https://man7.org/linux/man-pages/man1/fallocate.1.html)在物理机器上模拟磁盘填充。
 
