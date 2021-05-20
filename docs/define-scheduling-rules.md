@@ -3,4 +3,220 @@ title: 定义调度规则
 sidebar_label: 定义调度规则
 ---
 
-## TODO
+## Schedule 简介
+
+Chaos Mesh 允许创建定时任务，在固定的时间（或根据固定的时间间隔）自动新建混沌实
+验。在 Kubernetes 中，Chaos Mesh使用 `Schedule` 对象来描述定时任务
+
+**注意**：一个 `Schedule` 对象的名不应超过 57 字符，因为它创建的混沌实验将在名字
+后额外添加6位随机字符。一个包含有 `Workflow` 的 `Schedule` 对象名不应超过 51 字
+符，因为 Workflow 也将在创建的名字后额外添加6位随机字符。
+
+**注意**：`Schedule` 中 `schedule:` 对应的时区以 `chaos-controller-manager` 的时
+区为准。
+
+## 使用 Dashboard 创建 Schedule 调度规则
+
+<!-- TODO: 在 Schedule 添加入 Dashboard 之后再完善这部分文档 -->
+
+## 使用 YAML 文件与 `kubectl` 创建 Schedule 调度规则
+
+以在每个小时的第5分钟持续 12 秒施加 100ms 延迟为例：
+
+```yaml
+apiVersion: chaos-mesh.org/v1alpha1
+kind: Schedule
+metadata:
+  name: schedule-delay-example
+spec:
+  schedule: "5 * * * *" 
+  historyLimit: 2
+  concurrencyPolicy: "Allow"
+  type: "NetworkChaos"
+  network_chaos:
+    action: delay
+    mode: one
+    selector:
+      namespaces:
+        - default
+      labelSelectors:
+        "app": "web-show"
+    delay:
+      latency: "10ms"
+      correlation: "100"
+      jitter: "0ms"
+    duration: "12s"
+
+```
+
+依据此配置，Chaos Mesh 将会在每个小时的第五分钟（比如 0:05, 1:05...）创建以下
+`NetworkChaos` 对象：
+
+```yaml
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: schedule-delay-example-xxxxx
+spec:
+  action: delay
+  mode: one
+  selector:
+    namespaces:
+      - default
+    labelSelectors:
+      "app": "web-show"
+  delay:
+    latency: "10ms"
+    correlation: "100"
+    jitter: "0ms"
+  duration: "12s"
+```
+
+对于 `Schedule` 中的字段，将在后文中描述。大多与 Kubernetes `CronJob` 的字段等价。读者不妨参考
+Kubernetes CronJob 的[文
+档](https://kubernetes.io/zh/docs/concepts/workloads/controllers/cron-jobs/)
+
+### `schedule` 字段
+
+`schedule` 字段用于指定实验发生的时间
+
+```
+# ┌───────────── 分钟 (0 - 59)
+# │ ┌───────────── 小时 (0 - 23)
+# │ │ ┌───────────── 月的某天 (1 - 31)
+# │ │ │ ┌───────────── 月份 (1 - 12)
+# │ │ │ │ ┌───────────── 周的某天 (0 - 6) （周日到周一；在某些系统上，7 也是星期日）
+# │ │ │ │ │                                   
+# │ │ │ │ │
+# │ │ │ │ │
+# * * * * *
+```
+
+|输入|描述|等效替代|
+|---|---|---|
+|@yearly (or @annually)|每年 1 月 1 日的午夜运行一次|0 0 1 1 *|
+|@monthly|每月第一天的午夜运行一次|0 0 1 * *|
+|@weekly|每周的周日午夜运行一次|0 0 * * 0|
+|@daily (or @midnight)|每天午夜运行一次|0 0 * * *|
+|@hourly|每小时的开始一次|0 * * * *|
+
+要生成时间表表达式，你还可以使用 [crontab.guru](https://crontab.guru) 等 Web 工
+具。
+
+### `historyLimit` 字段
+
+一项实验在结束之后并不会被删除，这是为了方便用户检索和观察实验结果，在出错时能够
+排查。在 `historyLimit` 中设定的数值为保留的任务，这一数量包括了正在运行中的任
+务。当然，Chaos Mesh 并不会删除正在运行中的任务。
+
+当存在超过 `historyLimit` 数量的任务时，Chaos Mesh 将会按照顺序依次删除最早创建
+的任务。如果那些任务还在继续，则会跳过。
+
+### `concurrencyPolicy` 字段
+
+该字段所有可用的值为 `"Forbid"`, `"Allow"`, `""`
+
+该字段用于指定是否允许该 `Schedule` 对象创建多个同时运行的实验。比如 `schedule:
+* * * * *` 配置下，每分钟创建一个实验对象，而如果实验对象的 `duration` 配置为 70
+        秒，则会出现多个实验同时发生的情况。
+
+`concurrencyPolicy` 字段默认为 `Forbid`，即不允许多个实验同时发生。当
+`concurrencyPolicy` 字段为 `Allow` 时，将允许多个实验同时发生。
+
+仍以延迟为例，在以下配置的基础上：
+
+```yaml
+spec:
+  schedule: "* * * * *"
+  type: "NetworkChaos"
+  network_chaos:
+    action: delay
+    mode: one
+    selector:
+      namespaces:
+        - default
+      labelSelectors:
+        "app": "web-show"
+    delay:
+      latency: "10ms"
+    duration: "70s"
+```
+
+如果设置 `concurrencyPolicy: "Allow"`，则表现为在每分钟中存在 10 秒有 20 毫秒的
+延迟，而其他 50 秒将存在 10 毫秒的延迟；如果设置 `concurrencyPolicy: "Forbid"`，
+则表现为一直有 10 毫秒的延迟。
+
+**注意**：并非所有实验类型均支持多个实验对同一 Pod 生效。详见各实验类型的文档。
+
+### `startingDeadlineSeconds` 字段
+
+`startingDeadlineSeconds` 默认值为 0.
+
+在 `startingDeadlineSeconds` 为 0 时，Chaos Mesh 将检查从上一次调度发生到当前时
+间为止，期间是否有错过的实验（这种情况在用户关闭 Chaos Mesh、长期暂停 Schedule、
+设置 `concurrencyPolicy` 为 `Forbid` 时可能发生）。
+
+在 `startingDeadlineSeconds` 的值大于 0 时，Chaos Mesh 将检查从当前时间开始，过
+去的 `startingDeadlineSeconds` 秒内是否有错过的实验。将`startingDeadlineSeconds`
+的值设置的过小可能会错过一些实验，以下给出一个例子：
+
+```yaml
+spec:
+  schedule: "* * * * *"
+  type: "NetworkChaos"
+  network_chaos:
+    action: delay
+    mode: one
+    selector:
+      namespaces:
+        - default
+      labelSelectors:
+        "app": "web-show"
+    delay:
+      latency: "10ms"
+    duration: "70s"
+```
+
+由于 `concurrencyPolicy` 为 `Forbid`，表现为一直有 10 毫秒的延迟。这是因为在运行
+着的任务结束之后，Chaos Mesh 发现一段时间前错过了一个任务（因为
+`concurrencyPolicy` 的阻止），于是立即创建了新的任务。而如果将
+`startingDeadlineSeconds` 设置为 10 秒以下，比如 5 秒，则 Chaos Mesh 将无法检索
+出更早时候因为 `concurrencyPolicy` 跳过的任务，从而不会创建新的实验。
+
+这一字段在 Kubernetes CronJob 的[文
+档](https://kubernetes.io/zh/docs/concepts/workloads/controllers/cron-jobs/#cron-job-limitations)
+中拥有其他例子与类似解释。
+
+### 定义实验
+
+<!-- @strrl 这个地方的格式还需要修改，inner tag 与 outer tag 取其一。先留着定下来后再改 -->
+
+### 暂停
+
+用户可能会希望暂停混沌实验。与 `CronJob` 不同的是，暂停一个 `Schedule` 不仅仅会
+阻止它创建新的实验，也会将它已创建的实验暂停。
+
+暂停的方法是为该 `Schedule` 对象添加 `experiment.chaos-mesh.org/pause=true` 注
+解。可以使用 `kubectl` 命令行工具添加注解：
+
+```bash
+kubectl annotate -n $NAMESPACE schedule $NAME experiment.chaos-mesh.org/pause=true
+```
+
+其中 `$NAMESPACE` 为命名空间，`$NAME` 为 `Schedule` 的名字。成功返回如下：
+
+```bash
+schedule/$NAME annotated
+```
+
+如果要解除暂停，可以去除该注解：
+
+```bash
+kubectl annotate -n $NAMESPACE schedule $NAME experiment.chaos-mesh.org/pause-
+```
+
+其中 `$NAMESPACE` 为命名空间，`$NAME` 为 `Schedule` 的名字。成功返回如下：
+
+```bash
+schedule/$NAME annotated
+```
