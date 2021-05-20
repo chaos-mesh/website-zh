@@ -5,7 +5,7 @@ sidebar_label: Chaosd 组件简介
 
 ## Chaosd 组件简介
 
-[Chaosd](https://github.com/chaos-mesh/chaosd) 是 Chaos Mesh 提供的一款混沌工程测试工具，用于在物理节点上注入故障，并提供故障恢复功能。
+[Chaosd](https://github.com/chaos-mesh/chaosd) 是 Chaos Mesh 提供的一款混沌工程测试工具，用于在物理机环境上注入故障，并提供故障恢复功能。
 
 Chaosd 具有以下核心优势：
 
@@ -15,7 +15,7 @@ Chaosd 具有以下核心优势：
 
 ### 支持故障类型
 
-目前 Chaosd 支持以下故障类型：
+你可以使用 Chaosd 模拟以下故障类型：
 
 - 进程：对进程进行故障注入，支持进程的 kill、stop 等操作。
 - 网络：对物理机的网络进行故障注入，支持增加网络延迟、丢包、损坏包等操作。
@@ -27,7 +27,7 @@ Chaosd 具有以下核心优势：
 
 ### 运行模式
 
-Chaosd 支持命令行和服务两种模式：
+你可以通过以下模式使用 Chaosd：
 
-- 命令行模式：把 Chaosd 当成命令行工具，直接运行即可注入故障、恢复故障。
-- 服务模式：把 Chaosd 运行在后台作为服务，通过发送 HTTP 请求来注入故障、恢复故障。
+- 命令行模式：将 Chaosd 作为命令行工具，直接运行即可注入故障、恢复故障。
+- 服务模式：将 Chaosd 作为服务运行在后台，通过发送 HTTP 请求来注入故障、恢复故障。
