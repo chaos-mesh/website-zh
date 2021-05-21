@@ -44,6 +44,14 @@ docker save pingcap/chaos-daemon:${CHAOS_MESH_VERSION} > image-chaos-daemon.tar
 docker save pingcap/chaos-dashboard:${CHAOS_MESH_VERSION} > image-chaos-dashboard.tar
 ```
 
+:::note 注意
+
+如需使用 `DNSChaos`，请额外拉取 `pingcap/coredns` 镜像，链接为：
+
+<https://hub.docker.com/r/pingcap/coredns>
+
+:::
+
 ### 下载 Chaos Mesh 仓库压缩包
 
 下载 Chaos Mesh 的 zip 包到本地环境：
@@ -71,7 +79,7 @@ curl https://github.com/chaos-mesh/chaos-mesh/archive/refs/heads/${CHAOS_MESH_VE
 
 ## 安装
 
-现在你的离线环境已经拥有了 Chaos Mesh 镜像 tar 包和仓库的 zip 包，下面开始安装。
+现在你的离线环境已经拥有了 Chaos Mesh 镜像的 tar 包和仓库的 zip 包，下面开始安装。
 
 ### 加载镜像
 
@@ -125,7 +133,7 @@ unzip chaos-mesh.zip -d chaos-mesh && cd chaos-mesh
 kubectl create ns chaos-testing
 ```
 
-指定镜像安装 Chaos Mesh：
+指定镜像值以安装 Chaos Mesh：
 
 ```sh
 helm install chaos-mesh helm/chaos-mesh -n=chaos-testing \
