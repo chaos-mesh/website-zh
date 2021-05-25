@@ -3,13 +3,13 @@ title: 模拟压力场景
 sidebar_label: 模拟压力场景
 ---
 
-## 模拟压力场景
+本文主要介绍如何使用 Chaosd 模拟压力场景。该功能通过使用 [stress-ng](https://wiki.ubuntu.com/Kernel/Reference/stress-ng) 在主机上生成 CPU 或者内存压力，支持通过命令行模式或服务模式创建压力实验。
 
-该功能通过使用 [stress-ng](https://wiki.ubuntu.com/Kernel/Reference/stress-ng) ，在主机上生成 CPU 或者内存压力。
+## 使用命令行模式创建实验
 
-### 使用命令行模式创建实验
+本节介绍如何在命令行模式中创建压力实验。
 
-可以通过命令行模式来创建压力实验，运行以下命令行查看 Chaosd 支持哪些类型的压力实验：
+在创建压力实验前，可运行以下命令行查看 Chaosd 支持的压力实验类型：
 
 ```bash
 chaosd attack stress --help
@@ -36,7 +36,11 @@ Global Flags:
 Use "chaosd attack stress [command] --help" for more information about a command.
 ```
 
-运行以下命令查看模拟 CPU 压力场景支持哪些配置：
+目前 Chaosd 支持创建 CPU 压力实验和内存压力实验。
+
+### 模拟 CPU 压力场景
+
+运行以下命令可查看模拟 CPU 压力场景支持的配置：
 
 ```bash
 chaosd attack stress cpu --help
@@ -60,7 +64,17 @@ Global Flags:
       --log-level string   the log level of chaosd, the value can be 'debug', 'info', 'warn' and 'error'
 ```
 
-运行以下命令查看模拟内存压力场景支持哪些配置：
+相关配置说明如下表所示：
+
+| 配置项 | 配置缩写 | 说明 | 值 |
+| :---- | :------ | :-- | :- |
+| load | l | 指定使用每个 worker 占用 CPU 负载的百分比。如果为 0，则表示为一个空负载；为 100 则表示满负载。 | int 类型，值范围为 0 到 100， 默认值为 10 |
+| workers | w | 指定用于生成 CPU 压力的 worker 数量 | int 类型，默认值为 1 |
+| options | o | stress-ng 的其他参数设置，一般情况下不需要配置 | string 类型，默认值为 "" |
+
+### 模拟内存压力场景
+
+运行以下命令可查看模拟内存压力场景支持的配置：
 
 ```bash
 chaosd attack stress mem --help
@@ -84,26 +98,15 @@ Global Flags:
       --log-level string   the log level of chaosd, the value can be 'debug', 'info', 'warn' and 'error'
 ```
 
-#### 配置说明
-
-模拟 CPU 压力相关配置说明如下表所示：
-
-| 配置项 | 配置缩写 | 说明 | 值 |
-| :---- | :------ | :-- | :- |
-| load | l | 指定使用每个 worker 占用 CPU 负载的百分比。如果为 0，则表示为一个空负载；为 100 则表示满负载。 | int 类型，值范围为 0 到 100， 默认值为 10 |
-| workers | w | 指定使用多少个 worker 来生成 CPU 压力 | int 类型，默认值为 1 |
-| options | o | stress-ng 的其他参数设置，一般情况下不需要配置 | string 类型，默认值为 "" |
-
-
 模拟内存压力相关配置说明如下表所示：
 
 | 配置项 | 配置缩写 | 说明 | 值 |
 | :---- | :------ | :-- | :- |
 | size | s | 指定每个 vm worker 占用内存的大小 | 支持使用单位 B，KB/KiB，MB/MiB，GB/GiB，TB/TiB 来设置占用的内存大小。如果不设置，则默认占用所有可用的内存。 |
-| workers | w | 指定使用多少个 worker 来生成 CPU 压力 | int 类型，默认值为 1 |
+| workers | w | 指定用于生成内存压力的 worker 数量 | int 类型，默认值为 1 |
 | options | o | stress-ng 的其他参数设置，一般情况下不需要配置 | string 类型，默认值为 "" |
 
-#### 示例
+### 使用示例
 
 模拟生成 CPU 压力：
 
@@ -133,7 +136,7 @@ chaosd attack stress mem --workers 2 --size 100M
 Attack stress mem successfully, uid: c2bff2f5-3aac-4ace-b7a6-322946ae6f13
 ```
 
-在运行实验时，请注意保管好实验的 uid 信息。在不需要模拟压力场景时，使用 recover 命令来结束 uid 对应的实验：
+在运行实验时，请注意保管好实验的 uid 信息。在不需要模拟压力场景时，使用 `recover` 命令来结束 uid 对应的实验：
 
 ```bash
 chaosd recover c2bff2f5-3aac-4ace-b7a6-322946ae6f13
@@ -145,6 +148,6 @@ chaosd recover c2bff2f5-3aac-4ace-b7a6-322946ae6f13
 Recover c2bff2f5-3aac-4ace-b7a6-322946ae6f13 successfully
 ```
 
-### 使用服务模式创建实验
+## 使用服务模式创建压力实验
 
 （待补充）
