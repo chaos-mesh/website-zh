@@ -24,15 +24,9 @@ PodChaos 能够帮助你模拟指定的 Pod 或者容器发生故障的情景，
 
 2. 在“选择目标”处选择“POD 故障”，并选择具体行为，例如“POD FAILURE”。
 
-![img](./img/create-pod-chaos-on-dashborad-2.jpg)
-
 3. 填写实验信息，指定实验范围以及实验计划运行时间。
 
-![img](./img/create-pod-chaos-on-dashborad-3.jpg)
-
 4. 提交实验。
-
-![img](./img/create-pod-chaos-on-dashborad-4.jpg)
 
 ## 使用 yaml 方式创建实验
 ### pod-failure 配置文件示例
