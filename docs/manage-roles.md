@@ -3,13 +3,11 @@ title: 权限管理
 sidebar_label: 权限管理
 ---
 
-## 权限管理
-
-Chaos Mesh 使用 Kubernetes 原生的 RBAC (https://kubernetes.io/zh/docs/reference/access-authn-authz/rbac/) 功能来管理用户角色和权限。用户在创建、查看、管理混沌实验时，需要有实验涉及到的命名空间下混沌实验自定义资源的相应权限。
+Chaos Mesh 使用 Kubernetes 原生的 RBAC (https://kubernetes.io/zh/docs/reference/access-authn-authz/rbac/) 功能来管理用户角色和权限。用户在创建、查看、管理混沌实验时，需要拥有 chaos-mesh.org 这个 apiGroups 下混沌实验自定义资源的相应权限。
 
 :::note
 
-Chaos Mesh 在使用 helm 安装时默认开启权限验证功能，在生产环境及其他安全要求较高的场景中都建议保持该功能的开启。如果只是想体验 Chaos Mesh 的功能，希望关闭权限验证从而快速创建混沌实验，可以跳转到(权限验证功能的开启及关闭)[#开启/关闭权限验证功能]了解如何关闭该功能。
+Chaos Mesh 在使用 helm 安装时默认开启权限验证功能，在生产环境及其他安全要求较高的场景中都建议保持该功能的开启。如果只是想体验 Chaos Mesh 的功能，希望关闭权限验证从而快速创建混沌实验，可以跳转到[权限验证功能的开启及关闭](#开启/关闭权限验证功能)了解如何关闭该功能。
 
 :::
 
@@ -17,15 +15,15 @@ Chaos Mesh 在使用 helm 安装时默认开启权限验证功能，在生产环
 
 Chaos Mesh Dashboard 提供了创建用户并绑定权限的辅助功能，在访问 Dashboard 时弹出登录窗口，点击“点击这里生成”：
 
-[Dashboard 令牌登录](img/dashboard_login.png)
+![Dashboard 令牌登录](img/dashboard_login.png)
 
 弹出窗口如下所示：
 
-[Dashboard 令牌辅助生成器](img/token_helper.png)
+![Dashboard 令牌辅助生成器](img/token_helper.png)
 
 1. 选择权限范围
 
-可以点击“集群范围”获取整个 Kubernetes 混沌实验的相应权限，或者选择指定的命名空间，只具有该命名空间下的权限。
+可以点击“集群范围”获取整个 Kubernetes 混沌实验的相应权限，或者选择指定的 namespace，只具有该 namespace 下的权限。
 
 2. 选择角色
 
@@ -35,7 +33,7 @@ Chaos Mesh Dashboard 提供了创建用户并绑定权限的辅助功能，在�
 
 3. 生成 RBAC 配置
 
-在确定了权限的范围和角色后，Dashboard 页面上会显示对应的 RBAC 配置，例如，busybox 命名空间下的 Manager 角色的 RBAC 配置如下：
+在确定了权限的范围和角色后，Dashboard 页面上会显示对应的 RBAC 配置，例如，busybox namespace 下的 Manager 角色的 RBAC 配置如下：
 
 ```yaml
 kind: ServiceAccount
@@ -129,7 +127,7 @@ token:      eyJhbGciOi...z-PWMK8iQ
 
 在 Dashboard Web 页面中点击“设置”，如下所示：
 
-[Dashboard 令牌管理](img/token_manager.png)
+![Dashboard 令牌管理](img/token_manager.png)
 
 可以在“添加令牌”中继续添加新的令牌，也可以点击“使用”切换不同权限的令牌，或者删除令牌。
 
