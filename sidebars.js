@@ -6,7 +6,6 @@ module.exports = {
       items: [
         `overview`,
         `basic-features`,
-        `release-2.0.0`,
       ],
     },
     {
