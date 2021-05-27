@@ -45,7 +45,7 @@ Chaos Mesh 使用 Kubernetes 原生的 [RBAC](https://kubernetes.io/zh/docs/refe
   metadata:
     namespace: busybox
     name: account-busybox-manager-zcbaf
-
+  
   ---
   kind: Role
   apiVersion: rbac.authorization.k8s.io/v1
@@ -60,7 +60,7 @@ Chaos Mesh 使用 Kubernetes 原生的 [RBAC](https://kubernetes.io/zh/docs/refe
     - chaos-mesh.org
     resources: [ "*" ]
     verbs: ["get", "list", "watch", "create", "delete", "patch", "update"]
-
+  
   ---
   apiVersion: rbac.authorization.k8s.io/v1
   kind: RoleBinding
