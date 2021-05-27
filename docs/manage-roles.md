@@ -1,6 +1,6 @@
 ---
-title: 管理权限
-sidebar_label: 管理权限
+title: 用户权限管理
+sidebar_label: 用户权限管理
 ---
 
 本文档介绍如何在 Chaos Mesh 中进行权限管理，包括创建用户并绑定权限、管理令牌以及开启/关闭权限验证功能。
