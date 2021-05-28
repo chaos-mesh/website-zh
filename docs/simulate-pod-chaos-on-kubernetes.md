@@ -4,11 +4,11 @@ sidebar_label: 模拟 Pod 故障
 ---
 
 ## PodChaos 介绍
-PodChaos 能够帮助你模拟指定的 Pod 或者容器发生故障的情景，目前支持以下几种类型的故障：
+PodChaos 能够帮助你模拟指定的 Pod 或者容器发生故障的情景。目前，PodChaos 支持以下类型的故障：
 
-1. **Pod Failure**: 向指定的 Pod 中注入故障，使得该 Pod 在一段时间内处于不可用的状态。
-2. **Pod Kill**: 杀死指定的 Pod （为了保证 Pod 能够成功重启，需要配置 ReplicaSet 或者类似的机制）。
-3. **Container Kill**:  杀死位于目标 Pod 中的指定容器。
+-  **Pod Failure**: 向指定的 Pod 中注入故障，使得该 Pod 在一段时间内处于不可用的状态。
+-  **Pod Kill**: 杀死指定的 Pod （为了保证 Pod 能够成功重启，需要配置 ReplicaSet 或者类似的机制）。
+-  **Container Kill**:  杀死位于目标 Pod 中的指定容器。
 
 ## 使用限制
 目前， Chaos Mesh 不支持向独立的 Pod 中注入故障（即，未绑定到 ReplicaSet 或 Deployment 的 Pod ），仅支持特定类型的 Pod ，例如 Deployment ， Statefulset ， Daemonset。
@@ -18,11 +18,11 @@ PodChaos 能够帮助你模拟指定的 Pod 或者容器发生故障的情景，
 2. 如果故障类型为 Pod Kill ，请确保配置了 ReplicaSet 或者类似保证 Pod 能够自动重启的机制。
 
 ## 使用 dashboard 方式创建实验
-1. 单击实验页面中的“新的实验”按钮进行创建实验。
+1. 单击实验页面中的**新的实验**按钮进行创建实验。
 
 ![img](./img/create-pod-chaos-on-dashborad-1.jpg)
 
-2. 在“选择目标”处选择“POD 故障”，并选择具体行为，例如“POD FAILURE”。
+2. 在**选择目标**处选择 **POD 故障**，并选择具体行为，例如 **POD FAILURE**。
 
 3. 填写实验信息，指定实验范围以及实验计划运行时间。
 
@@ -48,7 +48,7 @@ spec:
     cron: '@every 2m'
 ```
 
-依据此配置示例，Chaos Mesh 将向指定的 Pod 中注入 pod-failure 故障，使该 Pod 每隔 2分钟 将在 30秒 时间内处于不可用的状态。
+依据此配置示例，Chaos Mesh 将向指定的 Pod 中注入 pod-failure 故障，使该 Pod 每隔 2 分钟 将在 30 秒 时间内处于不可用的状态。
 
 ### pod-kill 配置文件示例
 
@@ -70,7 +70,7 @@ spec:
     cron: '@every 1m'
 ```
 
-依据此配置示例，Chaos Mesh 将向指定的 Pod 中注入 pod-kill 故障，使该 Pod 每隔 1分钟 将会被杀死一次。
+依据此配置示例，Chaos Mesh 将向指定的 Pod 中注入 pod-kill 故障，使该 Pod 每隔 1 分钟将会被杀死一次。
 
 ### container-kill 配置文件示例
 
