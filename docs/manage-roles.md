@@ -17,7 +17,7 @@ Chaos Mesh 使用 Kubernetes 原生的 [RBAC](https://kubernetes.io/zh/docs/refe
 
 你可以直接通过 Chaos Mesh Dashboard 界面创建用户并绑定权限。在访问 Dashboard 时会有登录窗口弹出，点击**点击这里生成**：
 
-![Dashboard 令牌登录](img/dashboard_login.png)
+![Dashboard 令牌登录](img/dashboard_login1.png)
 
 点击后，弹出的窗口如下所示：
 
@@ -117,7 +117,9 @@ Chaos Mesh 使用 Kubernetes 原生的 [RBAC](https://kubernetes.io/zh/docs/refe
    复制以上输出中的 token 的数据，用于下一步的登录。
 
 6. 登录
-   点击 Dashboard 令牌辅助生成器窗口上的**关闭**，返回到登录窗口。在**令牌**输入框中输入上一步复制的 token 数据，并在**名称**输入框中给该令牌输入一个有意义的名称，建议使用权限的范围和角色，例如 `busybox-manager` 。输入完成后，点击**提交**进行登录。
+   点击 Dashboard 令牌辅助生成器窗口上的**关闭**，返回到登录窗口。在**令牌**输入框中输入上一步复制的 token 数据，并在**名称**输入框中给该令牌输入一个有意义的名称，建议使用权限的范围和角色，例如 `busybox-manager` 。输入完成后，点击**提交**进行登录:
+
+   ![Dashboard 令牌登录](img/dashboard_login2.png)
 
 :::note
 
