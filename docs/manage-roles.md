@@ -1,9 +1,9 @@
 ---
-title: 用户权限管理
-sidebar_label: 用户权限管理
+title: 管理用户权限
+sidebar_label: 管理用户权限
 ---
 
-本文档介绍如何在 Chaos Mesh 中进行权限管理，包括创建用户并绑定权限、管理令牌以及开启/关闭权限验证功能。
+本文档介绍如何在 Chaos Mesh 中进行用户权限管理，包括创建用户并绑定权限、管理令牌以及开启/关闭权限验证功能。
 
 Chaos Mesh 使用 Kubernetes 原生的 [RBAC](https://kubernetes.io/zh/docs/reference/access-authn-authz/rbac/) 功能来管理用户角色和权限。用户在创建、查看、管理混沌实验时，需要拥有 `chaos-mesh.org` 这个 `apiGroups` 下混沌实验自定义资源的相应权限。
 
@@ -116,7 +116,7 @@ Chaos Mesh 使用 Kubernetes 原生的 [RBAC](https://kubernetes.io/zh/docs/refe
 
    复制以上输出中的 token 的数据，用于下一步的登录。
 
-6. 登录
+6. 使用创建的用户登录 Chaos Mesh
    点击 Dashboard 令牌辅助生成器窗口上的**关闭**，返回到登录窗口。在**令牌**输入框中输入上一步复制的 token 数据，并在**名称**输入框中给该令牌输入一个有意义的名称，建议使用权限的范围和角色，例如 `busybox-manager`。输入完成后，点击**提交**进行登录:
 
    ![Dashboard 令牌登录](img/dashboard_login2.png)
