@@ -78,7 +78,7 @@ Chaos Mesh 使用 Kubernetes 原生的 [RBAC](https://kubernetes.io/zh/docs/refe
        apiGroup: rbac.authorization.k8s.io
    ```
 
-   点击 Dashboard 窗口中 RBAC 配置右上角的**复制**将 RBAC 配置内容复制到剪切板，然后写入到本地文件 `rbac.yaml` 。
+   点击 Dashboard 窗口中 RBAC 配置右上角的**复制**将 RBAC 配置内容复制到剪切板，然后写入到本地文件 `rbac.yaml`。
 
 4. 创建用户并绑定权限
 
@@ -117,7 +117,7 @@ Chaos Mesh 使用 Kubernetes 原生的 [RBAC](https://kubernetes.io/zh/docs/refe
    复制以上输出中的 token 的数据，用于下一步的登录。
 
 6. 登录
-   点击 Dashboard 令牌辅助生成器窗口上的**关闭**，返回到登录窗口。在**令牌**输入框中输入上一步复制的 token 数据，并在**名称**输入框中给该令牌输入一个有意义的名称，建议使用权限的范围和角色，例如 `busybox-manager` 。输入完成后，点击**提交**进行登录:
+   点击 Dashboard 令牌辅助生成器窗口上的**关闭**，返回到登录窗口。在**令牌**输入框中输入上一步复制的 token 数据，并在**名称**输入框中给该令牌输入一个有意义的名称，建议使用权限的范围和角色，例如 `busybox-manager`。输入完成后，点击**提交**进行登录:
 
    ![Dashboard 令牌登录](img/dashboard_login2.png)
 
@@ -139,7 +139,7 @@ Chaos Mesh 使用 Kubernetes 原生的 [RBAC](https://kubernetes.io/zh/docs/refe
 
 ### 开启或关闭权限验证功能
 
-使用 Helm 安装 Chaos Mesh 时，默认开启权限验证功能。对于生产环境及其他安全要求较高的场景，建议都保持权限验证功能开启。如果只是想体验 Chaos Mesh 的功能，希望关闭权限验证从而快速创建混沌实验，可以在 Helm 命令中设置 `--set dashboard.securityMode=false` ，命令如下所示：
+使用 Helm 安装 Chaos Mesh 时，默认开启权限验证功能。对于生产环境及其他安全要求较高的场景，建议都保持权限验证功能开启。如果只是想体验 Chaos Mesh 的功能，希望关闭权限验证从而快速创建混沌实验，可以在 Helm 命令中设置 `--set dashboard.securityMode=false`，命令如下所示：
 
 ```bash
 helm upgrade chaos-mesh chaos-mesh/chaos-mesh --namespace=chaos-testing --set dashboard.securityMode=false
