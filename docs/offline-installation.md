@@ -30,7 +30,7 @@ export CHAOS_MESH_VERSION=latest
 
 通过已经设置的版本号拉取镜像：
 
-```sh
+```bash
 docker pull pingcap/chaos-mesh:${CHAOS_MESH_VERSION}
 docker pull pingcap/chaos-daemon:${CHAOS_MESH_VERSION}
 docker pull pingcap/chaos-dashboard:${CHAOS_MESH_VERSION}
@@ -38,7 +38,7 @@ docker pull pingcap/chaos-dashboard:${CHAOS_MESH_VERSION}
 
 保存镜像为 tar 包：
 
-```sh
+```bash
 docker save pingcap/chaos-mesh:${CHAOS_MESH_VERSION} > image-chaos-mesh.tar
 docker save pingcap/chaos-daemon:${CHAOS_MESH_VERSION} > image-chaos-daemon.tar
 docker save pingcap/chaos-dashboard:${CHAOS_MESH_VERSION} > image-chaos-dashboard.tar
@@ -46,9 +46,7 @@ docker save pingcap/chaos-dashboard:${CHAOS_MESH_VERSION} > image-chaos-dashboar
 
 :::note 注意
 
-如需使用 `DNSChaos`，请额外拉取 `pingcap/coredns` 镜像，链接为：
-
-<https://hub.docker.com/r/pingcap/coredns>
+如需使用 `DNSChaos`，请额外拉取 [`pingcap/coredns`](https://hub.docker.com/r/pingcap/coredns) 镜像。
 
 :::
 
@@ -56,7 +54,7 @@ docker save pingcap/chaos-dashboard:${CHAOS_MESH_VERSION} > image-chaos-dashboar
 
 下载 Chaos Mesh 的 zip 包到本地环境：
 
-```sh
+```bash
 curl https://github.com/chaos-mesh/chaos-mesh/archive/refs/heads/${CHAOS_MESH_VERSION}.zip -o chaos-mesh.zip
 ```
 
@@ -85,13 +83,19 @@ curl https://github.com/chaos-mesh/chaos-mesh/archive/refs/heads/${CHAOS_MESH_VE
 
 从 tar 包中加载镜像：
 
-```sh
+```bash
 docker load < image-chaos-mesh.tar
 docker load < image-chaos-daemon.tar
 docker load < image-chaos-dashboard.tar
 ```
 
 ### 推送镜像至 Registry
+
+:::note 注意
+
+在推送镜像前，请确保离线环境中已经部署 Registry。如果尚未部署，请参考 [Docker Registry](https://docs.docker.com/registry/) 进行部署。
+
+:::
 
 设置 Chaos Mesh 版本和 Registry 地址：
 
@@ -102,7 +106,7 @@ export DOCKER_REGISTRY=localhost:5000
 
 标记镜像使其指向 Registry：
 
-```sh
+```bash
 export CHAOS_MESH_IMAGE=$DOCKER_REGISTRY/pingcap/chaos-mesh:${CHAOS_MESH_VERSION}
 export CHAOS_DAEMON_IMAGE=$DOCKER_REGISTRY/pingcap/chaos-daemon:${CHAOS_MESH_VERSION}
 export CHAOS_DASHBOARD_IMAGE=$DOCKER_REGISTRY/pingcap/chaos-dashboard:${CHAOS_MESH_VERSION}
@@ -113,7 +117,7 @@ docker image tag pingcap/chaos-dashboard:${CHAOS_MESH_VERSION} $CHAOS_DASHBOARD_
 
 推送镜像至 Registry：
 
-```sh
+```bash
 docker push $CHAOS_MESH_IMAGE
 docker push $CHAOS_DAEMON_IMAGE
 docker push $CHAOS_DASHBOARD_IMAGE
@@ -123,19 +127,19 @@ docker push $CHAOS_DASHBOARD_IMAGE
 
 解压 Chaos Mesh 的 zip 包：
 
-```sh
+```bash
 unzip chaos-mesh.zip -d chaos-mesh && cd chaos-mesh
 ```
 
 创建命名空间：
 
-```sh
+```bash
 kubectl create ns chaos-testing
 ```
 
 指定镜像值以安装 Chaos Mesh：
 
-```sh
+```bash
 helm install chaos-mesh helm/chaos-mesh -n=chaos-testing \
   --set chaosDaemon.image=$CHAOS_DAEMON_IMAGE \
   --set controllerManager.image=$CHAOS_MESH_IMAGE \
