@@ -5,6 +5,8 @@ sidebar_label: 创建 Chaos Mesh Workflow
 
 ## Chaos Mesh Workflow 简介
 
+在模拟真实世界中的失败时，伴随着持续验证，最好是构建一系列的故障，而不是执行一个独立的混沌故障注入操作。
+
 Chaos Mesh Workflow 是一个内置的工作流引擎， 允许你串行/并行地执行多种不同的 Chaos 实验， 用于模拟生产级别的错误。
 
 目前， Chaos Mesh Workflow 支持以下功能：
@@ -26,6 +28,7 @@ Chaos Mesh Workflow 在设计时一定程度上参考了 Argo Workflow， 如果
 Github 仓库中含有其他 Workflow 的[示例](https://github.com/chaos-mesh/chaos-mesh/tree/master/examples/workflow).
 
 :::
+
 ## 使用 Chaos Dashboard 创建 Workflow
 
 <!--TODO: 待 Chaos Dashboard 完善后补充这一部分 -->
@@ -135,8 +138,6 @@ podChaos:
   selector:
     labelSelectors:
       "app": "hello-kubernetes"
-  scheduler:
-    cron: "@every 10s"
 ```
 
 `templateType: PodChaos` 代表节点的类型为 PodChaos 实验； `duration: 40s` 代表当前 Chaos 实验将持续 40 秒； `podChaos` 字段是 PodChaos 实验的定义；
