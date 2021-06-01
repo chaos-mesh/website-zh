@@ -1,6 +1,5 @@
 ---
 title: 使用 Helm 安装（生产推荐）
-sidebar_label: 使用 Helm 安装（生产推荐）
 ---
 
 import PickVersion from '@site/src/components/PickVersion'
@@ -16,13 +15,13 @@ import QuickRun from './common/quick-run.md'
 
 如要查看 Helm 是否已经安装，请执行如下命令：
 
-```sh
+```bash
 helm version
 ```
 
 以下是预期输出：
 
-```sh
+```bash
 version.BuildInfo{Version:"v3.5.4", GitCommit:"1b5edb69df3d3a08df77c9902dc17af864ff05d1", GitTreeState:"dirty", GoVersion:"go1.16.3"}
 ```
 
@@ -30,7 +29,7 @@ version.BuildInfo{Version:"v3.5.4", GitCommit:"1b5edb69df3d3a08df77c9902dc17af86
 
 :::note 注意
 
-后续的命令将会使用 Helm v3 来操作 Chaos Mesh。如果环境中的 Helm 版本为 v2，请参考 [将 Helm v2 迁移到 v3](https://helm.sh/docs/topics/v2_v3_migration/) 或按照 v2 的格式进行修改。
+后续的命令将会使用 Helm v3 来操作 Chaos Mesh。如果环境中的 Helm 版本为 v2，请参考[将 Helm v2 迁移到 v3](https://helm.sh/docs/topics/v2_v3_migration/)或按照 v2 的格式进行修改。
 
 :::
 
@@ -38,15 +37,25 @@ version.BuildInfo{Version:"v3.5.4", GitCommit:"1b5edb69df3d3a08df77c9902dc17af86
 
 在安装前，首先需要在 Helm 仓库中添加 Chaos Mesh 仓库：
 
-```sh
+```bash
 helm repo add chaos-mesh https://charts.chaos-mesh.org
 ```
 
 添加后，执行如下命令显示可以安装的 charts：
 
-```sh
+```bash
 helm search repo chaos-mesh
 ```
+
+:::note 注意
+
+上述命令会输出最新发布的 chart，如需安装历史版本，请执行如下命令查看所有的版本：
+
+```bash
+helm search repo chaos-mesh -l
+```
+
+:::
 
 在上述命令完成后，接下来开始安装 Chaos Mesh。
 
@@ -54,31 +63,38 @@ helm search repo chaos-mesh
 
 推荐将 Chaos Mesh 安装在 `chaos-testing` 命名空间下，也可以指定任意命名空间安装 Chaos Mesh：
 
-```sh
+```bash
 kubectl create ns chaos-testing
 ```
 
 ### 在不同环境下安装
 
-由于存在多种容器环境，在安装时需要设置不同的值，可以根据不同的环境来运行如下不同的安装命令。
+由于不同容器运行时的守护进程所监听的 socket path 不同，在安装时需要设置不同的值，可以根据不同的环境来运行如下的安装命令。
 
 #### Docker
 
-```sh
+```bash
+# 默认为 /var/run/docker.sock
 helm install chaos-mesh chaos-mesh/chaos-mesh -n=chaos-testing
 ```
 
 #### containerd
 
-```sh
+```bash
 helm install chaos-mesh chaos-mesh/chaos-mesh -n=chaos-testing --set chaosDaemon.runtime=containerd --set chaosDaemon.socketPath=/run/containerd/containerd.sock
 ```
 
 #### K3s
 
-```sh
+```bash
 helm install chaos-mesh chaos-mesh/chaos-mesh -n=chaos-testing --set chaosDaemon.runtime=containerd --set chaosDaemon.socketPath=/run/k3s/containerd/containerd.sock
 ```
+
+:::note 注意
+
+如要安装特定版本的 Chaos Mesh，请在 `helm install` 后添加 `--version xxx` 参数，如 `--version 2.0.0`。
+
+:::
 
 ## 验证安装
 
@@ -92,13 +108,25 @@ helm install chaos-mesh chaos-mesh/chaos-mesh -n=chaos-testing --set chaosDaemon
 
 如要升级 Chaos Mesh，请执行如下命令：
 
-```sh
+```bash
 helm upgrade chaos-mesh chaos-mesh/chaos-mesh
 ```
 
+:::note 注意
+
+如要升级至特定版本的 Chaos Mesh，请在 `helm upgrade` 后添加 `--version xxx` 参数，如 `--version 2.0.0`。
+
+:::
+
+:::note 注意
+
+如在非 Docker 环境下进行升级，需如[在不同环境下安装](#在不同环境下安装)所述添加相应的参数。
+
+:::
+
 如要修改配置，请根据需要设置不同的值。例如，如下命令会升级并卸载 `chaos-dashboard`：
 
-```sh
+```bash
 helm upgrade chaos-mesh chaos-mesh/chaos-mesh -n=chaos-testing --set dashboard.create=false
 ```
 
@@ -122,7 +150,7 @@ curl -sSL https://mirrors.chaos-mesh.org/latest/crd.yaml | kubectl apply -f -
 
 如要卸载 Chaos Mesh，请执行以下命令：
 
-```sh
+```bash
 helm uninstall chaos-mesh -n chaos-testing
 ```
 
@@ -132,7 +160,7 @@ helm uninstall chaos-mesh -n chaos-testing
 
 Chaos Mesh 仓库中的 `helm/chaos-mesh/values.yaml` 定义了最新版本（master 分支）的镜像。若想安装最新版本的 Chaos Mesh，请执行以下命令：
 
-```sh
+```bash
 # 克隆仓库
 git clone https://github.com/chaos-mesh/chaos-mesh.git
 cd chaos-mesh
@@ -144,6 +172,6 @@ helm install chaos-mesh helm/chaos-mesh -n=chaos-testing
 
 安全模式是默认启用的。如需关闭，请在安装或升级时指定 `dashboard.securityMode` 为 `false`：
 
-```sh
+```bash
 helm install chaos-mesh helm/chaos-mesh -n=chaos-testing --set dashboard.securityMode=false
 ```
