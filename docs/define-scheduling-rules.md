@@ -4,15 +4,23 @@ title: 定义调度规则sidebar_label: 定义调度规则
 
 ## Schedule 简介
 
-Chaos Mesh 允许创建定时任务，在固定的时间（或根据固定的时间间隔）自动新建混沌实验。在 Kubernetes 中，Chaos Mesh使用 `Schedule` 对象来描述定时任务
+Chaos Mesh 允许创建定时任务，在固定的时间（或根据固定的时间间隔）自动新建混沌实验。在 Kubernetes 中，Chaos Mesh 使用 `Schedule` 对象来描述定时任务
 
-**注意**：一个 `Schedule` 对象的名不应超过 57 字符，因为它创建的混沌实验将在名字后额外添加6位随机字符。一个包含有 `Workflow` 的 `Schedule` 对象名不应超过 51 字符，因为 Workflow 也将在创建的名字后额外添加6位随机字符。
+:::note 注意
 
-**注意**：`Schedule` 中 `schedule:` 对应的时区以 `chaos-controller-manager` 的时区为准。
+一个 `Schedule` 对象的名不应超过 57 字符，因为它创建的混沌实验将在名字后额外添加 6 位随机字符。一个包含有 `Workflow` 的 `Schedule` 对象名不应超过 51 字符，因为 Workflow 也将在创建的名字后额外添加 6 位随机字符。
+
+:::
+
+:::note 注意
+
+`Schedule` 中 `schedule:` 对应的时区以 `chaos-controller-manager` 的时区为准。
+
+:::
 
 ## 使用 YAML 文件与 `kubectl` 创建 Schedule 调度规则
 
-以在每个小时的第5分钟持续 12 秒施加 100ms 延迟为例：
+以在每个小时的第 5 分钟持续 12 秒施加 100ms 延迟为例：
 
 ```yaml
 apiVersion: chaos-mesh.org/v1alpha1
@@ -20,10 +28,10 @@ kind: Schedule
 metadata:
   name: schedule-delay-example
 spec:
-  schedule: "5 * * * *" 
+  schedule: '5 * * * *'
   historyLimit: 2
-  concurrencyPolicy: "Allow"
-  type: "NetworkChaos"
+  concurrencyPolicy: 'Allow'
+  type: 'NetworkChaos'
   network_chaos:
     action: delay
     mode: one
@@ -31,13 +39,12 @@ spec:
       namespaces:
         - default
       labelSelectors:
-        "app": "web-show"
+        'app': 'web-show'
     delay:
-      latency: "10ms"
-      correlation: "100"
-      jitter: "0ms"
-    duration: "12s"
-
+      latency: '10ms'
+      correlation: '100'
+      jitter: '0ms'
+    duration: '12s'
 ```
 
 依据此配置，Chaos Mesh 将会在每个小时的第五分钟（比如 0:05, 1:05...）创建以下`NetworkChaos` 对象：
@@ -54,15 +61,15 @@ spec:
     namespaces:
       - default
     labelSelectors:
-      "app": "web-show"
+      'app': 'web-show'
   delay:
-    latency: "10ms"
-    correlation: "100"
-    jitter: "0ms"
-  duration: "12s"
+    latency: '10ms'
+    correlation: '100'
+    jitter: '0ms'
+  duration: '12s'
 ```
 
-对于 `Schedule` 中的字段，将在后文中描述。大多与 Kubernetes `CronJob` 的字段等价。读者不妨参考Kubernetes CronJob 的[文档](https://kubernetes.io/zh/docs/concepts/workloads/controllers/cron-jobs/)
+对于 `Schedule` 中的字段，将在后文中描述。大多与 Kubernetes `CronJob` 的字段等价。读者不妨参考 Kubernetes CronJob 的[文档](https://kubernetes.io/zh/docs/concepts/workloads/controllers/cron-jobs/)
 
 ### `schedule` 字段
 
@@ -74,19 +81,19 @@ spec:
 # │ │ ┌───────────── 月的某天 (1 - 31)
 # │ │ │ ┌───────────── 月份 (1 - 12)
 # │ │ │ │ ┌───────────── 周的某天 (0 - 6) （周日到周一；在某些系统上，7 也是星期日）
-# │ │ │ │ │                                   
+# │ │ │ │ │
 # │ │ │ │ │
 # │ │ │ │ │
 # * * * * *
 ```
 
-|输入|描述|等效替代|
-|---|---|---|
-|@yearly (or @annually)|每年 1 月 1 日的午夜运行一次|0 0 1 1 *|
-|@monthly|每月第一天的午夜运行一次|0 0 1 * *|
-|@weekly|每周的周日午夜运行一次|0 0 * * 0|
-|@daily (or @midnight)|每天午夜运行一次|0 0 * * *|
-|@hourly|每小时的开始一次|0 * * * *|
+| 输入                   | 描述                         | 等效替代      |
+| ---------------------- | ---------------------------- | ------------- |
+| @yearly (or @annually) | 每年 1 月 1 日的午夜运行一次 | 0 0 1 1 \*    |
+| @monthly               | 每月第一天的午夜运行一次     | 0 0 1 \* \*   |
+| @weekly                | 每周的周日午夜运行一次       | 0 0 \* \* 0   |
+| @daily (or @midnight)  | 每天午夜运行一次             | 0 0 \* \* \*  |
+| @hourly                | 每小时的开始一次             | 0 \* \* \* \* |
 
 要生成时间表表达式，你还可以使用 [crontab.guru](https://crontab.guru) 等 Web 工具。
 
@@ -100,7 +107,7 @@ spec:
 
 该字段所有可用的值为 `"Forbid"`, `"Allow"`, `""`
 
-该字段用于指定是否允许该 `Schedule` 对象创建多个同时运行的实验。比如 `schedule: * * * * *` 配置下，每分钟创建一个实验对象，而如果实验对象的 `duration` 配置为 70秒，则会出现多个实验同时发生的情况。
+该字段用于指定是否允许该 `Schedule` 对象创建多个同时运行的实验。比如 `schedule: * * * * *` 配置下，每分钟创建一个实验对象，而如果实验对象的 `duration` 配置为 70 秒，则会出现多个实验同时发生的情况。
 
 `concurrencyPolicy` 字段默认为 `Forbid`，即不允许多个实验同时发生。当`concurrencyPolicy` 字段为 `Allow` 时，将允许多个实验同时发生。
 
@@ -108,8 +115,8 @@ spec:
 
 ```yaml
 spec:
-  schedule: "* * * * *"
-  type: "NetworkChaos"
+  schedule: '* * * * *'
+  type: 'NetworkChaos'
   network_chaos:
     action: delay
     mode: one
@@ -117,10 +124,10 @@ spec:
       namespaces:
         - default
       labelSelectors:
-        "app": "web-show"
+        'app': 'web-show'
     delay:
-      latency: "10ms"
-    duration: "70s"
+      latency: '10ms'
+    duration: '70s'
 ```
 
 如果设置 `concurrencyPolicy: "Allow"`，则表现为在每分钟中存在 10 秒有 20 毫秒的延迟，而其他 50 秒将存在 10 毫秒的延迟；如果设置 `concurrencyPolicy: "Forbid"`，则表现为一直有 10 毫秒的延迟。
