@@ -1,5 +1,6 @@
 ---
-title: 定义调度规则sidebar_label: 定义调度规则
+title: 定义调度规则
+sidebar_label: 定义调度规则
 ---
 
 ## Schedule 简介
