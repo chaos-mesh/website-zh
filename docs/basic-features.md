@@ -7,22 +7,22 @@ sidebar_label: 基本功能
 
 ## 故障注入
 
-故障注入是混沌实验的核心。Chaos Mesh 充分考虑分布式系统可能出现的故障，提供全面、细粒度的故障类型，分为基础资源类型故障、 平台类型故障和应用层故障三大类。
+故障注入是混沌实验的核心。Chaos Mesh 充分考虑分布式系统可能出现的故障，提供全面、细粒度的故障类型，分为基础资源类型故障、平台类型故障和应用层故障三大类。
 
 - 基础资源类型故障：
-  - [**PodChaos**](simulate-pod-chaos-on-kubernetes.md)：模拟 Pod 故障，例如 Pod 节点重启、Pod 持续不可用，以及特定 Pod 中的某些容器故障。
-  - [**NetworkChaos**](simulate-network-chaos-on-kubernetes.md)：模拟网络故障，例如网络延迟、网络丢包、包乱序、各类网络分区。
-  - [**DNSChaos**](simulate-dns-chaos-on-kubernetes.md)：模拟 DNS 故障，如 DNS 域名解析失败、返回错误 IP 地址。
-  - [**HTTPChaos**](simulate-http-chaos-on-kubernetes.md)：模拟 HTTP 通信故障，例如 HTTP 通信延迟。
-  - [**StressChaos**](simulate-heavy-stress-on-kubernetes.md)：模拟 CPU 抢占或 Memory 抢占场景。
-  - [**IOChaos**](simulate-io-chaos-on-kubernetes.md)：模拟具体某个应用的文件 I/O 故障，例如 I/O 延迟、读写失败。
-  - [**TimeChaos**](simulate-time-chaos-on-kubernetes.md)：模拟时间跳动异常。
-  - [**KernelChaos**](simulate-kernel-chaos-on-kubernetes.md)：模拟内核故障，例如应用内存分配异常。
+  - [PodChaos](simulate-pod-chaos-on-kubernetes.md)：模拟 Pod 故障，例如 Pod 节点重启、Pod 持续不可用，以及特定 Pod 中的某些容器故障。
+  - [NetworkChaos](simulate-network-chaos-on-kubernetes.md)：模拟网络故障，例如网络延迟、网络丢包、包乱序、各类网络分区。
+  - [DNSChaos](simulate-dns-chaos-on-kubernetes.md)：模拟 DNS 故障，例如 DNS 域名解析失败、返回错误 IP 地址。
+  - [HTTPChaos](simulate-http-chaos-on-kubernetes.md)：模拟 HTTP 通信故障，例如 HTTP 通信延迟。
+  - [StressChaos](simulate-heavy-stress-on-kubernetes.md)：模拟 CPU 抢占或内存抢占场景。
+  - [IOChaos](simulate-io-chaos-on-kubernetes.md)：模拟具体某个应用的文件 I/O 故障，例如 I/O 延迟、读写失败。
+  - [TimeChaos](simulate-time-chaos-on-kubernetes.md)：模拟时间跳动异常。
+  - [KernelChaos](simulate-kernel-chaos-on-kubernetes.md)：模拟内核故障，例如应用内存分配异常。
 - 平台类型故障：
-  - [**AWSChaos**](simulate-aws-chaos.md)：模拟 AWS 平台故障，如 AWS 节点重启。
-  - [**GCPChaos**](simulate-gcp-chaos.md)：模拟 GCP 平台故障，如 GCP 节点重启。
+  - [AWSChaos](simulate-aws-chaos.md)：模拟 AWS 平台故障，例如 AWS 节点重启。
+  - [GCPChaos](simulate-gcp-chaos.md)：模拟 GCP 平台故障，例如 GCP 节点重启。
 - 应用层故障：
-  - [**JVMChaos**](simulate-jvm-application-chaos.md)：模拟 JVM 应用故障，例如函数调用延迟。
+  - [JVMChaos](simulate-jvm-application-chaos.md)：模拟 JVM 应用故障，例如函数调用延迟。
 
 ## 混沌实验场景
 
@@ -49,5 +49,8 @@ Chaos Mesh 为用户提供了单独的 Chaos Dashbaord 组件，即可视化支�
 
 ## 安全保障
 
-Chaos Mesh 通过 Kubernetes 原生的 [RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)（基于角色的权限控制）功能对权限进行管理。用户可以根据实际的权限需求自由地创建多种 Role，然后绑定到用户名 Service Account 上，最后生成 Service Account 对应的 Token。用户使用该 Token 登陆 Dashboard，只能在该 Service Account 允许的权限范围内进行 Chaos 实验。
+Chaos Mesh 通过 Kubernetes 原生的 [RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)（基于角色的权限控制）功能对权限进行管理。
+
+用户可以根据实际的权限需求自由地创建多种 Role，然后绑定到用户名 Service Account 上，最后生成 Service Account 对应的 Token。用户使用该 Token 登陆 Dashboard，只能在该 Service Account 允许的权限范围内进行 Chaos 实验。
+
 此外 Chaos Mesh 还支持通过设置 Namespace Annotation 的方式开启特定 Namespace 下混沌实验的权限，进一步保障混沌实验的可控性。
