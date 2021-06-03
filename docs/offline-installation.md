@@ -9,26 +9,26 @@ import PickVersion from '@site/src/components/PickVersion'
 
 ## 环境准备
 
-在安装前，请先确保离线环境中已经安装 Docker 并部署了 Kubernetes 集群。如果环境尚未准备好，请参考以下链接进行 Docker 的安装和 Kubernetes 的部署：
+在安装前，请先确保离线环境中已经安装 Docker 并部署了 Kubernetes 集群。如果环境尚未准备好，请参考以下链接安装 Docker 并部署 Kubernetes 集群：
 
 - [Docker](https://www.docker.com/get-started)
 - [Kubernetes](https://kubernetes.io/docs/setup/)
 
-## 准备安装
+## 准备安装文件
 
-为了离线安装 Chaos Mesh，首先需要在网络连通的条件下获取所有镜像和 Chaos Mesh 仓库压缩包。
+在离线安装 Chaos Mesh 前，你需要从有外网连接的机器上下载所有 Chaos Mesh 镜像和仓库压缩包，然后将下载的文件拷贝到离线环境中。
 
 ### 指定版本号
 
-首先，设置 Chaos Mesh 的版本号到环境变量中：
+在有外网连接的机器上，设置 Chaos Mesh 的版本号为环境变量：
 
 <PickVersion className="language-bash">
 export CHAOS_MESH_VERSION=latest
 </PickVersion>
 
-### 归档 Chaos Mesh 镜像
+### 下载 Chaos Mesh 镜像
 
-通过已经设置的版本号拉取镜像：
+在有外网连接的机器上，通过已经设置的版本号拉取镜像：
 
 ```bash
 docker pull pingcap/chaos-mesh:${CHAOS_MESH_VERSION}
@@ -46,13 +46,13 @@ docker save pingcap/chaos-dashboard:${CHAOS_MESH_VERSION} > image-chaos-dashboar
 
 :::note 注意
 
-如需使用 `DNSChaos`，请额外拉取 [`pingcap/coredns`](https://hub.docker.com/r/pingcap/coredns) 镜像。
+如需使用 `DNSChaos` 模拟错误的 DNS 响应，例如使 DNS 响应返回随机的错误 IP，请额外拉取 [`pingcap/coredns`](https://hub.docker.com/r/pingcap/coredns) 镜像。
 
 :::
 
 ### 下载 Chaos Mesh 仓库压缩包
 
-下载 Chaos Mesh 的 zip 包到本地环境：
+在有外网连接的机器上，下载 Chaos Mesh 的 zip 包：
 
 ```bash
 curl https://github.com/chaos-mesh/chaos-mesh/archive/refs/heads/${CHAOS_MESH_VERSION}.zip -o chaos-mesh.zip
@@ -77,9 +77,9 @@ curl https://github.com/chaos-mesh/chaos-mesh/archive/refs/heads/${CHAOS_MESH_VE
 
 ## 安装
 
-现在你的离线环境已经拥有了 Chaos Mesh 镜像的 tar 包和仓库的 zip 包，下面开始安装。
+在拷贝 Chaos Mesh 镜像的 tar 包和仓库的 zip 包到你的离线环境后，就可以按照以下步骤开始安装。
 
-### 加载镜像
+### 加载 Chaos Mesh 镜像
 
 从 tar 包中加载镜像：
 
@@ -97,7 +97,7 @@ docker load < image-chaos-dashboard.tar
 
 :::
 
-设置 Chaos Mesh 版本和 Registry 地址：
+设置 Chaos Mesh 版本和 Registry 地址为环境变量：
 
 <PickVersion className="language-bash">
 export CHAOS_MESH_VERSION=latest;
@@ -137,7 +137,7 @@ unzip chaos-mesh.zip -d chaos-mesh && cd chaos-mesh
 kubectl create ns chaos-testing
 ```
 
-指定镜像值以安装 Chaos Mesh：
+执行 Chaos Mesh 安装命令。在安装命令中，你需要指定 Chaos Mesh 的命名空间和各组件的镜像值：
 
 ```bash
 helm install chaos-mesh helm/chaos-mesh -n=chaos-testing \
