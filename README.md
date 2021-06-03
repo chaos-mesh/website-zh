@@ -9,9 +9,11 @@
   Built using <a href="https://v2.docusaurus.io/" target="_blank">Docusaurus 2</a>, a modern static website generator.
 </p>
 
-[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/chaos-mesh/website)
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/chaos-mesh/website-zh)
 
 ## 目前的工作
+
+<!-- markdown-link-check-disable-line -->
 
 目前 Chaos Mesh 中文文档正在准备中，中文文档目录见 [思维导图 - Chaos Mesh 中文文档架构（将随 v2.0 一起发布）](https://pingcap.feishu.cn/mindnotes/bmncnfTQGCUvaPWAi1xKjeDCL6c)。
 
