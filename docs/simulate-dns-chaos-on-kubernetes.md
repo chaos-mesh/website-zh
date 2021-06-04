@@ -43,7 +43,7 @@ kubectl get pods -n chaos-testing -l app.kubernetes.io/component=chaos-dns-serve
 
    ![DNSChaos 实验](./img/dnschaos-exp.png)
 
-   图中配置的匹配规则可以对域名 `google.com`、`chaos-mesh.org` 和 `github.com` 生效，DNS 请求将返回错误。具体的匹配规则填写方式，参考[]。
+   图中配置的匹配规则可以对域名 `google.com`、`chaos-mesh.org` 和 `github.com` 生效，DNS 请求将返回错误。具体的匹配规则填写方式，参考[配置说明](#配置说明)中 `patterns` 字段的介绍。
 
 3. 填写实验信息，指定实验范围以及实验计划运行时间:
 
@@ -76,7 +76,7 @@ kubectl get pods -n chaos-testing -l app.kubernetes.io/component=chaos-dns-serve
        cron: '@every 100s'
    ```
 
-   该实验配置可以对域名 `google.com`、`chaos-mesh.org` 和 `github.com` 生效，DNS 请求将返回随机 IP 地址。具体的匹配规则填写方式，参考[]。
+   该实验配置可以对域名 `google.com`、`chaos-mesh.org` 和 `github.com` 生效，DNS 请求将返回随机 IP 地址。具体的匹配规则填写方式，参考[配置说明](#配置说明)中 `patterns` 字段的介绍。
 
 2. 使用 kubectl 创建实验，命令如下：
 
