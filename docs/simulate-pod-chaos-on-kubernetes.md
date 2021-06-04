@@ -96,9 +96,21 @@ spec:
 |参数|类型|说明|默认值|是否必填|示例|
 |---|---|---|---|---|---|
 |action|string|表示具体的故障类型，仅支持pod-failure、pod-kill、container-kill|无|是|pod-kill|
-|mode|string|表示运行实验时候的运行方式，支持one、all、fixed、fixed-percent、random-random-max-percent|无|是|one|
+|mode|string|表示运行实验时候的运行方式，支持one、all、fixed、fixed-percent、random-max-percent|无|是|one|
 |value|string|取决与mode的取值，为mode提供参数|无|否|2|
 |selector|struct|指定注入故障的目标pod，可以参考[文档](./define-chaos-experiment-scope.md)|无|是||
 |containerName|string|当action为container-kill必填，指定注入故障的目标container名|无|否|prometheus|
 |gracePeriod|int64|当action为pod-kill的时候需要，指定删除pod之前的持续时间 |0|否|0|
 |duration|string|指定具体实验的持续时间|无|是|30s|
+
+-  **mode**选项:
+    
+    如果为 **one** ，表示随机选择出一个符合条件的 Pod 。
+    
+    如果为 **all** ，表示选择出所有符合条件的 Pod 。
+    
+    如果为 **fixed** ，表示选择出指定数量的符合条件的 Pod。
+    
+    如果为 **fixed-percent** ，表示选择出占符合条件的 Pod 中指定百分比的 Pod。
+    
+    如果为 **random-max-percent** ，表示选择出占符合条件的 Pod 中不超过指定百分比的 Pod。
