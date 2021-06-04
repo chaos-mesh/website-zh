@@ -13,9 +13,13 @@ PodChaos 能够帮助你模拟指定的 Pod 或者容器发生故障的情景。
 ## 使用限制
 目前， Chaos Mesh 不支持向独立的 Pod 中注入故障（即，未绑定到 ReplicaSet 或 Deployment 的 Pod ），仅支持特定类型的 Pod ，例如 Deployment ， Statefulset ， Daemonset。
 
+:::note 注意
+
 ## 注意事项
 1. 请确保目标 Pod 上没有运行 Chaos Mesh 的 Control Manager。
 2. 如果故障类型为 Pod Kill ，请确保配置了 ReplicaSet 或者类似保证 Pod 能够自动重启的机制。
+
+:::
 
 ## 使用 dashboard 方式创建实验
 1. 单击实验页面中的**新的实验**按钮进行创建实验。
@@ -44,11 +48,9 @@ spec:
   selector:
     labelSelectors:
       'app.kubernetes.io/component': 'tikv'
-  scheduler:
-    cron: '@every 2m'
 ```
 
-依据此配置示例，Chaos Mesh 将向指定的 Pod 中注入 pod-failure 故障，使该 Pod 每隔 2 分钟 将在 30 秒 时间内处于不可用的状态。
+依据此配置示例，Chaos Mesh 将向指定的 Pod 中注入 pod-failure 故障，使该 Pod 将在 30 秒 时间内处于不可用的状态。
 
 ### pod-kill 配置文件示例
 
@@ -66,11 +68,9 @@ spec:
       - tidb-cluster-demo
     labelSelectors:
       'app.kubernetes.io/component': 'tikv'
-  scheduler:
-    cron: '@every 1m'
 ```
 
-依据此配置示例，Chaos Mesh 将向指定的 Pod 中注入 pod-kill 故障，使该 Pod 每隔 1 分钟将会被杀死一次。
+依据此配置示例，Chaos Mesh 将向指定的 Pod 中注入 pod-kill 故障，使该 Pod 将会被杀死一次。
 
 ### container-kill 配置文件示例
 
@@ -87,21 +87,18 @@ spec:
   selector:
     labelSelectors:
       'app.kubernetes.io/component': 'monitor'
-  scheduler:
-    cron: '@every 30s'
 ```
 
-依据此配置示例，Chaos Mesh 将向指定的 Container 中注入 container-kill 故障，使该 Container 每隔 30秒 将会被杀死一次。
+依据此配置示例，Chaos Mesh 将向指定的 Container 中注入 container-kill 故障，使该 Container 将会被杀死一次。
 
 ### 字段说明
 
 |参数|类型|说明|默认值|是否必填|示例|
 |---|---|---|---|---|---|
-|action|string|表示具体的故障类型，仅支持pod-failure、pod-kill、container-kill||是|pod-kill|
-|mode|string|表示运行实验时候的运行方式，支持one、all、fixed、fixed-percent、random-random-max-percent||是|one|
-|value|string|取决与mode的取值，为mode提供参数||否|2|
-|selector|struct|指定注入故障的目标pod||是||
-|containerName|string|当action为container-kill必填，指定注入故障的目标container名||否|prometheus|
+|action|string|表示具体的故障类型，仅支持pod-failure、pod-kill、container-kill|无|是|pod-kill|
+|mode|string|表示运行实验时候的运行方式，支持one、all、fixed、fixed-percent、random-random-max-percent|无|是|one|
+|value|string|取决与mode的取值，为mode提供参数|无|否|2|
+|selector|struct|指定注入故障的目标pod，可以参考[文档](./define-chaos-experiment-scope.md)|无|是||
+|containerName|string|当action为container-kill必填，指定注入故障的目标container名|无|否|prometheus|
 |gracePeriod|int64|当action为pod-kill的时候需要，指定删除pod之前的持续时间 |0|否|0|
-|duration|string|指定具体实验的持续时间||是|30s|
-|scheduler|string|指定具体实验的运行时间调度规则||否|5 * * * *|
+|duration|string|指定具体实验的持续时间|无|是|30s|
