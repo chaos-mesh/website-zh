@@ -22,6 +22,19 @@ PodChaos 能够帮助你模拟指定的 Pod 或者容器发生故障的情景。
 :::
 
 ## 使用 dashboard 方式创建实验
+
+:::note 注意
+
+## 使用前提
+1. 请确保已经安装了 dashboard 。
+2. 可以通过**kubectl port-forward**方式访问 dashboard ：
+   ```bash
+    kubectl port-forward -n chaos-testing svc/chaos-dashboard 2333:2333
+   ```
+   接着你可以在浏览器通过[`http://localhost:2333`](http://localhost:2333)访问 dashboard 。
+
+:::
+
 1. 单击实验页面中的**新的实验**按钮进行创建实验。
 
 ![img](./img/create-pod-chaos-on-dashborad-1.jpg)
