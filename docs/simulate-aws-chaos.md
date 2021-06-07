@@ -128,7 +128,6 @@ spec:
 |action|string|表示具体的故障类型，仅支持ec2-stop、ec2-restart、detach-volume|ec2-stop|是|ec2-stop|
 |mode|string|表示运行实验时候的运行方式，支持one、all、fixed、fixed-percent、random-max-percent|无|是|one|
 |value|string|取决与mode的取值，为mode提供参数|无|否|2|
-|selector|struct|指定注入故障的目标pod，可以参考[文档](./define-chaos-experiment-scope.md)|无|是||
 |secretName|string|指定存储AWS认证信息的Kubernetes Secret名字|无|否|cloud-key-secret|
 |awsRegion|string|指定AWS区域|无|是|us-east-2|
 |ec2Instance|string|指定EC2实例的ID|无|是|your-ec2-instance-id|
