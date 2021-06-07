@@ -5,13 +5,13 @@ sidebar_label: 配置受保护的命名空间
 
 ## 控制混沌实验生效的范围
 
-每个混沌实验可以通过选择器来指定混沌实验生效的范围。除此以外 Chaos Mesh 还提供了全局定义生效范围的功能，允许用户限制混沌实验只在指定的范围内生效。
+每个混沌实验可以通过选择器来[指定混沌实验生效的范围]("./define-chaos-experiment-scope")。除此以外 Chaos Mesh 还提供了全局定义生效范围的功能，允许你限制混沌实验只在指定的范围内生效。
 
 该功能通过 `controllerManager.enableFilterNamespace` 配置控制是否启用，默认处于关闭状态。在开启此项配置之后，混沌实验将只会在标记有`chaos-mesh.org/inject=enabled` 的 `namespace` 中进行。
 
 ## 开启 FilterNamespace 功能
 
-在使用 helm 进行安装时，可以添加 `--set controllerManager.enableFilterNamespace=true` 来启动这项功能。例如使用以下命令安装：
+在使用 Helm 进行安装时，可以在安装命令中添加 `--set controllerManager.enableFilterNamespace=true` 来启动这项功能。命令示例如下：
 
 ```bash
 helm install chaos-mesh chaos-mesh/chaos-mesh -n chaos-testing --set controllerManager.enableFilterNamespace=true
@@ -23,7 +23,7 @@ helm install chaos-mesh chaos-mesh/chaos-mesh -n chaos-testing --set controllerM
 
 :::
 
-如果已经通过 helm 安装了 chaos-mesh ，可以通过 `helm upgrade` 来更新配置：
+如果已经通过 Helm 安装了 Chaos Mesh ，可以通过 `helm upgrade` 命令来更新配置。示例如下：
 
 ```bash
 helm upgrade chaos-mesh chaos-mesh/chaos-mesh -n chaos-testing --set controllerManager.enableFilterNamespace=true
@@ -31,11 +31,11 @@ helm upgrade chaos-mesh chaos-mesh/chaos-mesh -n chaos-testing --set controllerM
 
 `helm upgrade` 中可以通过设置多个 `--set` 参数来设置多个参数，覆盖规则是后设置的覆盖前设置的。比如 `--set controllerManager.enableFilterNamespace=false --set controllerManager.enableFilterNamespace=true` 仍将开启这项功能。
 
-也可以通过 `-f` 参数来指定一个 YAML 文件用于描述配置，详细请参考 [helm 文档](https://helm.sh/zh/docs/helm/helm_upgrade/#%E7%AE%80%E4%BB%8B)
+也可以通过 `-f` 参数来指定一个 YAML 文件用于描述配置，详细请参考 [Helm 升级](https://helm.sh/zh/docs/helm/helm_upgrade/#%E7%AE%80%E4%BB%8B)
 
 ## 为 Namespace 添加 Annotation
 
-在打开 FilterNamespace 功能后，Chaos Mesh 将只会对标记有`chaos-mesh.org/inject=enabled` 的 `namespace` 施加影响。所以在进行混沌实验之前，需要将允许实验的部分命名空间加上该 `annotation`，其他命名空间则受到保护不会被 Chaos Mesh 注入。
+在打开 FilterNamespace 功能后，Chaos Mesh 将只会对标记有 `chaos-mesh.org/inject=enabled` 的 `namespace` 施加影响。所以在进行混沌实验之前，需要将允许实验的部分命名空间加上该 `annotation`，其他命名空间则受到保护不会被 Chaos Mesh 注入。
 
 使用 `kubectl` 可以通过如下命令为一个 `namespace` 添加注解：
 
@@ -43,7 +43,7 @@ helm upgrade chaos-mesh chaos-mesh/chaos-mesh -n chaos-testing --set controllerM
 kubectl annotate ns $NAMESPACE chaos-mesh.org/inject=enabled
 ```
 
-其中 `$NAMESPACE` 为命名空间的名子，比如 `default`。如果成功，得到输出如下：
+其中 `$NAMESPACE` 为命名空间的名字，比如 `default`。如果成功，得到输出如下：
 
 ```bash
 namespace/$NAMESPACE annotated
