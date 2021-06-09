@@ -135,7 +135,7 @@ Global Flags:
 
 ### 网络包重复
 
-运行以下命令可查看模拟网络延迟场景支持的配置：
+运行以下命令可查看模拟网络包重复场景支持的配置：
 
 ```bash
 chaosd attack network duplicate --help
