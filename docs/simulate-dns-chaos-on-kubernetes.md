@@ -71,9 +71,6 @@ kubectl get pods -n chaos-testing -l app.kubernetes.io/component=chaos-dns-serve
      selector:
        namespaces:
          - busybox
-     duration: '50s'
-     scheduler:
-       cron: '@every 100s'
    ```
 
    该实验配置可以对域名 `google.com`、`chaos-mesh.org` 和 `github.com` 生效，DNS 请求将返回随机 IP 地址。具体的匹配规则填写方式，参考[配置说明](#配置说明)中 `patterns` 字段的介绍。
