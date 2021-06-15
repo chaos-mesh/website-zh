@@ -15,30 +15,26 @@ PodChaos 是 Chaos Mesh 中的一种故障类型，能够帮助你模拟指定 P
 ## 使用限制
 目前 Chaos Mesh 仅支持向特定类型的 Pod 中注入故障，例如 Deployment、Statefulset、Daemonset。Chaos Mesh 不支持向独立的 Pod 中注入故障，独立的 Pod 指未绑定到 ReplicaSet 或 Deployment 的 Pod。
 
-:::note 注意
-
 ## 注意事项
 创建 PodChaos 实验前，请确保以下事项：
 + 目标 Pod 上没有运行 Chaos Mesh 的 Control Manager。
 + 如果故障类型为 Pod Kill，配置了 ReplicaSet 或者类似保证 Pod 能够自动重启的机制。
 
-:::
-
-## 使用 dashboard 方式创建实验
+## 使用 Chaos Dashboard 方式创建实验
 
 :::note 注意
 
-## 使用前提
-1. 请确保已经安装了 dashboard 。
-2. 可以通过**kubectl port-forward**方式访问 dashboard ：
-   ```bash
+在使用 Chaos Dashboard 创建实验前：
++ 确保已经安装了 Chaos Dashboard。
++ 可以通过 `kubectl port-forward` 命令方式访问 Dashboard：
+    ```bash
     kubectl port-forward -n chaos-testing svc/chaos-dashboard 2333:2333
-   ```
-   接着你可以在浏览器通过[`http://localhost:2333`](http://localhost:2333)访问 dashboard 。
+    ```
+然后你可以在浏览器中输入 [`http://localhost:2333`](http://localhost:2333) 访问 Chaos Dashboard。
 
 :::
 
-1. 单击实验页面中的**新的实验**按钮进行创建实验。
+1. 单击实验页面中的**新的实验**按钮创建实验。
 
 ![img](./img/create-pod-chaos-on-dashborad-1.jpg)
 
@@ -48,7 +44,7 @@ PodChaos 是 Chaos Mesh 中的一种故障类型，能够帮助你模拟指定 P
 
 4. 提交实验。
 
-## 使用 yaml 方式创建实验
+## 使用 YAML 配置文件创建实验
 ### pod-failure 配置文件示例
 
 依据此配置示例，Chaos Mesh 将向指定的 Pod 中注入 pod-failure 故障，使该 Pod 将在 30 秒 时间内处于不可用的状态。
