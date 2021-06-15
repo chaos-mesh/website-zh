@@ -4,7 +4,7 @@ sidebar_label: 模拟 HTTP 故障
 ---
 
 ## HTTPChaos简介
-HTTPChaos 能够帮助你模拟 HTTP 服务故障。目前支持的注入阶段包括请求过程和响应过程，且均支持以下类型的故障：
+HTTPChaos 能够帮助你模拟 HTTP 服务端故障。目前支持的注入阶段包括请求过程和响应过程，且均支持以下类型的故障：
 
 1. abort：服务端中断连接
 2. delay：为目标过程加入延迟
