@@ -3,19 +3,30 @@ title: 定义实验范围
 sidebar_label: 定义实验范围
 ---
 
-本篇文档描述如何为单个混沌实验定义实验范围，帮助用户更有准备地控制故障爆炸半径。
+本篇文档描述如何为单个混沌实验定义实验范围，帮助你准确地控制故障爆炸半径。
 
 ## 简介
 
-Chaos Mesh 中通过 Selectors 的方式选择混沌实验目标对象，不同的 Selector 定义不同的过滤规则，如果同时指定多个 Selector，代表当前实验目标需要满足所有的 Selectors 规则。
+在 Chaos Mesh 中，你可以通过指定选择器 (Selectors) 的方式定义单个混沌实验的作用范围。
 
-## Selectors
+不同类型的 Selector 对应着不同的过滤规则。你可以在一个混沌实验中指定一个或多个 Selector 来定义你的实验范围。如果同时指定多个 Selector，代表当前实验目标需要满足所有指定的 Selectors 的规则。
+
+在创建混沌实验时，Chaos Mesh 支持以下两种定义混沌实验范围的方式。你可以按需选择以下任一方式：
+
+- 在 YAML 配置文件中定义实验范围
+- 在 Dashboard 上定义实验范围
+
+## 在 YAML 配置文件中定义实验范围
+
+本小节提供了不同类型的 Selectors 的含义、用法、在 YAML 文件中的配置示例。在 YAML 配置文件中定义实验范围时，你可以按照实验范围的过滤需求指定一个或多个 Selectors。
 
 ### Namespace Selectors
 
-字符串数组类型，用来指定待实验目标 Pod 所属的 Namespaces。如果此配置项为空，Chaos Mesh 会自动将其设置成当前混沌实验所属的 Namespace，也就是说 Chaos Mesh 默认当用户不单独指定目标 Namespace 时，会将混沌实验创建在混沌实验目标对象的 Namespace 下。
+- 指定实验目标 Pod 所属的命名空间。
+- 数据类型：字符串数组类型。
+- 如果此 Selector 为空或者不指定此 Selector，Chaos Mesh 默认将混沌实验创建在混沌实验目标对象所属的 Namespace 下。
 
-当用户通过 YAML 文件创建实验，配置如下：
+当使用 YAML 文件创建实验时，示例配置如下：
 
 ```yaml
 spec:
@@ -26,9 +37,11 @@ spec:
 
 ### Label Selector
 
-键值对类型，用来过滤实验目标，用户需要根据实验目标 Pod 的 [Labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) 填写此选项。如果设置了多个 Labels，意味实验目标需要带有此选项设置的所有 Labels。
+- 指定实验目标 Pod 需要带有的 [Labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/)。
+- 数据类型：键值对类型。
+- 如果指定了多个 Labels，代表实验目标需要带有此 Selector 指定的所有 Labels。
 
-当用户通过 YAML 文件创建实验，配置如下：
+当使用 YAML 文件创建实验时，示例配置如下：
 
 ```yaml
 spec:
@@ -39,9 +52,10 @@ spec:
 
 ### Expression Selector
 
-一组用来定义 Label 规则的[表达式](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements)，用户可以通过此选项设置不满足某些 Labels 的实验目标 Pod。
+- 指定一组定义 Label 规则的[表达式](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements)用来限定实验目标 Pod。
+- 你可以通过此 Selector 设置不满足某些 Labels 的实验目标 Pod。
 
-当用户通过 YAML 文件创建实验，配置如下：
+当使用 YAML 文件创建实验时，示例配置如下：
 
 ```yaml
 spec:
@@ -53,9 +67,11 @@ spec:
 
 ### Annotation Selector
 
-键值对类型，用来过滤实验目标，用户需要根据实验目标 Pod 的 [Annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) 填写此选项。如果设置了多个 Annotations，意味实验目标需要带有此选项设置的所有 Annotations。
+- 指定实验目标 Pod 需要带有的 [Annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/)。
+- 数据类型：键值对类型。
+- 如果指定了多个 Annotations，代表实验目标需要带有此 Selector 指定的所有 Annotations。
 
-当用户通过 YAML 文件创建实验，配置如下：
+当使用 YAML 文件创建实验时，示例配置如下：
 
 ```yaml
 spec:
@@ -66,9 +82,11 @@ spec:
 
 ### Field Selector
 
-键值对类型，用来过滤实验目标，用户需要根据实验目标 Pod 的 [Fields](https://kubernetes.io/docs/concepts/overview/working-with-objects/field-selectors/) 填写此选项。如果设置了多个 Fields 字段，意味实验目标需要带有此选项设置的所有 Fields。
+- 指定实验目标 Pod 的 [Fields](https://kubernetes.io/docs/concepts/overview/working-with-objects/field-selectors/)。
+- 数据类型：键值对类型。
+- 如果指定了多个 Fields 字段，代表实验目标需要带有此 Selector 设置的所有 Fields。
 
-当用户通过 YAML 文件创建实验，配置如下：
+当使用 YAML 文件创建实验时，示例配置如下：
 
 ```yaml
 spec:
@@ -79,9 +97,12 @@ spec:
 
 ### PodPhase Selector
 
-字符串数组类型，用来指定实验目标 Pod 的 Phase。支持的 Phase 有：Pending、Running、Succeeded、Failed、Unknown。此选项默认为空，意味不限制目标 Pod 的 Phase。
+- 指定实验目标 Pod 的 Phase。
+- 数据类型：字符串数组类型。
+- 支持的 Phase 有：Pending、Running、Succeeded、Failed、Unknown。
+- 此选项默认为空，意味不限制目标 Pod 的 Phase。
 
-当用户通过 YAML 文件创建实验，配置如下：
+当使用 YAML 文件创建实验时，示例配置如下：
 
 ```yaml
 spec:
@@ -92,7 +113,9 @@ spec:
 
 ### Node Selector
 
-键值对类型，用来过滤实验目标所属的 Node，用户需要根据目标 Pod 所在 [Node 的 Labels](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/) 填写此选项。如果设置了多个 Node Labels，意味这实验目标 Pod 所属的 Node 需要带有所设置的所有的 Labels。
+- 指定实验目标 Pod 所属的 [Node 的 Labels](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/)
+- 数据类型：键值对类型。
+- 如果指定了多个 Node Labels，代表实验目标 Pod 所属的 Node 需要带有此 Selector 指定的所有 Labels。
 
 当用户通过 YAML 文件创建实验，配置如下：
 
@@ -105,9 +128,11 @@ spec:
 
 ### Node List
 
-字符串数组，用来指定实验目标所属的 Node，用户需要根据目标 Pod 所属的 Node 来填写此项。目标 Pod 只需属于配置的列表中其中一个 Node 即可。
+- 指定实验目标 Pod 所属的 Node。
+- 数据类型： 字符串数组。
+- 目标 Pod 只需属于配置的 Node 列表中的其中一个 Node 即可。
 
-当用户通过 YAML 文件创建实验，配置如下：
+当使用 YAML 文件创建实验时，示例配置如下：
 
 ```yaml
 spec:
@@ -119,9 +144,11 @@ spec:
 
 ### Pod List
 
-键值对类型，"键"为目标 Pod 所属的 Namespace, "值"为目标 Pod 列表。如果此选项不为空，则会**忽略其他配置的 Selectors**。
+- 指定实验目标 Pod 命名空间和 Pod 列表。
+- 数据类型：键值对类型。"键"为目标 Pod 所属的 Namespace, "值"为目标 Pod 列表。
+- 只要指定了此 Selector，Chaos Mesh 就会**忽略其他配置的 Selectors**。
 
-当用户通过 YAML 文件创建实验，配置如下：
+当使用 YAML 文件创建实验时，示例配置如下：
 
 ```yaml
 spec:
@@ -136,7 +163,16 @@ spec:
 
 ## 在 Dashboard 上定义实验范围
 
-当用户在 Chaos Dashboard 上创建混沌实验时，配置混沌实验范围也是必须的步骤。目前 Chaos Dashboard 上提供设置 `Namespace Selectors`、`Label Selectors`、`Annotation Selectors` 和 `Phase Selectors`。此外用户在设置 Selectors 同时可以在 Dashboard 中实时的预览实验目标的实际范围，并且可以直接修改 Selectors 过滤出的目标 Pod。
+如果使用 Chaos Dashboard 创建混沌实验，你可以在填写实验信息时配置混沌实验范围。
+
+目前 Chaos Dashboard 上提供了以下 Selectors。可以按照实验范围的过滤需求指定一个或多个 Selectors：
+
+- 命名空间选择器 (`Namespace Selectors`)
+- 标签选择器 (`Label Selectors`)
+- 注解选择器 (`Annotation Selectors`)
+- 阶段选择器 (`Phase Selectors`)。
+
+在设置 Selectors 的同时，你也可以在 Dashboard 中实时预览实验目标的实际范围，并且可以直接修改 Selectors 过滤出的目标 Pod 范围。
 
 :::note TODO
 
@@ -144,6 +180,6 @@ spec:
 
 :::
 
-## 拓展定义实验范围的规则
+[comment]: <> (## 拓展定义实验范围的规则)
 
-TODO
+[comment]: <> (TODO)
