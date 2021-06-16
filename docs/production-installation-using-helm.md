@@ -25,23 +25,27 @@ helm version
 version.BuildInfo{Version:"v3.5.4", GitCommit:"1b5edb69df3d3a08df77c9902dc17af864ff05d1", GitTreeState:"dirty", GoVersion:"go1.16.3"}
 ```
 
-如果你的实际输出与预期输出一致，这表示 Helm 已经成功安装了。
+如果你的实际输出与预期输出一致，表示 Helm 已经成功安装。
 
 :::note 注意
 
-后续的命令将会使用 Helm v3 来操作 Chaos Mesh。如果环境中的 Helm 版本为 v2，请参考[将 Helm v2 迁移到 v3](https://helm.sh/docs/topics/v2_v3_migration/)或按照 v2 的格式进行修改。
+本文中的命令将会使用 Helm v3 来操作 Chaos Mesh。如果你的环境中 Helm 的版本为 v2，请参考[将 Helm v2 迁移到 v3](https://helm.sh/docs/topics/v2_v3_migration/)或按照 v2 的格式进行修改。
 
 :::
 
 ## 使用 Helm 安装
 
-在安装前，首先需要在 Helm 仓库中添加 Chaos Mesh 仓库：
+### 第 1 步：添加 Chaos Mesh 仓库
+
+在 Helm 仓库中添加 Chaos Mesh 仓库：
 
 ```bash
 helm repo add chaos-mesh https://charts.chaos-mesh.org
 ```
 
-添加后，执行如下命令显示可以安装的 charts：
+### 第 2 步：查看可以安装的 Chaos Mesh 版本
+
+执行如下命令显示可以安装的 charts：
 
 ```bash
 helm search repo chaos-mesh
@@ -59,7 +63,7 @@ helm search repo chaos-mesh -l
 
 在上述命令完成后，接下来开始安装 Chaos Mesh。
 
-### 创建命名空间
+### 第 3 步：创建安装 Chaos Mesh 的命名空间
 
 推荐将 Chaos Mesh 安装在 `chaos-testing` 命名空间下，也可以指定任意命名空间安装 Chaos Mesh：
 
@@ -67,7 +71,7 @@ helm search repo chaos-mesh -l
 kubectl create ns chaos-testing
 ```
 
-### 在不同环境下安装
+### 第 4 步：在不同环境下安装
 
 由于不同容器运行时的守护进程所监听的 socket path 不同，在安装时需要设置不同的值，可以根据不同的环境来运行如下的安装命令。
 
