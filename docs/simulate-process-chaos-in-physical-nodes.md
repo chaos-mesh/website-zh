@@ -85,18 +85,16 @@ Global Flags:
 
 ##### 模拟进程被终止相关配置说明：
 
-| 配置项  | 配置缩写 | 说明                                 | 值                    |
-| :------ | :------- | :----------------------------------- | :-------------------- |
-| process | p        | 所需要杀死进程的名字或者进程的标识符 | string 类型，默认为"" |
-| signal  | s        | 所提供的进程信号值                   | int 类型，默认为 9    |
+| 配置项  | 配置缩写 | 说明                                 | 值                                                           |
+| :------ | :------- | :----------------------------------- | :----------------------------------------------------------- |
+| process | p        | 所需要杀死进程的名字或者进程的标识符 | string 类型，默认为""                                        |
+| signal  | s        | 所提供的进程信号值                   | int 类型，默认为 9。目前只支持 SIGKILL 、 SIGTERM 和 SIGSTOP 三种信号值。 |
 
 ##### 模拟进程被暂停相关配置说明：
 
 | 配置项  | 配置缩写 | 说明                                 | 值                    |
 | :------ | :------- | :----------------------------------- | :-------------------- |
 | process | p        | 所需要杀死进程的名字或者进程的标识符 | string 类型，默认为"" |
-
-####  
 
 #### 示例
 
@@ -109,7 +107,7 @@ chaosd attack process kill python
 输出如下所示：
 
 ```bash
-andrew@LAPTOP:~/chaosd$ ./bin/chaosd attack process kill -p python
+chaosd attack process kill -p python
 Attack process python successfully, uid: 10e633ac-0a37-41ba-8b4a-cd5ab92099f9
 ```
 
@@ -122,7 +120,7 @@ chaosd attack process stop python
 输出如下所示：
 
 ```bash
-andrew@LAPTOP:~/chaosd$ ./bin/chaosd attack process stop -p python
+chaosd attack process stop -p python
 Attack process python successfully, uid: 9cb6b3be-4f5b-4ecb-ae05-51050fcd0010
 ```
 
