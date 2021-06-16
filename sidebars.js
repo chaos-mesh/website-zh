@@ -71,7 +71,6 @@ module.exports = {
             'simulate-process-chaos-in-physical-nodes',
             'simulate-network-chaos-in-physical-nodes',
             'simulate-heavy-stress-in-physical-nodes',
-            'simulate-disk-pressure-in-physical-nodes',
             'simulate-host-console-in-physical-nodes',
           ],
         },

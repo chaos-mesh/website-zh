@@ -39,7 +39,7 @@ chaosd attack host shutdown
 输出如下所示：
 
 ```bash
-andrew@LAPTOP-NUS30NQD:~/chaosd/bin$ ./chaosd attack host shutdown
+chaosd attack host shutdown
 Shutdown successfully, uid: 4bc9b74a-5fe2-4038-b4f3-09ae95b57694
 ```
 
