@@ -41,7 +41,7 @@ IOChaos能够帮助你模拟文件系统故障。目前支持以下类型的故�
 
 ```yaml
 apiVersion: chaos-mesh.org/v1alpha1
-kind: IoChaos
+kind: IOChaos
 metadata:
   name: io-latency-example
   namespace: chaos-testing
@@ -56,15 +56,13 @@ spec:
   delay: '100ms'
   percent: 50
   duration: '400s'
-  scheduler:
-    cron: '@every 10m'
 ```
 
 ### fault 配置文件示例
 
 ```yaml
 apiVersion: chaos-mesh.org/v1alpha1
-kind: IoChaos
+kind: IOChaos
 metadata:
   name: io-fault-example
   namespace: chaos-testing
@@ -79,15 +77,13 @@ spec:
   errno: 5
   percent: 50
   duration: "400s"
-  scheduler:
-    cron: "@every 10m"
 ```
 
 ### attrOverride 配置文件示例
 
 ```yaml
 apiVersion: chaos-mesh.org/v1alpha1
-kind: IoChaos
+kind: IOChaos
 metadata:
   name: io-attr-example
   namespace: chaos-testing
@@ -103,14 +99,12 @@ spec:
     perm: 72
   percent: 10
   duration: "400s"
-  scheduler:
-    cron: "@every 10m"
 ```
 
 ### mistake 配置文件示例
 ```yaml
 apiVersion: chaos-mesh.org/v1alpha1
-kind: IoChaos
+kind: IOChaos
 metadata:
   name: io-mistake-example
   namespace: chaos-testing
@@ -131,8 +125,6 @@ spec:
     - WRITE
   percent: 10
   duration: "400s"
-  scheduler:
-    cron: "@every 10m"
 ```
 
 ### 字段说明
@@ -148,7 +140,6 @@ spec:
 |percent|int|每次操作发生故障的概率，单位为%|100|否|100|
 |containerName|string|指定注入的容器名||否||
 |duration|string|指定具体实验的持续时间||是|30s|
-|scheduler|string|指定具体实验的运行时间调度规则||否|5 * * * *|
 
 #### 与 action 相关的字段
 这些字段仅在action为对应值时才有意义
