@@ -3,9 +3,10 @@ title: 模拟 Pod 故障
 sidebar_label: 模拟 Pod 故障
 ---
 
-本文档介绍如何使用 Chaos Mesh 为 Kubernetes Pod 注入故障，模拟 Pod 或容器故障。本文档介绍了通过 Chaos Dashboard 和 YAML 文件两种方式创建 PodChaos 实验。
+本文档介绍如何使用 Chaos Mesh 为 Kubernetes Pod 注入故障，模拟 Pod 或容器故障，并提供 Chaos Dashboard 和 YAML 文件两种方式用于创建 PodChaos 实验。
 
 ## PodChaos 介绍
+
 PodChaos 是 Chaos Mesh 中的一种故障类型，能够帮助你模拟指定 Pod 或者容器发生故障的情景。目前，PodChaos 支持模拟以下故障类型：
 
 - Pod Failure：向指定的 Pod 中注入故障，使得该 Pod 在一段时间内处于不可用的状态。
@@ -13,6 +14,7 @@ PodChaos 是 Chaos Mesh 中的一种故障类型，能够帮助你模拟指定 P
 - Container Kill：杀死位于目标 Pod 中的指定容器。
 
 ## 使用限制
+
 目前 Chaos Mesh 仅支持向特定类型的 Pod 中注入故障，例如 Deployment、Statefulset、Daemonset。Chaos Mesh 不支持向独立的 Pod 中注入故障，独立的 Pod 指未绑定到 ReplicaSet 或 Deployment 的 Pod。
 
 ## 注意事项
@@ -45,9 +47,10 @@ PodChaos 是 Chaos Mesh 中的一种故障类型，能够帮助你模拟指定 P
 4. 提交实验。
 
 ## 使用 YAML 配置文件创建实验
+
 ### pod-failure 配置文件示例
 
-依据此配置示例，Chaos Mesh 将向指定的 Pod 中注入 pod-failure 故障，使该 Pod 将在 30 秒 时间内处于不可用的状态。
+依据此配置示例，Chaos Mesh 将向指定的 Pod 中注入 `pod-failure` 故障，将使该 Pod 在 30 秒内处于不可用的状态。
 
 ```yaml
 apiVersion: chaos-mesh.org/v1alpha1
@@ -66,7 +69,7 @@ spec:
 
 ### pod-kill 配置文件示例
 
-依据此配置示例，Chaos Mesh 将向指定的 Pod 中注入 pod-kill 故障，使该 Pod 将会被杀死一次。
+依据此配置示例，Chaos Mesh 将向指定的 Pod 中注入 `pod-kill` 故障，将使该 Pod 被杀死一次。
 
 ```yaml
 apiVersion: chaos-mesh.org/v1alpha1
@@ -86,7 +89,7 @@ spec:
 
 ### container-kill 配置文件示例
 
-依据此配置示例，Chaos Mesh 将向指定的 Container 中注入 container-kill 故障，使该 Container 将会被杀死一次。
+依据此配置示例，Chaos Mesh 将向指定的 Container 中注入 `container-kill` 故障，将使该 Container 被杀死一次。
 
 ```yaml
 apiVersion: chaos-mesh.org/v1alpha1
@@ -109,16 +112,14 @@ spec:
 
 |参数|类型|说明|默认值|是否必填|示例|
 |---|---|---|---|---|---|
-|action|string|表示具体的故障类型，仅支持pod-failure、pod-kill、container-kill|无|是|pod-kill|
-|mode|string|表示运行实验时候的运行方式，支持one、all、fixed、fixed-percent、random-max-percent|无|是|one|
+|action|string|指定要注入的故障类型，仅支持 `pod-failure`、`pod-kill`、`container-kill`|无|是|`pod-kill`|
+|mode|string|指定实验的运行方式，可选择的方式包括：`one`（表示随机选出一个符合条件的 Pod）、`all`（表示选出所有符合条件的 Pod）、`fixed`（表示选出指定数量且符合条件的 Pod）、`fixed-percent`（表示选出占符合条件的 Pod 中指定百分比的 Pod）、`random-max-percent`（表示选出占符合条件的 Pod 中不超过指定百分比的 Pod）|无|是|one|
 |value|string|取决与mode的取值，为mode提供参数|无|否|2|
-|selector|struct|指定注入故障的目标pod，可以参考[文档](./define-chaos-experiment-scope.md)|无|是||
-|containerNames|[]string|当action为container-kill必填，指定注入故障的目标container名|无|否|['prometheus']|
-|gracePeriod|int64|当action为pod-kill的时候需要，指定删除pod之前的持续时间 |0|否|0|
+|selector|struct|指定注入故障的目标 Pod，详情请参考[定义实验范围](./define-chaos-experiment-scope.md)|无|是||
+|containerNames|[]string|当你将 `action` 配置为 `container-kill` 时，此配置为必填，用于指定注入故障的目标 container 名|无|否|['prometheus']|
+|gracePeriod|int64|当你将 `action` 配置为 `pod-kill` 时，需要填写此项，用于指定删除 Pod 之前的持续时间 |0|否|0|
 |duration|string|指定具体实验的持续时间|无|是|30s|
 
-以上 YAML 配置文件中的 `mode` 字段有以下可选值：
-    
 - `one`，表示随机选出一个符合条件的 Pod。
 - `all`，表示选出所有符合条件的 Pod。
 - `fixed`，表示选出指定数量且符合条件的 Pod。
