@@ -43,4 +43,4 @@ bash migrate.sh -i
 
 ## 问题反馈
 
-如果在升级过程中遇到任何问题，我们很乐意帮助解决。请将命令行输出一并提交至 slack 或新建 github issue 。
+如果在升级过程中遇到任何问题，我们很乐意帮助解决。请将命令行输出一并提交至 [slack](https://cloud-native.slack.com/archives/C0193VAV272) 或新建 github issue 。
