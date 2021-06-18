@@ -49,6 +49,6 @@ chaosctl 有两类功能。
 如果你希望提交关于 Chaos Mesh 的问题，在问题中附上相关的日志与 chaos 信息很有帮助。你可以将 `chaosctl logs` 的输出附在issue尾部以供开发人员参考。如果你希望提交的问题与 iochaos, networkchaos, stresschaos 有关，那么 `chaosctl debug` 的相关信息也会很有用。
 
 ## 开发与改进
-chaosctl 的代码目前托管于 Chaos Mesh 项目中，您可以在 [chaos-mesh/pkg/chaosctl](https://github.com/chaos-mesh/chaos-mesh/tree/master/pkg/chaosctl) 找到相关实现。如果你有兴趣帮助我们改进这一工具，你可以通过 slack 联系我们，或是在 Chaos Mesh 项目中提出相关 issue 。
+chaosctl 的代码目前托管于 Chaos Mesh 项目中，您可以在 [chaos-mesh/pkg/chaosctl](https://github.com/chaos-mesh/chaos-mesh/tree/master/pkg/chaosctl) 找到相关实现。如果你有兴趣帮助我们改进这一工具，你可以通过 [slack](https://cloud-native.slack.com/archives/C0193VAV272) 联系我们，或是在 Chaos Mesh 项目中提出相关 issue 。
 
 
