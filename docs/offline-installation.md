@@ -5,6 +5,9 @@ sidebar_label: 离线安装
 
 import PickVersion from '@site/src/components/PickVersion'
 
+import VerifyInstallation from './common/verify-installation.md'
+import QuickRun from './common/quick-run.md'
+
 本篇文档描述如何离线安装 Chaos Mesh。
 
 ## 环境准备
@@ -145,3 +148,11 @@ helm install chaos-mesh helm/chaos-mesh -n=chaos-testing \
   --set controllerManager.image=$CHAOS_MESH_IMAGE \
   --set dashboard.image=$CHAOS_DASHBOARD_IMAGE
 ```
+
+## 验证安装
+
+<VerifyInstallation />
+
+## 运行 Chaos 实验
+
+<QuickRun />
