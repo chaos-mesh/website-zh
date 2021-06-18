@@ -133,4 +133,22 @@ hello chaos mesh!
 |matchers|map[string]string|传递给 `chaosblade-exec-jvm` 的参数，代表注入点的匹配方式|无|否||
 
 
-关于传递给 `chaosblade-exec-jvm` 的参数，Chaos Mesh 会将 `flags` 与 `matchers` 中的所有字段合并后作为请求体发送给 `chaosblade-exec-jvm`，具体可参考 [chaosblade-exec-jvm/协议篇.md](https://github.com/chaosblade-io/chaosblade-dev-doc/blob/a7074ab656de469f7dfaa19227723d0967c590ae/zh-cn/chaosblade-exec-jvm/%E5%8D%8F%E8%AE%AE%E7%AF%87.md)
+关于 action 的取值的含义，可参考:
+
+|名称|含义|
+|---|---|
+|delay|指定方法调用延迟|
+|return|编写 groovy 和 java 实现场景|
+|script|编写 groovy 和 java 实现场景|
+|cfl|java 进程 CPU 使用率满载|
+|oom|内存溢出，支持堆、栈、metaspace 区溢出|
+|ccf|填充 jvm code cache|
+|tce|抛自定义异常场景|
+|cpf|连接池满|
+|tde|抛方法声明中的第一个异常|
+|tpf|线程池满|
+
+
+关于 action 的详细用法可参考 [chaos blade 文档](https://chaosblade-io.gitbook.io/chaosblade-help-zh-cn/blade-create-jvm)。
+
+关于传递给 `chaosblade-exec-jvm` 的参数，Chaos Mesh 会将 `flags` 与 `matchers` 中的所有字段合并后作为请求体发送给 `chaosblade-exec-jvm`，具体可参考 [chaosblade-exec-jvm/协议篇.md](https://github.com/chaosblade-io/chaosblade-dev-doc/blob/a7074ab656de469f7dfaa19227723d0967c590ae/zh-cn/chaosblade-exec-jvm/%E5%8D%8F%E8%AE%AE%E7%AF%87.md)。
