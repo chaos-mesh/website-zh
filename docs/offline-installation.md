@@ -46,7 +46,7 @@ docker save pingcap/chaos-dashboard:${CHAOS_MESH_VERSION} > image-chaos-dashboar
 
 :::note 注意
 
-如需使用 `DNSChaos` 模拟错误的 DNS 响应，例如使 DNS 响应返回随机的错误 IP，请额外拉取 [`pingcap/coredns`](https://hub.docker.com/r/pingcap/coredns) 镜像。
+如需模拟 DNS 故障（例如，使 DNS 响应返回随机的错误 IP 地址），请额外拉取 [`pingcap/coredns`](https://hub.docker.com/r/pingcap/coredns) 镜像。
 
 :::
 
@@ -77,9 +77,9 @@ curl https://github.com/chaos-mesh/chaos-mesh/archive/refs/heads/${CHAOS_MESH_VE
 
 ## 安装
 
-在拷贝 Chaos Mesh 镜像的 tar 包和仓库的 zip 包到你的离线环境后，就可以按照以下步骤开始安装。
+将 Chaos Mesh 镜像的 tar 包和仓库的 zip 包拷贝到你的离线环境后，就可以按照以下步骤进行安装。
 
-### 加载 Chaos Mesh 镜像
+### 第 1 步：加载 Chaos Mesh 镜像
 
 从 tar 包中加载镜像：
 
@@ -89,7 +89,7 @@ docker load < image-chaos-daemon.tar
 docker load < image-chaos-dashboard.tar
 ```
 
-### 推送镜像至 Registry
+### 第 2 步：推送镜像至 Registry
 
 :::note 注意
 
@@ -123,7 +123,7 @@ docker push $CHAOS_DAEMON_IMAGE
 docker push $CHAOS_DASHBOARD_IMAGE
 ```
 
-### 使用 Helm 安装
+### 第 3 步：使用 Helm 安装
 
 解压 Chaos Mesh 的 zip 包：
 
