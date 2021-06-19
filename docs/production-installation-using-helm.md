@@ -96,7 +96,7 @@ helm install chaos-mesh chaos-mesh/chaos-mesh -n=chaos-testing --set chaosDaemon
 
 :::note 注意
 
-如要安装特定版本的 Chaos Mesh，请在 `helm install` 后添加 `--version xxx` 参数，如 `--version 0.5.1`。
+如要安装特定版本的 Chaos Mesh，请在 `helm install` 后添加 `--version xxx` 参数，如 `--version 2.0.0`。
 
 :::
 
@@ -118,7 +118,7 @@ helm upgrade chaos-mesh chaos-mesh/chaos-mesh
 
 :::note 注意
 
-如要升级至特定版本的 Chaos Mesh，请在 `helm upgrade` 后添加 `--version xxx` 参数，如 `--version 0.5.1`。
+如要升级至特定版本的 Chaos Mesh，请在 `helm upgrade` 后添加 `--version xxx` 参数，如 `--version 2.0.0`。
 
 :::
 
