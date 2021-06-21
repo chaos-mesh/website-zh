@@ -3,15 +3,19 @@ title: 配置受保护的命名空间
 sidebar_label: 配置受保护的命名空间
 ---
 
+本篇文章描述如何限制混沌实验只在指定的命名空间内生效，从而使其他命令空间受到保护不会被 Chaos Mesh 注入。
+
 ## 控制混沌实验生效的范围
 
-每个混沌实验可以通过选择器来[指定混沌实验生效的范围]("./define-chaos-experiment-scope")。除此以外 Chaos Mesh 还提供了全局定义生效范围的功能，允许你限制混沌实验只在指定的范围内生效。
+Chaos Mesh 提供了全局定义生效范围的 FilterNamespace 功能，你可以限制混沌实验只在指定的命名空间内生效。默认情况下，此功能处于关闭状态。要开启此功能，你需要配置 `controllerManager.enableFilterNamespace` 的值为 `true`。在开启此项配置之后，你可以为允许混沌实验的命名空间添加 `chaos-mesh.org/inject=enabled` 注解限制混沌实验范围，其他命名空间则受到保护不会被 Chaos Mesh 注入。
+
+除此以外，你也可以通过选择器来[为单个混沌实验指定实验生效的范围]("./define-chaos-experiment-scope")。
 
 该功能通过 `controllerManager.enableFilterNamespace` 配置控制是否启用，默认处于关闭状态。在开启此项配置之后，混沌实验将只会在标记有`chaos-mesh.org/inject=enabled` 的 `namespace` 中进行。
 
 ## 开启 FilterNamespace 功能
 
-在使用 Helm 进行安装时，可以在安装命令中添加 `--set controllerManager.enableFilterNamespace=true` 来启动这项功能。命令示例如下：
+如果你尚未安装 Chaos Mesh，在使用 Helm 进行安装时，可以在安装命令中添加 `--set controllerManager.enableFilterNamespace=true` 来开启这项功能。Docker 容器的命令示例如下：
 
 ```bash
 helm install chaos-mesh chaos-mesh/chaos-mesh -n chaos-testing --set controllerManager.enableFilterNamespace=true
@@ -19,7 +23,7 @@ helm install chaos-mesh chaos-mesh/chaos-mesh -n chaos-testing --set controllerM
 
 :::note 注意
 
-不要忘了设置其他的参数哟。
+当使用 Helm 进行安装时，不同容器运行时的命令和参数有所区别，详情请参阅[使用 Helm 安装](define-chaos-experiment-scope.md).
 
 :::
 
@@ -33,9 +37,9 @@ helm upgrade chaos-mesh chaos-mesh/chaos-mesh -n chaos-testing --set controllerM
 
 也可以通过 `-f` 参数来指定一个 YAML 文件用于描述配置，详细请参考 [Helm 升级](https://helm.sh/zh/docs/helm/helm_upgrade/#%E7%AE%80%E4%BB%8B)
 
-## 为 Namespace 添加 Annotation
+## 为命名空间添加混沌实验注解
 
-在打开 FilterNamespace 功能后，Chaos Mesh 将只会对标记有 `chaos-mesh.org/inject=enabled` 的 `namespace` 施加影响。所以在进行混沌实验之前，需要将允许实验的部分命名空间加上该 `annotation`，其他命名空间则受到保护不会被 Chaos Mesh 注入。
+在开启 FilterNamespace 功能后，Chaos Mesh 将只会向包含有 `chaos-mesh.org/inject=enabled` 注解的命名空间注入故障。因此，在进行混沌实验之前，你需要为允许混沌实验的命名空间添加该注解，其他命名空间则受到保护不会被注入故障。
 
 使用 `kubectl` 可以通过如下命令为一个 `namespace` 添加注解：
 
@@ -61,15 +65,15 @@ kubectl annotate ns $NAMESPACE chaos-mesh.org/inject-
 namespace/$NAMESPACE annotated
 ```
 
-## 查询所有启用 Chaos 的 Namespace
+## 查看所有允许混沌实验的命名空间
 
-可以通过以下命令列出所有含有此注解的 `namespace`：
+你可以使用以下命令列出所有允许混沌实验的命名空间：
 
 ```bash
 kubectl get ns -o jsonpath='{.items[?(@.metadata.annotations.chaos-mesh\.org/inject=="enabled")].metadata.name}'
 ```
 
-将会输出所有拥有此注解的`namespace`的名字，例如：
+此命令将会输出所有包含 `chaos-mesh.org/inject=enabled` 注解的命名空间。示例输出如下：
 
 ```bash
 default
