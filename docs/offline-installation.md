@@ -71,7 +71,7 @@ curl https://github.com/chaos-mesh/chaos-mesh/archive/refs/heads/${CHAOS_MESH_VE
 
 ### 拷贝文件
 
-现在，所有安装所需的文件已准备完毕。最后一步，将下列文件拷贝到离线环境中：
+所有安装所需的文件下载完成后，请将这些文件拷贝到离线环境中：
 
 - `image-chaos-mesh.tar`
 - `image-chaos-daemon.tar`
