@@ -99,7 +99,7 @@ spec:
 
 依据此配置示例，Chaos Mesh 将向指定的 GCP 实例中注入 node-reset 故障，使该 GCP 实例将重置一次。
 
-查看更多关于重置 GCP 实例的消息, 可以参考[重置 GCP 实例](https://cloud.google.com/compute/docs/instances/stop-start-instance#resetting_an_instance)。
+查看更多关于重置 GCP 实例的消息, 可以参考 [重置 GCP 实例](https://cloud.google.com/compute/docs/instances/stop-start-instance#resetting_an_instance)。
 
 ### disk-loss 配置文件示例
 
@@ -121,7 +121,7 @@ spec:
 
 依据此配置示例，Chaos Mesh 将向指定的 GCP 实例中注入 disk-loss 故障，使该 GCP 实例在 5 分钟内与指定存储设备分离。
 
-查看更多关于分离 GCP 存储设备的消息, 可以参考[分离 GCP 存储](https://cloud.google.com/compute/docs/reference/rest/v1/instances/detachDisk)。
+查看更多关于分离 GCP 存储设备的消息, 可以参考 [分离 GCP 存储](https://cloud.google.com/compute/docs/reference/rest/v1/instances/detachDisk)。
 
 ### 字段说明
 
@@ -136,5 +136,5 @@ spec:
 |project|string|指定 GCP 项目名|无|是|your-project|
 |zone|string|指定 GCP 实例区域|无|是|us-central1-a|
 |instance|string|指定 GCP 实例的 ID|无|是|your-gcp-instance-id|
-|deviceNames|[]string|当 action 为 disk-loss 必填，指定设备磁盘 ID|无|否|your-disk-id|
+|deviceNames|[]string|当 action 为 disk-loss 必填，指定设备磁盘 ID|无|否|["your-disk-id"]|
 |duration|string|指定实验的持续时间|无|是|30s|
