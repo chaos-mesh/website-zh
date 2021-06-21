@@ -24,7 +24,7 @@ sidebar_label: 定义实验范围
 
 - 指定实验目标 Pod 所属的命名空间。
 - 数据类型：字符串数组类型。
-- 如果此 Selector 为空或者不指定此 Selector，Chaos Mesh 默认将混沌实验创建在混沌实验目标对象所属的 Namespace 下。
+- 如果此 Selector 为空或者不指定此 Selector，Chaos Mesh 会将其设置为当前混沌实验所属的命名空间。
 
 当使用 YAML 文件创建实验时，示例配置如下：
 
