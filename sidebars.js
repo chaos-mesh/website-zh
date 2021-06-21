@@ -38,7 +38,7 @@ module.exports = {
           items: [
             'create-chaos-mesh-workflow',
             'define-workflow-scheduling-rules',
-            'run-chaos-experiments-in-parallel-or-concurrently',
+            'run-chaos-experiments-in-serial-or-parallel',
             'inspect-chaos-mesh-workflow',
           ],
         },
