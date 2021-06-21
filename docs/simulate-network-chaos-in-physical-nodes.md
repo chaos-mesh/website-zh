@@ -42,7 +42,7 @@ Global Flags:
 Use "chaosd attack network [command] --help" for more information about a command.
 ```
 
-目前 Chaosd 支持模拟网络错误（corrupt）、延迟（delay）、重复（duplicate）、丢失（loss）四种实验场景。
+目前 Chaosd 支持模拟网络包错误（corrupt）、延迟（delay）、重复（duplicate）、丢失（loss）四种实验场景。
 
 ### 网络包错误
 
