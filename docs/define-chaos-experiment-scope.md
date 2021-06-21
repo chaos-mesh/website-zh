@@ -9,7 +9,7 @@ sidebar_label: 定义实验范围
 
 在 Chaos Mesh 中，你可以通过指定选择器 (Selectors) 的方式定义单个混沌实验的作用范围。
 
-不同类型的 Selector 对应着不同的过滤规则。你可以在一个混沌实验中指定一个或多个 Selector 来定义你的实验范围。如果同时指定多个 Selector，代表当前实验目标需要满足所有指定的 Selectors 的规则。
+不同类型的 Selector 对应着不同的过滤规则。你可以在一个混沌实验中指定一个或多个 Selector 来定义你的实验范围。如果同时指定多个 Selector，代表当前实验目标需要同时满足所有指定的 Selectors 的规则。
 
 在创建混沌实验时，Chaos Mesh 支持以下两种定义混沌实验范围的方式。你可以按需选择以下任一方式：
 
@@ -113,7 +113,7 @@ spec:
 
 ### Node Selector
 
-- 指定实验目标 Pod 所属的 [Node 的 Labels](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/)
+- 指定实验目标 Pod 所属的 [Node 的 Labels](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/)。
 - 数据类型：键值对类型。
 - 如果指定了多个 Node Labels，代表实验目标 Pod 所属的 Node 需要带有此 Selector 指定的所有 Labels。
 
