@@ -86,7 +86,7 @@ spec:
     cron: '@every 10m'
 ```
 
-#### 通用字段
+#### 通用字段说明
 
 通用字段指注入目标为 Request 和 Response 时均有意义的字段。
 
@@ -109,7 +109,7 @@ spec:
 | `duration` | `string` | 指定具体实验的持续时间 | | 是 | `30s` |
 | `scheduler` | `string` | 指定具体实验的运行时间调度规则 | | 否 | `5 * * * *` |
 
-#### Request 专用字段
+#### Request 专用字段说明
 
 | 参数 | 类型 | 说明 | 默认值 | 是否必填 | 示例 |
 |---|---|---|---|---|---|
@@ -118,7 +118,7 @@ spec:
 | `replace.queries` | `map[string]string` | 指定 URI query 的替换键值对 | | 否 | `foo: bar` |
 | `patch.queries` | `[][]string` | 指定 URI query 附加故障的附加键值对 | | 否 | `- [foo, bar]` |
 
-#### Response 专用字段
+#### Response 专用字段说明
 
 | 参数 | 类型 | 说明 | 默认值 | 是否必填 | 示例 |
 |---|---|---|---|---|---|
