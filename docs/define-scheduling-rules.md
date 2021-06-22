@@ -153,8 +153,8 @@ spec:
 
 ```yaml
 spec:
-  schedule: "* * * * *"
-  type: "NetworkChaos"
+  schedule: '* * * * *'
+  type: 'NetworkChaos'
   networkChaos:
     action: delay
     mode: one
@@ -162,11 +162,11 @@ spec:
       namespaces:
         - default
       labelSelectors:
-        "app": "web-show"
-    startingDeadlineSeconds： 5
+        'app': 'web-show'
+    startingDeadlineSeconds: 5
     delay:
-      latency: "10ms"
-    duration: "70s"
+      latency: '10ms'
+    duration: '70s'
 ```
 
 由于 `concurrencyPolicy` 为 `Forbid`，在分钟的开始会因为这一限制而禁止创建新任务。而在该分钟的第十秒，上一次创建的 Chaos 运行结束，但由于 `startingDeadlineSeconds` 的限制不会检索到因 `concurrencyPolicy` 而错过的事件，所以不会创建 Chaos。在下一分钟开始时才会创建新的 Chaos。
@@ -177,11 +177,23 @@ spec:
 
 ### 定义实验
 
-<!-- @strrl 这个地方的格式还需要修改，inner tag 与 outer tag 取其一。先留着定下来后再改 -->
+在 `Schedule` 中需要使用两个字段来定义实验的具体内容。`type` 字段和 `*Chaos` 字段。其中 `type` 字段用于指定实验类型，`*Chaos` 字段用于描述实验内容。通常来说，`type` 字段的内容为大驼峰，例如 `NetworkChaos`、`PodChaos`、`IOChaos`；而 `*Chaos` 的键为与之对应的小驼峰，如 `networkChaos`, `podChaos`, `ioChaos`。`*Chaos` 的键为对应实验类型的 `spec`，详见个实验类型的文档。
 
 ## 使用 Dashboard 创建 Schedule 调度规则
 
-<!-- TODO: 在 Schedule 添加入 Dashboard 之后再完善这部分文档 -->
+1. 单击计划页面中的“新的计划”按钮创建计划：
+
+   ![创建计划](./img/create-new-schedule.png)
+
+2. 选择并填写实验的具体内容
+
+   ![选择并填写内容](./img/define-schedule-inner-resource.png)
+
+3. 填写计划周期、并发策略等信息
+
+   ![填写计划规则](./img/define-schedule-spec.png)
+
+4. 提交实验
 
 ### 暂停
 
