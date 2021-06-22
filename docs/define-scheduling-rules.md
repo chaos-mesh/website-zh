@@ -29,7 +29,7 @@ spec:
   historyLimit: 2
   concurrencyPolicy: 'Allow'
   type: 'NetworkChaos'
-  network_chaos:
+  networkChaos:
     action: delay
     mode: one
     selector:
@@ -122,7 +122,7 @@ spec:
 spec:
   schedule: '* * * * *'
   type: 'NetworkChaos'
-  network_chaos:
+  networkChaos:
     action: delay
     mode: one
     selector:
@@ -155,7 +155,7 @@ spec:
 spec:
   schedule: "* * * * *"
   type: "NetworkChaos"
-  network_chaos:
+  networkChaos:
     action: delay
     mode: one
     selector:
