@@ -74,9 +74,9 @@ spec:
         app: springboot-jvmchaos-demo
     spec:
       containers:
-      - image: 'gallardot/chaosmesh-jvmchaos-sample:latest'
-        imagePullPolicy: IfNotPresent
-        name: springboot-jvmchaos-demo
+        - image: 'gallardot/chaosmesh-jvmchaos-sample:latest'
+          imagePullPolicy: IfNotPresent
+          name: springboot-jvmchaos-demo
 ```
 
 其中值为 `admission-webhook.chaos-mesh.org/request: jvmchaos-sidecar` 的 `annotation` 与步骤 1 `sidecar.yaml` 中 `ConfigMap` 的名称对应。
@@ -90,7 +90,7 @@ kubectl apply -f app.yaml
 执行 `kubectl -n app get pods`，预期能够观察到命名空间 `app` 中出现 `1` 个名称形如 `springboot-jvmchaos-demo-777d94c5b9-7t7l2` 的 Pod，等待其 `READY` 为 `1/1` 后进行下一步。
 
 ```text
-kubectl -n app get pods                                   
+kubectl -n app get pods
 NAME                                        READY   STATUS    RESTARTS   AGE
 springboot-jvmchaos-demo-777d94c5b9-7t7l2   1/1     Running   0          21s
 ```
@@ -108,13 +108,14 @@ kubectl -n app port-forward pod/springboot-jvmchaos-demo-777d94c5b9-7t7l2 8080:8
 在另外一个 shell session 中使用 curl 或者直接使用浏览器访问 `http://localhost:8080/hello`，预期返回 `Hello firend`：
 
 ```shell
-curl http://localhost:8080/hello                                 
+curl http://localhost:8080/hello
 Hello friend
 ```
 
 ### 4. 注入 JVMChaos 并验证
 
 指定返回值的 JVMChaos 内容如下：
+
 ```yaml
 apiVersion: chaos-mesh.org/v1alpha1
 kind: JVMChaos
@@ -125,10 +126,10 @@ spec:
   action: return
   target: jvm
   flags:
-    value: "hello chaos mesh!"
+    value: 'hello chaos mesh!'
   matchers:
-    classname: "org.chaosmesh.jvm.Application"
-    methodname: "hello"
+    classname: 'org.chaosmesh.jvm.Application'
+    methodname: 'hello'
   mode: one
   selector:
     labelSelectors:
@@ -146,38 +147,36 @@ kubectl apply -f ./jvm-return-example.yaml
 使用 curl 或者直接使用浏览器访问 http://localhost:8080/hello，预期返回 `hello chaos mesh!`：
 
 ```shell
-curl http://localhost:8080/hello                                 
+curl http://localhost:8080/hello
 hello chaos mesh!
 ```
 
 ## 字段说明
 
-|参数|类型|说明|默认值|是否必填|示例|
-|---|---|---|---|---|---|
-|action|string|表示具体的故障类型，支持 delay、return、script、cfl、oom、ccf、tce、cpf、tde、tpf。|无|是|return|
-|mode|string|表示选择 Pod 的方式，支持 one、all、fixed、fixed-percent、random-max-percent。|无|是|one|
-|value|string|取决于 mode 的取值，为 mode 提供参数|无|否|2|
-|target|string|传递给 `chaosblade-exec-jvm` 的参数，代表 JVMChaos 的目标，支持 servlet、psql、jvm、jedis、http、dubbo、rocketmq、tars、mysql、druid、redisson、rabbitmq、mongodb。|无|是|jvm|
-|flags|map[string]string|传递给 `chaosblade-exec-jvm` 的参数，代表 action 的 flags|无|否||
-|matchers|map[string]string|传递给 `chaosblade-exec-jvm` 的参数，代表注入点的匹配方式|无|否||
-
+| 参数     | 类型              | 说明                                                                                                                                                                | 默认值 | 是否必填 | 示例   |
+| -------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | -------- | ------ |
+| action   | string            | 表示具体的故障类型，支持 delay、return、script、cfl、oom、ccf、tce、cpf、tde、tpf。                                                                                 | 无     | 是       | return |
+| mode     | string            | 表示选择 Pod 的方式，支持 one、all、fixed、fixed-percent、random-max-percent。                                                                                      | 无     | 是       | one    |
+| value    | string            | 取决于 mode 的取值，为 mode 提供参数                                                                                                                                | 无     | 否       | 2      |
+| target   | string            | 传递给 `chaosblade-exec-jvm` 的参数，代表 JVMChaos 的目标，支持 servlet、psql、jvm、jedis、http、dubbo、rocketmq、tars、mysql、druid、redisson、rabbitmq、mongodb。 | 无     | 是       | jvm    |
+| flags    | map[string]string | 传递给 `chaosblade-exec-jvm` 的参数，代表 action 的 flags                                                                                                           | 无     | 否       |        |
+| matchers | map[string]string | 传递给 `chaosblade-exec-jvm` 的参数，代表注入点的匹配方式                                                                                                           | 无     | 否       |        |
 
 关于 action 的取值的含义，可参考：
 
-|名称|含义|
-|---|---|
-|delay|指定方法调用延迟|
-|return|编写 groovy 和 java 实现场景|
-|script|编写 groovy 和 java 实现场景|
-|cfl|java 进程 CPU 使用率满载|
-|oom|内存溢出，支持堆、栈、metaspace 区溢出|
-|ccf|填充 jvm code cache|
-|tce|抛自定义异常场景|
-|cpf|连接池满|
-|tde|抛方法声明中的第一个异常|
-|tpf|线程池满|
-
+| 名称   | 含义                                   |
+| ------ | -------------------------------------- |
+| delay  | 指定方法调用延迟                       |
+| return | 编写 groovy 和 java 实现场景           |
+| script | 编写 groovy 和 java 实现场景           |
+| cfl    | java 进程 CPU 使用率满载               |
+| oom    | 内存溢出，支持堆、栈、metaspace 区溢出 |
+| ccf    | 填充 jvm code cache                    |
+| tce    | 抛自定义异常场景                       |
+| cpf    | 连接池满                               |
+| tde    | 抛方法声明中的第一个异常               |
+| tpf    | 线程池满                               |
 
 关于 action 的详细用法可参考 [chaos blade 文档](https://chaosblade-io.gitbook.io/chaosblade-help-zh-cn/blade-create-jvm)。
 
-关于传递给 `chaosblade-exec-jvm` 的参数，Chaos Mesh 会将 `flags` 与 `matchers` 中的所有字段合并后作为请求体发送给 `chaosblade-exec-jvm`，具体可参考 [chaosblade-exec-jvm/协议篇.md](https://github.com/chaosblade-io/chaosblade-dev-doc/blob/a7074ab656de469f7dfaa19227723d0967c590ae/zh-cn/chaosblade-exec-jvm/%E5%8D%8F%E8%AE%AE%E7%AF%87.md)。
+关于传递给 `chaosblade-exec-jvm` 的参数，Chaos Mesh 会将 `flags` 与 `matchers` 中的所有字段合并后作为请求体发送给 `chaosblade-exec-jvm`，具体可参考 [chaosblade-exec-jvm/协议篇](https://github.com/chaosblade-io/chaosblade-dev-doc/blob/a7074ab656de469f7dfaa19227723d0967c590ae/zh-cn/chaosblade-exec-jvm/%E5%8D%8F%E8%AE%AE%E7%AF%87.md)。
