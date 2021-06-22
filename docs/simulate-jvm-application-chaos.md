@@ -5,7 +5,7 @@ sidebar_label: 模拟 JVM 应用故障
 
 ## JVMChaos 介绍
 
-JVMChaos 能向目标容器中的 JVM 注入故障，适用于任何使用 JVM 作为运行时的应用。目前 JVMChaos 借助于 [chaosblade-exec-jvm](https://github.com/chaosblade-io/chaosblade-exec-jvm) 实现对 JVM 的错误注入，主要支持以下类型的故障：
+JVMChaos 能向目标容器中的 JVM 注入故障，适用于任何使用 JVM 作为运行时的应用。目前 JVMChaos 借助 [chaosblade-exec-jvm](https://github.com/chaosblade-io/chaosblade-exec-jvm) 实现对 JVM 的错误注入，主要支持以下类型的故障：
 
 - 指定返回值
 - 方法延迟
@@ -17,33 +17,33 @@ JVMChaos 能向目标容器中的 JVM 注入故障，适用于任何使用 JVM �
 
 ## 使用限制
 
-目前 Chaos Mesh 使用 [MutatingAdmissionWebhook](https://kubernetes.io/zh/docs/reference/access-authn-authz/admission-controllers/#mutatingadmissionwebhook) 修改对 Pod 的定义，通过 [Init 容器](https://kubernetes.io/zh/docs/concepts/workloads/pods/init-containers/)加载 java agnet, 并非运行时加载 java agent。因此在使用时存在如下限制:
+目前 Chaos Mesh 使用 [MutatingAdmissionWebhook](https://kubernetes.io/zh/docs/reference/access-authn-authz/admission-controllers/#mutatingadmissionwebhook) 修改对 Pod 的定义，通过 [Init 容器](https://kubernetes.io/zh/docs/concepts/workloads/pods/init-containers/)加载 java agnet，并非运行时加载 java agent。因此在使用时存在如下限制：
 
-- Kubernetes 需要启用 Webhook 支持；
-- 在为命名空间配置 MutatingAdmissionWebhook 之前已经存在 Pod，不会受到 JVMChaos 影响；
-- 命名空间下的所有容器中的 JVM 都会在启动阶段加载 java agent, JVMChaos 在被删除后也不会卸载 java agent。若考虑到 java agent 可能对程序行为或性能带来的影响，期望清理 java agnet，请将工作负载移出该命名空间；
+- Kubernetes 需要启用 Webhook 支持。
+- 在为命名空间配置 MutatingAdmissionWebhook 之前已经存在 Pod，不会受到 JVMChaos 影响。
+- 命名空间下的所有容器中的 JVM 都会在启动阶段加载 java agent，VMChaos 在被删除后也不会卸载 java agent。若考虑到 java agent 可能对程序行为或性能带来的影响，期望清理 java agnet，请将工作负载移出该命名空间。
 
 另外 JVM 目前无法通过 Chaos Dashboard 创建。
 
 ## 使用 YAML 方式创建实验
 
-下面将以指定返回值为例，展示 JVMChaos 的使用方法与效果。以下内容中设计的 yaml 文件均可在 [examples/jvm](https://github.com/chaos-mesh/chaos-mesh/tree/master/examples/jvm) 中找到，以下步骤默认的工作路径也是在 `examples/jvm`。 默认 Chaos Mesh 安装的 namespace 为 `chaos-testing`。
+下面将以指定返回值为例，展示 JVMChaos 的使用方法与效果。以下内容中涉及的 yaml 文件均可在 [examples/jvm](https://github.com/chaos-mesh/chaos-mesh/tree/master/examples/jvm) 中找到，以下步骤默认的工作路径也是在 `examples/jvm` 中。 默认 Chaos Mesh 安装的命名空间为 `chaos-testing`。
 
 ### 1. 创建命名空间并配置 MutatingAdmissionWebhook
 
-建立应用所在的命名空间:
+建立应用所在的命名空间：
 
 ```shell
 kubectl create ns app
 ```
 
-为命名空间 `app` 增加 label `admission-webhook=enabled`, 允许 Chaos Mesh 的 MutatingAdmissionWebhook 修改该命名空间下的 Pod.
+为命名空间 `app` 增加 label `admission-webhook=enabled`，允许 Chaos Mesh 的 MutatingAdmissionWebhook 修改该命名空间下的 Pod。
 
 ```shell
 kubectl label ns app admission-webhook=enabled
 ```
 
-为 JVMChaos 所需要的修改行为准备模板:
+为 JVMChaos 所需要的修改行为准备模板：
 
 ```shell
 kubectl apply -f sidecar-template.yaml
@@ -52,7 +52,7 @@ kubectl apply -f sidecar.yaml
 
 ### 2. 创建被测应用
 
-这里使用 [jvm-chaos-demo](https://github.com/chaos-mesh/jvm-chaos-demo) 作为被测应用，是一个简单的 Spring Boot 应用。 被测应用定义在 `example/jvm/app.yaml` 中，内容如下：
+[jvm-chaos-demo](https://github.com/chaos-mesh/jvm-chaos-demo) 是一个简单的 Spring Boot 应用，此处作为被测应用。被测应用定义在 `example/jvm/app.yaml` 中，内容如下：
 
 ```yaml
 apiVersion: apps/v1
@@ -81,13 +81,13 @@ spec:
 
 其中值为 `admission-webhook.chaos-mesh.org/request: jvmchaos-sidecar` 的 `annotation` 与步骤 1 `sidecar.yaml` 中 `ConfigMap` 的名称对应。
 
-建立应用 Deployment:
+建立应用 Deployment：
 
 ```shell
 kubectl apply -f app.yaml
 ```
 
-执行 `kubectl -n app get pods`, 预期能够观察到命名空间 `app` 中出现 `1` 个名称形如 `springboot-jvmchaos-demo-777d94c5b9-7t7l2` 的 Pod，等待其 `READY` 为 `1/1` 后进行下一步
+执行 `kubectl -n app get pods`，预期能够观察到命名空间 `app` 中出现 `1` 个名称形如 `springboot-jvmchaos-demo-777d94c5b9-7t7l2` 的 Pod，等待其 `READY` 为 `1/1` 后进行下一步。
 
 ```text
 kubectl -n app get pods                                   
@@ -105,7 +105,7 @@ springboot-jvmchaos-demo-777d94c5b9-7t7l2   1/1     Running   0          21s
 kubectl -n app port-forward pod/springboot-jvmchaos-demo-777d94c5b9-7t7l2 8080:8080
 ```
 
-在另外一个 shell session 中使用 curl 或者直接使用浏览器访问 `http://localhost:8080/hello`, 预期返回 `Hello firend`：
+在另外一个 shell session 中使用 curl 或者直接使用浏览器访问 `http://localhost:8080/hello`，预期返回 `Hello firend`：
 
 ```shell
 curl http://localhost:8080/hello                                 
@@ -114,7 +114,7 @@ Hello friend
 
 ### 4. 注入 JVMChaos 并验证
 
-指定返回值的 JVMChaos 内容如下:
+指定返回值的 JVMChaos 内容如下：
 ```yaml
 apiVersion: chaos-mesh.org/v1alpha1
 kind: JVMChaos
@@ -135,7 +135,7 @@ spec:
       app: springboot-jvmchaos-demo
 ```
 
-它将修改 `hello` 方法的返回值为字符串 `hello chaos mesh!`.
+JVMChaos 将 `hello` 方法的返回值修改为字符串 `hello chaos mesh!`。
 
 注入指定返回值的 JVMChaos：
 
@@ -143,7 +143,7 @@ spec:
 kubectl apply -f ./jvm-return-example.yaml
 ```
 
-使用 curl 或者直接使用浏览器访问 http://localhost:8080/hello, 预期返回 `hello chaos mesh!`：
+使用 curl 或者直接使用浏览器访问 http://localhost:8080/hello，预期返回 `hello chaos mesh!`：
 
 ```shell
 curl http://localhost:8080/hello                                 
@@ -154,15 +154,15 @@ hello chaos mesh!
 
 |参数|类型|说明|默认值|是否必填|示例|
 |---|---|---|---|---|---|
-|action|string|表示具体的故障类型，支持delay、return、script、cfl、oom、ccf、tce、cpf、tde、tpf|无|是|return|
-|mode|string|表示选择 Pod 的方式，支持one、all、fixed、fixed-percent、random-max-percent|无|是|one|
-|value|string|取决与mode的取值，为mode提供参数|无|否|2|
-|target|string|传递给 `chaosblade-exec-jvm` 的参数，代表 JVMChaos 的目标，支持servlet、psql、jvm、jedis、http、dubbo、rocketmq、tars、mysql、druid、redisson、rabbitmq、mongodb|无|是|jvm|
+|action|string|表示具体的故障类型，支持 delay、return、script、cfl、oom、ccf、tce、cpf、tde、tpf。|无|是|return|
+|mode|string|表示选择 Pod 的方式，支持 one、all、fixed、fixed-percent、random-max-percent。|无|是|one|
+|value|string|取决与 mode 的取值，为 mode 提供参数|无|否|2|
+|target|string|传递给 `chaosblade-exec-jvm` 的参数，代表 JVMChaos 的目标，支持 servlet、psql、jvm、jedis、http、dubbo、rocketmq、tars、mysql、druid、redisson、rabbitmq、mongodb。|无|是|jvm|
 |flags|map[string]string|传递给 `chaosblade-exec-jvm` 的参数，代表 action 的 flags|无|否||
 |matchers|map[string]string|传递给 `chaosblade-exec-jvm` 的参数，代表注入点的匹配方式|无|否||
 
 
-关于 action 的取值的含义，可参考:
+关于 action 的取值的含义，可参考：
 
 |名称|含义|
 |---|---|
