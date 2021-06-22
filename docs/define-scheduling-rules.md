@@ -17,7 +17,7 @@ sidebar_label: 定义调度规则
 
 ## 使用 YAML 文件与 `kubectl` 创建 Schedule 调度规则
 
-以在每个小时的第 5 分钟持续 12 秒施加 100ms 延迟为例：
+以在每个小时的第 5 分钟持续 12 秒施加 100 毫秒延迟为例：
 
 ```yaml
 apiVersion: chaos-mesh.org/v1alpha1
@@ -195,7 +195,7 @@ spec:
 
 4. 提交实验
 
-### 暂停
+### 暂停定时任务
 
 用户可能会希望暂停混沌实验。与 `CronJob` 不同的是，暂停一个 `Schedule` 不仅仅会阻止它创建新的实验，也会暂停已创建的实验。
 
