@@ -4,6 +4,7 @@ sidebar_label: 模拟文件 I/O 故障
 ---
 
 本文档主要介绍如何在 Chaos Mesh 中创建 IOChaos 混沌实验。
+
 ## IOChaos简介
 
 IOChaos 能够帮助你模拟文件系统故障。目前支持以下类型的故障：
@@ -28,21 +29,21 @@ IOChaos 能够帮助你模拟文件系统故障。目前支持以下类型的故
 
 1. 单击实验页面中的“新的实验”按钮进行创建实验。
 
-   ![img](../static/img/create-io-chaos-on-dashborad-1.jpg)
+   ![新建实验](../static/img/create-io-chaos-on-dashborad-1.jpg)
 
 2. 在“选择目标”处选择“文件系统注入”，并选择具体行为，如“LATENCY”
 
-   ![image-20210429155026408](../static/img/create-io-chaos-on-dashborad-2.jpg)
+   ![设置实验类型](../static/img/create-io-chaos-on-dashborad-2.jpg)
 
 3. 填写实验信息，指定实验范围以及实验计划运行时间。
 
-   ![image-20210429155354027](../static/img/create-io-chaos-on-dashborad-3.jpg)
+   ![设置实验内容](../static/img/create-io-chaos-on-dashborad-3.jpg)
 
-   ![image-20210429155245881](../static/img/create-io-chaos-on-dashborad-4.jpg)
+   ![设置目标和运行时间](../static/img/create-io-chaos-on-dashborad-4.jpg)
 
 4. 提交实验。
 
-   ![image-20210429155313162](../static/img/create-io-chaos-on-dashborad-5.jpg)
+   ![提交试验](../static/img/create-io-chaos-on-dashborad-5.jpg)
 
 ## 使用 YAML 文件创建实验
 
@@ -171,7 +172,7 @@ spec:
 
 #### 与 action 相关的字段
 
-这些字段仅在action为对应值时才有意义
+这些字段仅在 action 为对应值时才有意义
 
 - latency
 
@@ -234,7 +235,7 @@ spec:
   |maxLength|int|每次错误的最大长度（单位为字节）||是|1|
 
 :::warning 警告
-  不推荐在除了 READ 和 WRITE 之外的文件系统调用上使用 mistake。这可能会导致预期之外的结果，包括但不限于文件系统损坏、程序崩溃等。
+  不推荐在除了 READ 和 WRITE 之外的文件系统调用上使用 mistake 错误。这可能会导致预期之外的结果，包括但不限于文件系统损坏、程序崩溃等。
 :::
 
 
@@ -291,4 +292,4 @@ spec:
 - 24: Too many open files
 - 28: No space left on device
 
-详见 [linux源码](https://raw.githubusercontent.com/torvalds/linux/master/include/uapi/asm-generic/errno-base.h)
+详见 [Linux 源码](https://raw.githubusercontent.com/torvalds/linux/master/include/uapi/asm-generic/errno-base.h)
