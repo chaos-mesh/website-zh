@@ -13,7 +13,15 @@ TimeChaos 能够帮助你模拟时间偏移的场景。
 
    ![创建实验](./img/create-new-exp.jpeg)
 
-<!-- TODO -->
+2. 在“选择目标”处选择 “时钟偏移”，然后填写选定的时钟和偏移量
+
+   ![TimeChaos 实验](./img/timechaos-exp.png)
+
+3. 填写实验信息，指定实验范围以及实验计划运行时间：
+
+   ![实验信息](./img/exp-info.png)
+
+4. 提交实验。
 
 ## 使用 YAML 方式创建实验
 
@@ -43,11 +51,7 @@ kubectl apply -f time-shift.yaml
 
 ### 字段说明
 
-| 参数           | 类型     | 说明                                                                                | 默认值 | 是否必填 | 示例             |
-| -------------- | -------- | ----------------------------------------------------------------------------------- | ------ | -------- | ---------------- |
-| mode           | string   | 表示运行实验时候的运行方式，支持 one、all、fixed、fixed-percent、random-max-percent | 无     | 是       | one              |
-| value          | string   | 取决与 mode 的取值，为 mode 提供参数                                                | 无     | 否       | 2                |
-| selector       | struct   | 指定注入故障的目标 pod，可以参考[文档](./define-chaos-experiment-scope.md)          | 无     | 是       |                  |
-| duration       | string   | 指定具体实验的持续时间                                                              | 无     | 是       | 30s              |
-| containerNames | []string | 指定注入故障的目标 container 名                                                     | 无     | 否       | prometheus,nginx |
-| timeOffset     | string   | 指定时间偏移的长度                                                                  | 无     | 是       | -5m              |
+| 参数       | 类型     | 说明                                                                                                            | 默认值             | 是否必填 | 示例                                 |
+| ---------- | -------- | --------------------------------------------------------------------------------------------------------------- | ------------------ | -------- | ------------------------------------ |
+| timeOffset | string   | 指定时间偏移的长度                                                                                              | 无                 | 是       | -5m                                  |
+| clockIds   | []string | 指定时间偏移作用的时钟，详见 [`clock_gettime` 文档](https://man7.org/linux/man-pages/man2/clock_gettime.2.html) | ["CLOCK_REALTIME"] | 否       | ["CLOCK_REALTIME","CLOCK_MONOTONIC"] |
