@@ -5,6 +5,9 @@ sidebar_label: 快速试用（测试推荐）
 
 import PickVersion from '@site/src/components/PickVersion'
 
+import VerifyInstallationAndRun from './common/verify-installation.md'
+import QuickRun from './common/quick-run.md'
+
 本篇文档描述如何在测试环境或本机环境快速试用 Chaos Mesh。
 
 :::note 注意
@@ -73,39 +76,11 @@ curl -sSL https://mirrors.chaos-mesh.org/latest/install.sh | bash
 
 ## 验证安装
 
-要查看 Chaos Mesh 的运行情况，请执行以下命令：
-
-```sh
-kubectl get po -n chaos-testing
-```
-
-以下是预期输出：
-
-```sh
-NAME                                        READY   STATUS    RESTARTS   AGE
-chaos-controller-manager-69fd5c46c8-xlqpc   1/1     Running   0          2d5h
-chaos-daemon-jb8xh                          1/1     Running   0          2d5h
-chaos-dashboard-98c4c5f97-tx5ds             1/1     Running   0          2d5h
-```
-
-如果你的实际输出与预期输出相符，表示 Chaos Mesh 已经成功安装。
-
-:::note 注意
-
-如果实际输出的 `STATUS` 状态不是 `Running`，则需要运行以下命令查看 Pod 的详细信息，然后依据错误提示排查并解决问题。
-
-```sh
-# 以 chaos-controller 为例
-kubectl describe po -n chaos-testing chaos-controller-manager-69fd5c46c8-xlqpc
-```
-
-:::
+<VerifyInstallation />
 
 ## 运行 Chaos 实验
 
-验证安装完成后，你可以运行一个 Chaos 实验来体验 Chaos Mesh 的功能。
-
-运行实验的方法，推荐参考[模拟 Pod 故障](simulate-pod-chaos-on-kubernetes.md)。成功创建实验后，你可以通过 Chaos Dashboard 观察实验的运行状态。
+<QuickRun />
 
 ## 卸载 Chaos Mesh
 
