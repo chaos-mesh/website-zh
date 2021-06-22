@@ -16,7 +16,7 @@ Chaos Mesh Workflow 是一个内置的工作流引擎， 允许你串行/并行�
 - 自定义任务 (Work In Progress)
 - 条件分支 (Work In Progress)
 
-使用场景举例： 
+使用场景举例：
 
 - 使用并行编排同时注入多个 NetworkChaos 模拟复杂的网络环境
 - 在串行编排中进行健康检查， 使用条件分支决定是否执行剩下的步骤
@@ -51,7 +51,6 @@ kubectl create -f <workflow.yaml>
 kubectl create -f https://raw.githubusercontent.com/chaos-mesh/chaos-mesh/master/examples/workflow/serial.yaml
 ```
 
-
 一个简单的 Workflow 定义如下所示， 这个 Workflow 将会同时注入 `StressChaos`， `NetworkChaos` 与 `PodChaos`：
 
 ```yaml
@@ -64,14 +63,14 @@ spec:
   templates:
     - name: the-entry
       templateType: Parallel
-      duration: 240s
-      tasks:
+      deadline: 240s
+      children:
         - workflow-stress-chaos
         - workflow-network-chaos
         - workflow-pod-chaos
     - name: workflow-network-chaos
       templateType: NetworkChaos
-      duration: 20s
+      deadline: 20s
       networkChaos:
         direction: to
         action: delay
@@ -83,20 +82,20 @@ spec:
           latency: "90ms"
           correlation: "25"
           jitter: "90ms"
-    - name: workflow-pod-chaos
-      templateType: PodChaos
-      duration: 40s
-      podChaos:
-        action: pod-kill
-        mode: one
-        selector:
-          labelSelectors:
-            "app": "hello-kubernetes"
-        scheduler:
-          cron: "@every 10s"
+    - name: workflow-pod-chaos-schedule
+      templateType: Schedule
+      deadline: 40s
+      schedule:
+        schedule: "@every 2s"
+        podChaos:
+          action: pod-kill
+          mode: one
+          selector:
+            labelSelectors:
+              "app": "hello-kubernetes"
     - name: workflow-stress-chaos
       templateType: StressChaos
-      duration: 20s
+      deadline: 20s
       stressChaos:
         mode: one
         selector:
@@ -116,30 +115,96 @@ spec:
 ```yaml
 name: the-entry
 templateType: Parallel
-duration: 240s
-tasks:
+deadline: 240s
+children:
   - workflow-stress-chaos
   - workflow-network-chaos
   - workflow-pod-chaos
-``` 
+```
 
 `templateType: Parallel` 代表节点的类型为并行； `duration: 240s` 代表这个节点下的所有并行实验预期在 240 秒内执行完成， 否则将超时； `tasks` 中代表了将要并行执行的其他 template 的名称。
-
 
 再例如：
 
 ```yaml
 name: workflow-pod-chaos
 templateType: PodChaos
-duration: 40s
+deadline: 40s
 podChaos:
   action: pod-kill
   mode: one
   selector:
     labelSelectors:
-      "app": "hello-kubernetes"
+      'app': 'hello-kubernetes'
 ```
 
 `templateType: PodChaos` 代表节点的类型为 PodChaos 实验； `duration: 40s` 代表当前 Chaos 实验将持续 40 秒； `podChaos` 字段是 PodChaos 实验的定义；
 
 与 Chaos Dashboard 相比， 通过 YAML 与 `kubectl` 创建 Workflow 会更加灵活； 你可以对串行/并行编排进行嵌套， 声明复杂的编排， 甚至可以与条件分支组合达到循环的效果。
+
+## 字段说明
+
+### Workflow 字段说明
+
+| 参数      | 类型       | 说明                                                                                 | 默认值 | 是否必填 | 示例 |
+| --------- | ---------- | ------------------------------------------------------------------------------------ | ------ | -------- | ---- |
+| entry     | string     | 声明 Workflow 的入口，值为 templates 中某一 template 的名称。                        | 无     | 是       |      |
+| templates | []Template | 声明 Workflow 中可执行的各个步骤的行为，详见 [Template 字段说明](#template-字段说明) | 无     | 是       |      |
+
+### Template 字段说明
+
+| 参数                | 类型                | 说明                                                                                                                                                                                          | 默认值 | 是否必填 | 示例                                                |
+| ------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | -------- | --------------------------------------------------- |
+| name                | string              | template 的名称，需要符合 DNS-1123 命名规范。                                                                                                                                                 | 无     | 是       | any-name                                            |
+| type                | string              | template 的类型。可选值有: Task、Serial、Parallel、Suspend、Schedule、AwsChaos、DNSChaos、GcpChaos、HTTPChaos、IOChaos、JVMChaos、KernelChaos、NetworkChaos、PodChaos、StressChaos、TimeChaos | 无     | 是       | PodChaos                                            |
+| deadline            | string              | template 持续的时间。                                                                                                                                                                         | 无     | 否       | '5m30s'                                             |
+| children            | []string            | 声明该 template 下的子任务，当 type 为 Serial 或 Parallel 时需要配置该字段。                                                                                                                  | 无     | 否       | ["any-chaos-1", "another-serial-2", "any-shcedule"] |
+| task                | Task                | 配置自定义任务，当 type 为 Task 时需要配置该字段。详见 [Task 字段说明](#task-字段说明)                                                                                                        | 无     | 否       |                                                     |
+| conditionalBranches | []ConditionalBranch | 配置自定任务后的条件分支，当 type 为 Task 时可选配置该字段。详见 [ConditionalBranch 字段说明](#conditionalBranch-字段说明)                                                                    | 无     | 否       |                                                     |
+| awsChaos            | object              | 配置 AwsChaos，当 type 为 AwsChaos 时需要配置该字段。详见 [模拟 AWS 故障](simulate-aws-chaos.md)                                                                                              | 无     | 否       |                                                     |
+| dnsChaos            | object              | 配置 DNSChaos，当 type 为 DNSChaos 时需要配置该字段。详见 [模拟 DNS 故障](simulate-dns-chaos-on-kubernetes.md)                                                                                | 无     | 否       |                                                     |
+| gcpChaos            | object              | 配置 GcpChaos，当 type 为 GcpChaos，当 时需要配置该字段。详见 [模拟 GCP 故障](simulate-gcp-chaos.md)                                                                                          | 无     | 否       |                                                     |
+| httpChaos           | object              | 配置 HTTPChaos，当 type 为 HTTPChaos 时需要配置该字段。详见 [模拟 HTTP 故障](simulate-http-chaos-on-kubernetes.md)                                                                            | 无     | 否       |                                                     |
+| ioChaos             | object              | 配置 IOChaos，当 type 为 IOChaos 时需要配置该字段。详见 [模拟文件 I/O 故障](simulate-io-chaos-on-kubernetes.md)                                                                               | 无     | 否       |                                                     |
+| jvmChaos            | object              | 配置 JVMChaos，当 type 为 JVMChaos 时需要配置该字段。详见 [模拟 JVM 应用故障](simulate-jvm-application-chaos.md)                                                                              | 无     | 否       |                                                     |
+| kernelChaos         | object              | 配置 KernelChaos，当 type 为 KernelChaos 时需要配置该字段。详见 [模拟内核故障](simulate-kernel-chaos-on-kubernetes.md)                                                                        | 无     | 否       |                                                     |
+| networkChaos        | object              | 配置 NetworkChaos，当 type 为 NetworkChaos 时需要配置该字段。详见 [模拟 AWS 故障](simulate-aws-chaos.md)                                                                                      | 无     | 否       |                                                     |
+| podChaos            | object              | 配置 PodChaosd ，当 type 为 PodChaosd 时需要配置该字段。详见 [模拟网络故障](simulate-network-chaos-on-kubernetes.md)                                                                          | 无     | 否       |                                                     |
+| stressChao          | object              | 配置 StressChaos，当 type 为 StressChaos 时需要配置该字段。详见 [模拟压力场景](simulate-heavy-stress-on-kubernetes.md)                                                                        | 无     | 否       |                                                     |
+| timeChaos           | object              | 配置 TimeChaos，当 type 为 TimeChaos 时需要配置该字段。详见 [模拟时间故障](simulate-time-chaos-on-kubernetes.md)                                                                              | 无     | 否       |                                                     |
+| schedule            | object              | 配置 Schedule ，当 type 为 Schedule 时需要配置该字段。详见 [定义调度规则](define-scheduling-rules.md)                                                                                         | 无     | 否       |                                                     |
+
+注意，当在 Workflow 中建立有持续时间的 Chaos 时，需要将持续时间填写到外层的 `deadline` 字段中，而不是使用 Chaos 中的 `duration` 字段。
+
+### Task 字段说明
+
+| 参数      | 类型   | 说明                                                                                                                                                                                     | 默认值 | 是否必填 | 示例 |
+| --------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | -------- | ---- |
+| container | object | 定义自定义任务容器，可参考 [Container 字段说明](#container-字段说明)                                                                                                                     | 无     | 否       |      |
+| volumes   | array  | 若需要在自定义任务容器中挂载卷，则需要在该字段声明卷。关于完整定义可参考 [corev1.Volume](https://v1-17.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.17/#volume-v1-core) | 无     | 否       |      |
+
+### ConditionalBranch 字段说明
+
+| 参数       | 类型   | 说明                                                                                                                                     | 默认值 | 是否必填 | 示例          |
+| ---------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------- | ------ | -------- | ------------- |
+| target     | string | 当前条件分支想要执行的 template 名称                                                                                                     | 无     | 是       | another-chaos |
+| expression | string | 类型为布尔的表达式，在自定义任务完成后，当表达式值为真时，当前条件分支将会被执行。未设置该值时，条件分支将会在自定义任务完成后直接执行。 | 无     | 否       | exitCode == 0 |
+
+目前在 `expression` 中提供了两个魔法值：
+
+- `exitCode` 表示自定义任务的退出码。
+- `stdout` 表示自定义任务的标准输出。
+
+> 更多的魔法值将在后续补充。
+
+可参考[该文档](https://github.com/antonmedv/expr/blob/master/docs/Language-Definition.md)编写 `expression` 表达式。
+
+### Container 字段说明
+
+这里只列举了常用字段，关于完整定义可参考 [corev1.Container](https://v1-17.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.17/#container-v1-core)
+
+| 参数    | 类型     | 说明           | 默认值 | 是否必填 | 示例                                              |
+| ------- | -------- | -------------- | ------ | -------- | ------------------------------------------------- |
+| name    | string   | 容器名称       | 无     | 是       | task                                              |
+| image   | string   | 镜像名称       | 无     | 是       | busybox:latest                                    |
+| command | []string | 容器执行的命令 | 无     | 否       | `["wget", "-q", "http://httpbin.org/status/201"]` |
