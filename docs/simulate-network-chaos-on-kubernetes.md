@@ -28,6 +28,8 @@ NetworkChaos 用于模拟集群中网络故障的场景，目前支持以下几�
 
    ![NetworkChaos 实验](./img/networkchaos-exp.png)
 
+   具体配置的填写方式，参考[字段说明](#字段说明)。
+
 3. 填写实验信息，指定实验范围以及实验计划运行时间：
 
    ![实验信息](./img/exp-info.png)
