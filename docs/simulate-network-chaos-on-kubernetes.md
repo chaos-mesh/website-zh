@@ -20,7 +20,19 @@ NetworkChaos 用于模拟集群中网络故障的场景，目前支持以下几�
 
 ## 使用 Dashboard 方式创建实验
 
-<!-- TODO -->
+1. 单击实验页面中的“新的实验”按钮创建实验：
+
+   ![创建实验](./img/create-new-exp.jpeg)
+
+2. 在“选择目标”处选择 “网络攻击”，然后选择具体行为，例如 `LOSS`，最后填写具体配置：
+
+   ![NetworkChaos 实验](./img/networkchaos-exp.png)
+
+3. 填写实验信息，指定实验范围以及实验计划运行时间：
+
+   ![实验信息](./img/exp-info.png)
+
+4. 提交实验。
 
 ## 使用 YAML 方式创建实验
 
