@@ -4,6 +4,7 @@ sidebar_label: 模拟 HTTP 故障
 ---
 
 ## HTTPChaos 简介
+
 HTTPChaos 是 Chaos Mesh 提供的混沌类型之一，能够帮助你模拟 HTTP 服务端故障。目前 Chaos Mesh 支持在请求过程或响应过程中注入 HTTPChaos 相关故障，支持的故障类型如下：
 
 + `abort`：中断服务端的连接
@@ -11,8 +12,7 @@ HTTPChaos 是 Chaos Mesh 提供的混沌类型之一，能够帮助你模拟 HTT
 + `replace`：替换请求报文或者响应报文的部分内容
 + `patch`：给请求报文或响应报文添加额外内容
 
-HTTPChaos 支持多种类型故障的组合，且固定的故障注入优先级（顺序）为 `abort -> delay -> replace -> patch`. 
-其中 `abort` 故障是短路的，它会直接中断此次连接。
+HTTPChaos 支持多种类型故障的组合，且注入故障的优先级（顺序）固定为 `abort` -> `delay` -> `replace` -> `patch`。其中 `abort` 故障会导致短路，直接中断此次连接。
 
 HTTPChaos 详细的配置介绍参见 [YAML 配置文件](#yaml-配置文件)部分。
 
@@ -21,14 +21,14 @@ HTTPChaos 详细的配置介绍参见 [YAML 配置文件](#yaml-配置文件)部
 在注入 HTTPChaos 相关故障之前，请注意以下事项：
 
 + 确保目标 Pod 上没有运行 Chaos Mesh 的 Control Manager。
-+ 为使 HTTPChaos 注入生效，尽量避免复用客户端的 TCP socket。因为在注入之前建立的 TCP socket 上进行 HTTP 请求不受 HTTPChaos 影响。
++ 为使 HTTPChaos 注入生效，尽量避免复用客户端的 TCP socket。因为在注入故障前建立的 TCP socket 上进行 HTTP 请求不受 HTTPChaos 影响。
 + 在生产环境下谨慎使用非幂等语义请求（例如大多数 POST 请求）。若使用了这类请求，注入故障后可能无法通过重复请求使目标服务恢复正常状态。
 
 ## 创建实验
 
 ### YAML 配置文件
 
-HTTPChaos 目前只支持使用 YAML 配置文件创建。以配置文件名 `example.yaml` 为例，使用 `kubectl` 命令 `kubectl apply -f example.yaml` 即可创建实验。
+目前只支持使用 YAML 配置文件创建 HTTPChaos 实验。以配置文件名 `example.yaml` 为例，使用 `kubectl` 命令 `kubectl apply -f example.yaml` 即可创建实验。
 
 每次创建实验前，你需要准备好故障的 YAML 配置文件。本节提供 YAML 配置文件示例，以及对文件中的字段进行介绍。
 
@@ -101,11 +101,11 @@ spec:
 | `request_headers` | `map[string]string` | 目标请求的请求头匹配 | 默认对所有请求生效 | 否 | `Content-Type: application/json` |
 | `abort` | `bool` | 是否注入连接中断故障 | `false` | 否 | `true` |
 | `delay` | `string` | 指定延迟故障的时间 | `0` | 否 | `10s` |
-| `replace.header` | `map[string]string` | 指定请求头或响应头替换故障的替换键值对 | | 否 | `Content-Type: application/xml` |
-| `replace.body` | `[]byte` | 指定请求体响应体替换故障的内容（base64 编码） | | 否| `eyJmb28iOiAiYmFyIn0K` |
-| `patch.header` | `[][]string` | 指定请求头或响应头附加故障的附加键值对 | | 否 | `- [Set-Cookie, one cookie]` |
-| `patch.body.type` | `string` | 指定请求体或响应体附件故障的类型，目前只支持 [`JSON`](https://tools.ietf.org/html/rfc7396) | | 否 | `JSON` |
-| `patch.body.value` | `string` | 指定请求体或响应体附件故障的内容 | | 否 | `"{"foo": "bar"}"` |
+| `replace.header` | `map[string]string` | 指定请求头或响应头替换故障中用于替换的键值对 | | 否 | `Content-Type: application/xml` |
+| `replace.body` | `[]byte` | 指定请求体或响应体替换故障的内容（base64 编码） | | 否| `eyJmb28iOiAiYmFyIn0K` |
+| `patch.header` | `[][]string` | 指定请求头或响应头附加故障中附加的键值对 | | 否 | `- [Set-Cookie, one cookie]` |
+| `patch.body.type` | `string` | 指定请求体或响应体附加故障的类型，目前只支持 [`JSON`](https://tools.ietf.org/html/rfc7396) | | 否 | `JSON` |
+| `patch.body.value` | `string` | 指定请求体或响应体附加故障的故障内容 | | 否 | `"{"foo": "bar"}"` |
 | `duration` | `string` | 指定具体实验的持续时间 | | 是 | `30s` |
 | `scheduler` | `string` | 指定具体实验的运行时间调度规则 | | 否 | `5 * * * *` |
 
@@ -116,7 +116,7 @@ spec:
 | `replace.path` | `string` | 指定 URI 路径替换内容 | | 否 | `/api/v2/` |
 | `replace.method` | `string` | 指定请求 HTTP 方法的替换内容 | | 否 | `DELETE` |
 | `replace.queries` | `map[string]string` | 指定 URI query 的替换键值对 | | 否 | `foo: bar` |
-| `patch.queries` | `[][]string` | 指定 URI query 附加故障的附加键值对 | | 否 | `- [foo, bar]` |
+| `patch.queries` | `[][]string` | 指定 URI query 附加故障中附加的键值对 | | 否 | `- [foo, bar]` |
 
 #### Response 专用字段说明
 
