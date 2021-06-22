@@ -3,21 +3,28 @@ title: 模拟文件 I/O 故障
 sidebar_label: 模拟文件 I/O 故障
 ---
 
+本文档主要介绍如何在 Chaos Mesh 中创建 IOChaos 混沌实验。
 ## IOChaos简介
 IOChaos能够帮助你模拟文件系统故障。目前支持以下类型的故障：
 
 1. latency：为文件系统调用加入延迟
+
 2. fault：使文件系统调用返回错误
-3. attrOverride：修改文件属性
+
+3. attrOverride：修改文件属
+
 4. mistake：使文件读到或写入错误的值
 
 详细的功能介绍参见“使用yaml文件创建实验”。
 
 ## 注意事项
-1. 请确保目标Pod上没有运行 Chaos Mesh 的 Control Manager。
-2. IOChaos可能会损坏你的数据。
+
+1. 请确保目标 Pod 上没有运行 Chaos Mesh 的 Controller Manager。
+
+2. IOChaos可能会损坏你的数据，在生产环境中请谨慎使用。
 
 ## 使用 dashboard 方式创建实验
+
 1. 单击实验页面中的“新的实验”按钮进行创建实验。
 
    ![img](../static/img/create-io-chaos-on-dashborad-1.jpg)
@@ -37,6 +44,9 @@ IOChaos能够帮助你模拟文件系统故障。目前支持以下类型的故�
    ![image-20210429155313162](../static/img/create-io-chaos-on-dashborad-5.jpg)
 
 ## 使用 yaml 方式创建实验
+
+1. 将实验配置写入到文件 `iochaos.yaml` 中，内容如下所示：
+
 ### latency 配置文件示例
 
 ```yaml
@@ -57,6 +67,8 @@ spec:
   percent: 50
   duration: '400s'
 ```
+
+该实验配置可以使得 `/var/run/etcd` 目录下的所有文件系统操作（包括读，写，列出目录内容等）产生100毫秒延迟。
 
 ### fault 配置文件示例
 
@@ -79,6 +91,8 @@ spec:
   duration: "400s"
 ```
 
+该实验配置可以使得 `/var/run/etcd` 目录下的所有文件系统操作有 50% 的概率发生错误，并返回错误码 5 (Input/output error)。
+
 ### attrOverride 配置文件示例
 
 ```yaml
@@ -100,6 +114,8 @@ spec:
   percent: 10
   duration: "400s"
 ```
+
+该实验配置可以使得 `/var/run/etcd` 目录下的所有文件系统操作将有 10% 的概率使目标文件的权限变为 72 （即八进制下的110），这将使得文件只能由拥有者与其所在的组执行，无权进行其他操作。
 
 ### mistake 配置文件示例
 ```yaml
@@ -127,13 +143,22 @@ spec:
   duration: "400s"
 ```
 
+该实验配置可以使得 `/var/run/etcd` 目录下的读写操作将有 10% 的概率将发生错误。其中以字节为单位，最大长度为 10 的 1 处随机位置将被替换为 0 。
+
+2. 使用 kubectl 创建实验，命令如下：
+
+   ```bash
+   kubectl apply -f iochaos.yaml
+   ```
+
 ### 字段说明
 #### 通用字段
 |参数|类型|说明|默认值|是否必填|示例|
 |---|---|---|---|---|---|
 |action|string|表示具体的故障类型，仅支持latency、fault、attrOverride、mistake||是|latency|
-|mode|string|表示运行实验时候的运行方式，支持one、all、fixed、fixed-percent、random-random-max-percent||是|one|
-|value|string|取决与mode的取值，为mode提供参数||否|2|
+|mode|string|指定实验的运行方式，可选择的方式包括：`one`（表示随机选出一个符合条件的 Pod）、`all`（表示选出所有符合条件的 Pod）、`fixed`（表示选出指定数量且符合条件的 Pod）、`fixed-percent`（表示选出占符合条件的 Pod 中指定百分比的 Pod）、`random-max-percent`（表示选出占符合条件的 Pod 中不超过指定百分比的 Pod）|无|是|one|
+|selector|struct|指定注入故障的目标 Pod，详情请参考[定义实验范围](./define-chaos-experiment-scope.md)|无|是||
+|value|string|取决与 `mode` 的配置，为 `mode` 提供对应的参数。例如，当你将 `mode` 配置为 `fixed-percent` 时，`value` 用于指定 Pod 的百分比||否|2|
 |volumePath|string|volume在目标容器内的挂载点，必须为挂载的根目录||是|/var/run/etcd|
 |path|string|注入错误的生效范围，可以是通配符，也可以是单个文件|默认对所有文件生效|否|/var/run/etcd/**/*|
 |methods|string[]|需要注入故障的文件系统调用类型，具体支持的类型见附录A|所有类型|否|READ|
