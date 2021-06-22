@@ -23,7 +23,7 @@ JVMChaos 能向目标容器中的 JVM 注入故障，适用于任何使用 JVM �
 - 在为命名空间配置 MutatingAdmissionWebhook 之前已经存在 Pod，不会受到 JVMChaos 影响。
 - 命名空间下的所有容器中的 JVM 都会在启动阶段加载 java agent，VMChaos 在被删除后也不会卸载 java agent。若考虑到 java agent 可能对程序行为或性能带来的影响，期望清理 java agnet，请将工作负载移出该命名空间。
 
-另外 JVM 目前无法通过 Chaos Dashboard 创建。
+另外，目前无法通过 Chaos Dashboard 创建 JVMChaos。
 
 ## 使用 YAML 方式创建实验
 
@@ -156,7 +156,7 @@ hello chaos mesh!
 |---|---|---|---|---|---|
 |action|string|表示具体的故障类型，支持 delay、return、script、cfl、oom、ccf、tce、cpf、tde、tpf。|无|是|return|
 |mode|string|表示选择 Pod 的方式，支持 one、all、fixed、fixed-percent、random-max-percent。|无|是|one|
-|value|string|取决与 mode 的取值，为 mode 提供参数|无|否|2|
+|value|string|取决于 mode 的取值，为 mode 提供参数|无|否|2|
 |target|string|传递给 `chaosblade-exec-jvm` 的参数，代表 JVMChaos 的目标，支持 servlet、psql、jvm、jedis、http、dubbo、rocketmq、tars、mysql、druid、redisson、rabbitmq、mongodb。|无|是|jvm|
 |flags|map[string]string|传递给 `chaosblade-exec-jvm` 的参数，代表 action 的 flags|无|否||
 |matchers|map[string]string|传递给 `chaosblade-exec-jvm` 的参数，代表注入点的匹配方式|无|否||
