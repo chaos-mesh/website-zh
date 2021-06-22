@@ -7,19 +7,19 @@ sidebar_label: 模拟网络故障
 
 ## 注意事项
 
-请确保 Linux 内核拥有 NET_SCH_NETEM 模块。对于 CentOS 可以通过 kernel-modules-extra 包安装，大部分其他发行版已默认安装相应模块。
+请确保 Linux 内核拥有 请确保 Linux 内核拥有 NET_SCH_NETEM 模块。对于 CentOS，可以通过 kernel-modules-extra 包安装该模块，大部分其他发行版已默认安装相应模块。
 
 ## 使用命令行模式创建网络故障实验
 
 本节介绍如何在命令行模式创建网络故障实验。
 
-在创建网络故障实验前，可运行以下命令查看 Chaosd 支持的网络故障类型：
+在创建网络故障实验前，可以运行以下命令查看 Chaosd 支持的网络故障类型：
 
 ```bash
 chaosd attack network --help
 ```
 
-输出如下所示：
+输出结果如下所示：
 
 ```bash
 Network attack related commands
@@ -46,13 +46,13 @@ Use "chaosd attack network [command] --help" for more information about a comman
 
 ### 网络包错误
 
-运行以下命令可查看模拟网络包错误场景支持的配置：
+可以运行以下命令，查看模拟网络包错误场景支持的配置：
 
 ```bash
 chaosd attack network corrupt --help
 ```
 
-输出如下所示：
+输出结果如下所示：
 
 ```bash
 corrupt network packet
@@ -84,18 +84,18 @@ Global Flags:
 | egress-port | e        | 仅影响到指定目的端口的出口流量，仅当 protocol 为 tcp 或 udp 时配置 | string 类型，使用 "," 分隔指定的端口或者端口范围，如 "80,8001:8010"         |
 | hostname    | H        | 只影响到指定的主机名                                               | string 类型，如 "chaos-mesh.org"                                            |
 | ip          | i        | 只影响到指定的 IP 地址                                             | string 类型，如 "123.123.123.123"                                           |
-| protocol    | p        | 只影响指定的 IP 协议                                               | string 类型，支持协议类型包括：tcp， udp，icmp，all（表示影响所有网络协议） |
+| protocol    | p        | 只影响指定的 IP 协议                                               | string 类型，支持协议类型包括：tcp、 udp、icmp、all（表示影响所有网络协议） |
 | source-port | s        | 仅影响到指定目的端口的入口流量，仅当 protocol 为 tcp 或 udp 时配置 | string 类型，使用 "," 分隔指定的端口或者端口范围，如 "80,8001:8010"         |
 
 ### 网络包延迟
 
-运行以下命令可查看模拟网络延迟场景支持的配置：
+可以运行以下命令，查看模拟网络延迟场景支持的配置：
 
 ```bash
 chaosd attack network delay --help
 ```
 
-输出如下所示：
+输出结果如下所示：
 
 ```bash
 delay network
@@ -130,18 +130,18 @@ Global Flags:
 | ip          | i        | 只影响到指定的 IP 地址                                             | string 类型，如 "123.123.123.123"                                           |
 | jitter      | j        | 延迟时间的变化范围                                                 | string 类型，可使用的时间单位包括：ns、us (µs)、ms、s、m、h，如 "1ms"       |
 | latency     | l        | 表示延迟的时间长度                                                 | string 类型，可使用的时间单位包括：ns、us (µs)、ms、s、m、h，如 "1ms"       |
-| protocol    | p        | 只影响指定的 IP 协议                                               | string 类型，支持协议类型包括：tcp， udp，icmp，all（表示影响所有网络协议） |
+| protocol    | p        | 只影响指定的 IP 协议                                               | string 类型，支持协议类型包括：tcp、 udp、icmp、all（表示影响所有网络协议） |
 | source-port | s        | 仅影响到指定目的端口的入口流量，仅当 protocol 为 tcp 或 udp 时配置 | string 类型，使用 "," 分隔指定的端口或者端口范围，如 "80,8001:8010"         |
 
 ### 网络包重复
 
-运行以下命令可查看模拟网络包重复场景支持的配置：
+可以运行以下命令，查看模拟网络包重复场景支持的配置：
 
 ```bash
 chaosd attack network duplicate --help
 ```
 
-输出如下所示：
+输出结果如下所示：
 
 ```bash
 duplicate network packet
@@ -174,18 +174,18 @@ Global Flags:
 | hostname    | H        | 只影响到指定的主机名                                               | string 类型，如 "chaos-mesh.org"                                            |
 | ip          | i        | 只影响到指定的 IP 地址                                             | string 类型，如 "123.123.123.123"                                           |
 | percent     | 无       | 网络包重复的比例                                                   | int 类型，取值范围为 0 到 100，表示百分比（10 表示 10%），默认值为 1        |
-| protocol    | p        | 只影响指定的 IP 协议                                               | string 类型，支持协议类型包括：tcp， udp，icmp，all（表示影响所有网络协议） |
+| protocol    | p        | 只影响指定的 IP 协议                                               | string 类型，支持协议类型包括：tcp、 udp、icmp、all（表示影响所有网络协议） |
 | source-port | s        | 仅影响到指定目的端口的入口流量，仅当 protocol 为 tcp 或 udp 时配置 | string 类型，使用 "," 分隔指定的端口或者端口范围，如 "80,8001:8010"         |
 
 ### 网络包丢失
 
-运行以下命令可查看模拟网络包丢失场景支持的配置：
+可以运行以下命令，查看模拟网络包丢失场景支持的配置：
 
 ```bash
 chaosd attack network loss --help
 ```
 
-输出如下所示：
+输出结果如下所示：
 
 ```bash
 loss network packet
@@ -218,7 +218,7 @@ Global Flags:
 | hostname    | H        | 只影响到指定的主机名                                               | string 类型，如 "chaos-mesh.org"                                            |
 | ip          | i        | 只影响到指定的 IP 地址                                             | string 类型，如 "123.123.123.123"                                           |
 | percent     | 无       | 网络丢包的比例                                                     | int 类型，取值范围为 0 到 100，表示百分比（10 表示 10%），默认值为 1        |
-| protocol    | p        | 只影响指定的 IP 协议                                               | string 类型，支持协议类型包括：tcp， udp，icmp，all（表示影响所有网络协议） |
+| protocol    | p        | 只影响指定的 IP 协议                                               | string 类型，支持协议类型包括：tcp、 udp、icmp、all（表示影响所有网络协议） |
 | source-port | s        | 仅影响到指定目的端口的入口流量，仅当 protocol 为 tcp 或 udp 时配置 | string 类型，使用 "," 分隔指定的端口或者端口范围，如 "80,8001:8010"         |
 
 ### 使用示例
@@ -229,7 +229,7 @@ Global Flags:
 chaosd attack network corrupt -d eth0 -i 172.16.4.4 --percent 50
 ```
 
-输出如下所示：
+输出结果如下所示：
 
 ```bash
 Attack network successfully, uid: 4eab1e62-8d60-45cb-ac85-3c17b8ac4825
@@ -241,7 +241,7 @@ Attack network successfully, uid: 4eab1e62-8d60-45cb-ac85-3c17b8ac4825
 chaosd attack network delay -d eth0 -i 172.16.4.4 -l 10ms
 ```
 
-输出如下所示：
+输出结果如下所示：
 
 ```bash
 Attack network successfully, uid: 4b23a0b5-e193-4b27-90a7-3e04235f32ab
@@ -253,7 +253,7 @@ Attack network successfully, uid: 4b23a0b5-e193-4b27-90a7-3e04235f32ab
 chaosd attack network duplicate -d eth0 -i 172.16.4.4 --percent 50
 ```
 
-输出如下所示：
+输出结果如下所示：
 
 ```bash
 Attack network successfully, uid: 7bcb74ee-9101-4ae4-82f0-e44c8a7f113c
@@ -265,7 +265,7 @@ Attack network successfully, uid: 7bcb74ee-9101-4ae4-82f0-e44c8a7f113c
 chaosd attack network loss -d eth0 -i 172.16.4.4 --percent 50
 ```
 
-输出如下所示：
+输出结果如下所示：
 
 ```bash
 Attack network successfully, uid: 1e818adf-3942-4de4-949b-c8499f120265
@@ -277,7 +277,7 @@ Attack network successfully, uid: 1e818adf-3942-4de4-949b-c8499f120265
 chaosd recover 1e818adf-3942-4de4-949b-c8499f120265
 ```
 
-输出如下所示：
+输出结果如下所示：
 
 ```bash
 Recover 1e818adf-3942-4de4-949b-c8499f120265 successfully
