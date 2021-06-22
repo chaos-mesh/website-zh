@@ -12,7 +12,7 @@ IOChaos 能够帮助你模拟文件系统故障。目前支持以下类型的故
 
 2. fault：使文件系统调用返回错误
 
-3. attrOverride：修改文件属
+3. attrOverride：修改文件属性
 
 4. mistake：使文件读到或写入错误的值
 
@@ -233,7 +233,7 @@ spec:
   |maxOccurrences|int|错误在每一次操作中最多出现次数||是|1|
   |maxLength|int|每次错误的最大长度（单位为字节）||是|1|
 
-:::warn 警告
+:::warning 警告
   不推荐在除了 READ 和 WRITE 之外的文件系统调用上使用 mistake。这可能会导致预期之外的结果，包括但不限于文件系统损坏、程序崩溃等。
 :::
 
