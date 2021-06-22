@@ -52,7 +52,36 @@ kubectl apply -f sidecar.yaml
 
 ### 2. 创建被测应用
 
-这里使用 [jvm-chaos-demo](https://github.com/chaos-mesh/jvm-chaos-demo) 作为被测应用，是一个简单的 Spring Boot 应用。 建立应用 Deployment:
+这里使用 [jvm-chaos-demo](https://github.com/chaos-mesh/jvm-chaos-demo) 作为被测应用，是一个简单的 Spring Boot 应用。 被测应用定义在 `example/jvm/app.yaml` 中，内容如下：
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: springboot-jvmchaos-demo
+  namespace: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: springboot-jvmchaos-demo
+  template:
+    metadata:
+      annotations:
+        admission-webhook.chaos-mesh.org/request: jvmchaos-sidecar
+      creationTimestamp: null
+      labels:
+        app: springboot-jvmchaos-demo
+    spec:
+      containers:
+      - image: 'gallardot/chaosmesh-jvmchaos-sample:latest'
+        imagePullPolicy: IfNotPresent
+        name: springboot-jvmchaos-demo
+```
+
+其中值为 `admission-webhook.chaos-mesh.org/request: jvmchaos-sidecar` 的 `annotation` 与步骤 1 `sidecar.yaml` 中 `ConfigMap` 的名称对应。
+
+建立应用 Deployment:
 
 ```shell
 kubectl apply -f app.yaml
