@@ -3,6 +3,8 @@ title: 模拟网络故障
 sidebar_label: 模拟网络故障
 ---
 
+本文档介绍如何在 Chaos Mesh 中利用 NetworkChaos 模拟网络故障。
+
 ## NetworkChaos 介绍
 
 NetworkChaos 用于模拟集群中网络故障的场景，目前支持以下几种类型：
@@ -16,7 +18,7 @@ NetworkChaos 用于模拟集群中网络故障的场景，目前支持以下几�
 1. 请在进行网络注入的过程中保证 Controller Manager 与 Chaos Daemon 之间的连接通畅，否则将无法恢复。
 2. 如果使用 Net Emulation 功能，请确保 Linux 内核拥有 NET_SCH_NETEM 模块。对于 CentOS 可以通过 kernel-modules-extra 包安装，大部分其他发行版已默认安装相应模块。
 
-## 使用 dashboard 方式创建实验
+## 使用 Dashboard 方式创建实验
 
 <!-- TODO -->
 
@@ -45,7 +47,7 @@ spec:
     jitter: '0ms'
 ```
 
-该配置将令选中 Pod 内的网络连接产生 10ms 的延迟。除了注入延迟以外，Chaos Mesh 还支持注入丢包、乱序等功能，详见[字段说明](#字段说明)
+该配置将令选中 Pod 内的网络连接产生 10 毫秒的延迟。除了注入延迟以外，Chaos Mesh 还支持注入丢包、乱序等功能，详见[字段说明](#字段说明)
 
 2. 使用 `kubectl` 创建实验，命令如下：
 
@@ -80,7 +82,7 @@ spec:
         'app': 'app2'
 ```
 
-该配置将阻止从 `app1` 向 `app2` 建立的连接。direction 字段可以选择 to, from, both，详见[字段说明](#字段说明)。
+该配置将阻止从 `app1` 向 `app2` 建立的连接。`direction` 字段的值可以选择 `to`，`from` 及 `both`，详见[字段说明](#字段说明)。
 
 2. 使用 `kubectl` 创建实验，命令如下：
 
@@ -109,7 +111,7 @@ spec:
     rate: '1mbps'
 ```
 
-该配置将限制 app1 的带宽为 1mbps.
+该配置将限制 `app1` 的带宽为 1 mbps。
 
 2. 使用 `kubectl` 创建实验，命令如下：
 
@@ -119,15 +121,11 @@ kubectl apply -f ./network-bandwidth.yaml
 
 ### 字段说明
 
-| 参数      | 类型     | 说明                                                                                                                           | 默认值 | 是否必填 | 示例      |
-| --------- | -------- | ------------------------------------------------------------------------------------------------------------------------------ | ------ | -------- | --------- |
-| action    | string   | 表示具体的故障类型，netem,delay,loss,duplicate,corrupt 对应 net emulation 类型；partition 表示网络分区；bandwidth 表示限制带宽 | 无     | 是       | partition |
-| mode      | string   | 表示运行实验时候的运行方式，支持 one、all、fixed、fixed-percent、random-max-percent                                            | 无     | 是       | one       |
-| value     | string   | 取决与 mode 的取值，为 mode 提供参数                                                                                           | 无     | 否       | 2         |
-| selector  | struct   | 指定注入故障的目标 pod，可以参考[文档](./define-chaos-experiment-scope.md)                                                     | 无     | 是       |           |
-| duration  | string   | 指定具体实验的持续时间                                                                                                         | 无     | 是       | 30s       |
-| target    | Selector | 与 direction 组合使用，使得 Chaos 只对部分包生效                                                                               | 无     | 否       |           |
-| direction | enum     | 值为 from,to 或 both。用于指定选出来自 target 的包，发往 target 包，还是全都选中                                               | to     | 否       | both      |
+| 参数      | 类型     | 说明                                                                                                                               | 默认值 | 是否必填 | 示例      |
+| --------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------ | -------- | --------- |
+| action    | string   | 表示具体的故障类型。netem，delay，loss，duplicate，corrupt 对应 net emulation 类型；partition 表示网络分区；bandwidth 表示限制带宽 | 无     | 是       | partition |
+| target    | Selector | 与 direction 组合使用，使得 Chaos 只对部分包生效                                                                                   | 无     | 否       |           |
+| direction | enum     | 值为 from，to 或 both。用于指定选出来自 target 的包，发往 target 包，还是全都选中                                                  | to     | 否       | both      |
 
 针对不同的 `action`，还有不同的配置项可以填写。
 
@@ -198,7 +196,7 @@ rnd = (value * ((1ull<<32) - corr_plus_one) + last_rnd * corr_plus_one) >> 32;
 | corrupt     | string | 表示包错误发生的概率                         | 0      | 否       | 0.5  |
 | correlation | string | 表示包错误发生的概率与前一次是否发生的相关性 | 0      | 否       | 0.5  |
 
-对于 `reorder`, `loss`, `duplicate`, `corrupt` 这些偶发事件，`correlation` 则更为复杂。具体模型描述在 [NetemCLG](http://netgroup.uniroma2.it/twiki/bin/view.cgi/Main/NetemCLG) 。
+对于 `reorder`，`loss`，`duplicate`，`corrupt` 这些偶发事件，`correlation` 则更为复杂。具体模型描述参考 [NetemCLG](http://netgroup.uniroma2.it/twiki/bin/view.cgi/Main/NetemCLG) 。
 
 #### Bandwidth
 
