@@ -6,12 +6,14 @@ sidebar_label: chaosctl
 chaosctl 是一个用于辅助调试 Chaos Mesh 的工具。我们希望利用 chaosctl 简化开发调试新 chaos 类型，以及提交 issue 相关日志的流程。
 
 ## 获取 chaosctl
+
 我们为 Linux 提供了可执行文件。你可以直接下载 chaosctl：
+
 ```bash
 curl -sSL https://mirrors.chaos-mesh.org/latest/chaosctl
 ```
 
-使用 Windows 或 macOS 的用户，可以从源代码自行编译。推荐使用 go 1.15 以上版本进行编译。具体步骤如下：
+如果你使用 Windows 或 macOS，可以自行从源代码编译。推荐使用 Go 1.15 以上版本进行编译。具体步骤如下：
 
 1. 将 Chaos Mesh 克隆至本地
 
