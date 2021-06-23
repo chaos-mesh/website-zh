@@ -5,7 +5,7 @@ sidebar_label: 模拟进程故障
 
 ## 模拟进程故障
 
-该功能通过kill的golang接口模拟进程被终止或暂停。
+该功能通过 kill 的 golang 接口模拟进程被终止或暂停。
 
 ### 使用命令行模式创建实验
 
@@ -15,7 +15,7 @@ sidebar_label: 模拟进程故障
 chaosd attack process -h
 ```
 
-输出如下所示：
+输出结果如下所示：
 
 ```bash
 Process attack related commands
@@ -42,7 +42,7 @@ Use "chaosd attack process [command] --help" for more information about a comman
 chaosd attack process kill -h
 ```
 
-输出如下所示：
+输出结果如下所示：
 
 ```bash
 kill process, default signal 9
@@ -65,7 +65,7 @@ Global Flags:
 chaosd attack process stop -h
 ```
 
-输出如下所示：
+输出结果如下所示：
 
 ```bash
 stop process, this action will stop the process with SIGSTOP
@@ -83,14 +83,14 @@ Global Flags:
 
 #### 配置说明
 
-##### 模拟进程被终止相关配置说明：
+##### 模拟进程被终止相关配置说明
 
 | 配置项  | 配置缩写 | 说明                                 | 值                                                           |
 | :------ | :------- | :----------------------------------- | :----------------------------------------------------------- |
-| process | p        | 所需要杀死进程的名字或者进程的标识符 | string 类型，默认为""                                        |
-| signal  | s        | 所提供的进程信号值                   | int 类型，默认为 9。目前只支持 SIGKILL 、 SIGTERM 和 SIGSTOP 三种信号值。 |
+| process | p        | 所需要杀死进程的名字或者进程的标识符 | string 类型，默认为 ""                                        |
+| signal  | s        | 所提供的进程信号值                   | int 类型，默认为 9。目前只支持 SIGKILL、SIGTERM 和 SIGSTOP 三种信号值。 |
 
-##### 模拟进程被暂停相关配置说明：
+##### 模拟进程被暂停相关配置说明
 
 | 配置项  | 配置缩写 | 说明                                 | 值                    |
 | :------ | :------- | :----------------------------------- | :-------------------- |
@@ -98,26 +98,26 @@ Global Flags:
 
 #### 示例
 
-##### 模拟进程被终止：
+##### 模拟进程被终止
 
 ```bash
 chaosd attack process kill python
 ```
 
-输出如下所示：
+输出结果如下所示：
 
 ```bash
 chaosd attack process kill -p python
 Attack process python successfully, uid: 10e633ac-0a37-41ba-8b4a-cd5ab92099f9
 ```
 
-##### 模拟进程被暂停：
+##### 模拟进程被暂停
 
 ```bash
 chaosd attack process stop python
 ```
 
-输出如下所示：
+输出结果如下所示：
 
 ```bash
 chaosd attack process stop -p python
