@@ -59,7 +59,10 @@ stringData:
 4. 提交实验。
 
 ## 使用 YAML 方式创建实验
+
 ### node-stop 配置文件示例
+
+1. 将实验配置写入到文件 `gcpchaos-node-stop.yaml` 中，内容如下所示：
 
 ```yaml
 apiVersion: chaos-mesh.org/v1alpha1
@@ -78,9 +81,17 @@ spec:
 
 依据此配置示例，Chaos Mesh 将向指定的 GCP 实例中注入 node-stop 故障，使该 GCP 实例将在 5 分钟时间内处于不可用的状态。
 
-查看更多关于停止 GCP 实例的消息，可以参考 [停止 GCP 实例](https://cloud.google.com/compute/docs/instances/stop-start-instance)。
+查看更多关于停止 GCP 实例的信息，可以参考 [停止 GCP 实例](https://cloud.google.com/compute/docs/instances/stop-start-instance)。
+
+2. 使用 kubectl 创建实验，命令如下：
+
+```bash
+   kubectl apply -f gcpchaos-node-stop.yaml
+```
 
 ### node-reset 配置文件示例
+
+1. 将实验配置写入到文件 `gcpchaos-node-reset.yaml` 中，内容如下所示：
 
 ```yaml
 apiVersion: chaos-mesh.org/v1alpha1
@@ -99,9 +110,17 @@ spec:
 
 依据此配置示例，Chaos Mesh 将向指定的 GCP 实例中注入 node-reset 故障，使该 GCP 实例将重置一次。
 
-查看更多关于重置 GCP 实例的消息, 可以参考 [重置 GCP 实例](https://cloud.google.com/compute/docs/instances/stop-start-instance#resetting_an_instance)。
+查看更多关于重置 GCP 实例的信息, 可以参考 [重置 GCP 实例](https://cloud.google.com/compute/docs/instances/stop-start-instance#resetting_an_instance)。
+
+2. 使用 kubectl 创建实验，命令如下：
+
+```bash
+   kubectl apply -f gcpchaos-node-reset.yaml
+```
 
 ### disk-loss 配置文件示例
+
+1. 将实验配置写入到文件 `gcpchaos-disk-loss.yaml` 中，内容如下所示：
 
 ```yaml
 apiVersion: chaos-mesh.org/v1alpha1
@@ -121,7 +140,13 @@ spec:
 
 依据此配置示例，Chaos Mesh 将向指定的 GCP 实例中注入 disk-loss 故障，使该 GCP 实例在 5 分钟内与指定存储设备分离。
 
-查看更多关于分离 GCP 存储设备的消息, 可以参考 [分离 GCP 存储](https://cloud.google.com/compute/docs/reference/rest/v1/instances/detachDisk)。
+查看更多关于分离 GCP 存储设备的信息, 可以参考 [分离 GCP 存储](https://cloud.google.com/compute/docs/reference/rest/v1/instances/detachDisk)。
+
+2. 使用 kubectl 创建实验，命令如下：
+
+```bash
+   kubectl apply -f gcpchaos-disk-loss.yaml
+```
 
 ### 字段说明
 
@@ -132,7 +157,7 @@ spec:
 |action|string|表示具体的故障类型，仅支持 node-stop、node-reset、disk-loss|ec2-stop|是|node-stop|
 |mode|string|指定实验的运行方式，可选择的方式包括：`one`（表示随机选出一个符合条件的 Pod）、`all`（表示选出所有符合条件的 Pod）、`fixed`（表示选出指定数量且符合条件的 Pod）、`fixed-percent`（表示选出占符合条件的 Pod 中指定百分比的 Pod）、`random-max-percent`（表示选出占符合条件的 Pod 中不超过指定百分比的 Pod）|无|是|`one`|
 |value|string|取决与 `mode` 的配置，为 `mode` 提供对应的参数。例如，当你将 `mode` 配置为 `fixed-percent` 时，`value` 用于指定 Pod 的百分比。|无|否|2|
-|secretName|string|指定存储 AWS 认证信息的 Kubernetes Secret 名字|无|否|cloud-key-secret|
+|secretName|string|指定存储 GCP 认证信息的 Kubernetes Secret 名字|无|否|cloud-key-secret|
 |project|string|指定 GCP 项目名|无|是|your-project|
 |zone|string|指定 GCP 实例区域|无|是|us-central1-a|
 |instance|string|指定 GCP 实例的 ID|无|是|your-gcp-instance-id|
