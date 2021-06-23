@@ -26,9 +26,9 @@ HTTPChaos 详细的配置介绍参见 [YAML 配置文件](#yaml-配置文件)部
 
 ## 创建实验
 
-### YAML 配置文件
-
 目前只支持使用 YAML 配置文件创建 HTTPChaos 实验。以配置文件名 `example.yaml` 为例，使用 `kubectl` 命令 `kubectl apply -f example.yaml` 即可创建实验。
+
+### YAML 配置文件
 
 每次创建实验前，你需要准备好故障的 YAML 配置文件。本节提供 YAML 配置文件示例，以及对文件中的字段进行介绍。
 
