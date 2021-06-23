@@ -27,23 +27,23 @@ Chaos Mesh 提供的 TimeChaos 实验类型可用于模拟时间偏移的场景�
 
 ## 使用 YAML 方式创建实验
 
-1. 将实验配置写入到文件中 `time-shift.yaml`，内容如下所示：
+1. 将实验配置写入到 YAML 配置文件中。本文档以 `time-shift.yaml` 文件为例，内容如下所示：
 
-```yaml
-apiVersion: chaos-mesh.org/v1alpha1
-kind: TimeChaos
-metadata:
-  name: time-shift-example
-  namespace: chaos-testing
-spec:
-  mode: one
-  selector:
-    labelSelectors:
-      'app': 'app1'
-  timeOffset: '-10m100ns'
-```
+   ```yaml
+   apiVersion: chaos-mesh.org/v1alpha1
+   kind: TimeChaos
+   metadata:
+     name: time-shift-example
+     namespace: chaos-testing
+   spec:
+     mode: one
+     selector:
+       labelSelectors:
+         'app': 'app1'
+     timeOffset: '-10m100ns'
+   ```
 
-该实验配置会使选中 Pod 中进程的时间向前偏移 10 分钟 100 纳秒
+   该实验配置会使指定 Pod 中进程的时间向前偏移 10 分钟 100 纳秒。
 
 2. 准备好配置文件后，使用 `kubectl` 创建实验，命令如下：
 
