@@ -43,7 +43,7 @@ IOChaos 能够帮助你模拟文件系统故障。目前支持以下类型的故
 
 4. 提交实验。
 
-   ![提交试验](../static/img/create-io-chaos-on-dashborad-5.jpg)
+   ![提交实验](../static/img/create-io-chaos-on-dashborad-5.jpg)
 
 ## 使用 YAML 文件创建实验
 
@@ -237,7 +237,6 @@ spec:
 :::warning 警告
   不推荐在除了 READ 和 WRITE 之外的文件系统调用上使用 mistake 错误。这可能会导致预期之外的结果，包括但不限于文件系统损坏、程序崩溃等。
 :::
-
 
 ## 本地调试
 
