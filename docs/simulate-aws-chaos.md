@@ -41,9 +41,9 @@ stringData:
 
 :::note 注意
 
-## 使用前提
-1. 请确保已经安装了 dashboard 。
-2. 可以通过**kubectl port-forward**方式访问 dashboard ：
+在使用 Dashboard 方式创建实验之前，请确保：
+1. 已经安装了 Dashboard。
+2. 可以通过 **kubectl port-forward** 方式访问 Dashboard：
    ```bash
     kubectl port-forward -n chaos-testing svc/chaos-dashboard 2333:2333
    ```
@@ -62,7 +62,10 @@ stringData:
 4. 提交实验。
 
 ## 使用 YAML 方式创建实验
+
 ### ec2-stop 配置文件示例
+
+1. 将实验配置写入到文件 `awschaos-ec2-stop.yaml` 中，内容如下所示：
 
 ```yaml
 apiVersion: chaos-mesh.org/v1alpha1
@@ -80,9 +83,17 @@ spec:
 
 依据此配置示例，Chaos Mesh 将向指定的 EC2 实例中注入 ec2-stop 故障，使该 EC2 实例将在 5 分钟时间内处于不可用的状态。
 
-查看更多关于停止 EC2 实例的消息，可以参考 [停止和启动 EC2 实例](https://docs.aws.amazon.com/zh_cn/AWSEC2/latest/UserGuide/Stop_Start.html)。
+如需查看更多关于停止 EC2 实例的信息，可以参考 [停止和启动 EC2 实例](https://docs.aws.amazon.com/zh_cn/AWSEC2/latest/UserGuide/Stop_Start.html)。
+
+2. 使用 kubectl 创建实验，命令如下：
+
+```bash
+   kubectl apply -f awschaos-ec2-stop.yaml
+```
 
 ### ec2-restart 配置文件示例
+
+1. 将实验配置写入到文件 `awschaos-ec2-restart.yaml` 中，内容如下所示：
 
 ```yaml
 apiVersion: chaos-mesh.org/v1alpha1
@@ -99,9 +110,17 @@ spec:
 
 依据此配置示例，Chaos Mesh 将向指定的 EC2 实例中注入 ec2-restart 故障，使该 EC2 实例将重启一次。
 
-查看更多关于重启 EC2 实例的消息, 可以参考[重启实例](https://docs.aws.amazon.com/zh_cn/AWSEC2/latest/UserGuide/ec2-instance-reboot.html)。
+如需查看更多关于重启 EC2 实例的信息，可以参考[重启实例](https://docs.aws.amazon.com/zh_cn/AWSEC2/latest/UserGuide/ec2-instance-reboot.html)。
+
+2. 使用 kubectl 创建实验，命令如下：
+
+```bash
+   kubectl apply -f awschaos-ec2-restart.yaml
+```
 
 ### detach-volume 配置文件示例
+
+1. 将实验配置写入到文件 `awschaos-detach-volume.yaml` 中，内容如下所示：
 
 ```yaml
 apiVersion: chaos-mesh.org/v1alpha1
@@ -123,6 +142,11 @@ spec:
 
 查看更多关于分离 Amazon EBS 卷的消息, 可以参考[分离 Amazon EBS 卷](https://docs.aws.amazon.com/zh_cn/AWSEC2/latest/UserGuide/ebs-detaching-volume.html)。
 
+2. 使用 kubectl 创建实验，命令如下：
+
+```bash
+   kubectl apply -f awschaos-detach-volume.yaml
+```
 
 ### 字段说明
 
