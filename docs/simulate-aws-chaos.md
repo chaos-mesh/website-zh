@@ -47,7 +47,7 @@ stringData:
    ```bash
     kubectl port-forward -n chaos-testing svc/chaos-dashboard 2333:2333
    ```
-   接着你可以在浏览器通过[`http://localhost:2333`](http://localhost:2333)访问 dashboard 。
+   接着你可以在浏览器通过 [`http://localhost:2333`](http://localhost:2333)访问 Dashboard 。
 
 :::
 
