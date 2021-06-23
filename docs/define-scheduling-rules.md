@@ -197,9 +197,9 @@ spec:
 
 ### 暂停定时任务
 
-用户可能会希望暂停混沌实验。与 `CronJob` 不同的是，暂停一个 `Schedule` 不仅仅会阻止它创建新的实验，也会暂停已创建的实验。
+与 `CronJob` 不同，暂停一个 `Schedule` 不仅仅会阻止它创建新的实验，也会暂停已创建的实验。
 
-暂停的方法是为该 `Schedule` 对象添加 `experiment.chaos-mesh.org/pause=true` 注解。可以使用 `kubectl` 命令行工具添加注解：
+如果你暂时不想再通过定时任务来创建混沌实验，需要为该 `Schedule` 对象添加 `experiment.chaos-mesh.org/pause=true` 注解。可以使用 `kubectl` 命令行工具添加注解：
 
 ```bash
 kubectl annotate -n $NAMESPACE schedule $NAME experiment.chaos-mesh.org/pause=true
