@@ -5,7 +5,7 @@ sidebar_label: 模拟磁盘故障
 
 ## 模拟磁盘故障
 
-该功能可以通过使用 [dd](https://man7.org/linux/man-pages/man1/dd.1.html)在物理机器上模拟磁盘读写负载和使用 [dd](https://man7.org/linux/man-pages/man1/dd.1.html)与[fallocate](https://man7.org/linux/man-pages/man1/fallocate.1.html)在物理机器上模拟磁盘填充。
+该功能可以通过使用 [dd](https://man7.org/linux/man-pages/man1/dd.1.html) 在物理机器上模拟磁盘读写负载和使用 [dd](https://man7.org/linux/man-pages/man1/dd.1.html)与 [fallocate](https://man7.org/linux/man-pages/man1/fallocate.1.html)在物理机器上模拟磁盘填充。
 
 ### 使用命令行模式创建实验
 
@@ -15,7 +15,7 @@ sidebar_label: 模拟磁盘故障
 chaosd attack disk -h
 ```
 
-输出如下所示：
+输出结果如下所示：
 
 ```bash
 disk attack related command
@@ -42,7 +42,7 @@ Use "chaosd attack disk [command] --help" for more information about a command.
 chaosd attack disk add-payload read -h
 ```
 
-输出如下所示：
+输出结果如下所示：
 
 ```bash
 read payload
@@ -66,7 +66,7 @@ Global Flags:
 chaosd attack disk add-payload write -h
 ```
 
-输出如下所示：
+输出结果如下所示：
 
 ```bash
 write payload
@@ -90,7 +90,7 @@ Global Flags:
 chaosd attack disk fill -h
 ```
 
-输出如下所示：
+输出结果如下所示：
 
 ```bash
 fill disk
@@ -112,43 +112,43 @@ Global Flags:
 
 #### 配置说明
 
-##### 模拟磁盘读负载相关配置说明：
+##### 模拟磁盘读负载相关的配置说明
 
 | 配置项 | 配置缩写 | 说明 | 值 |
 | :---- | :------ | :-- | :- |
-| path | p | 指定所读数据的文件路径，如果没有设置此参数，或者设置参数值为空字符串，则从目录“/”所挂载的虚拟磁盘文件读取。根据读取文件的权限不同，会需要用户使用一定的权限运行本程序。 | string 类型，默认为"" |
-| process-num | n | 指定使用多少个并发运行的 [dd](https://man7.org/linux/man-pages/man1/dd.1.html) 进程执行程序。 | uint8 类型，默认值为 1，范围为1-255 |
-| size | s | 指定读取多少数据，size 为 多个dd 读数据的总量。              |                                     |
+| path | p | 指定所读数据的文件路径。如果没有设置此参数，或者设置参数值为空字符串，则从目录“/”所挂载的虚拟磁盘文件读取。根据读取文件的权限不同，会需要用户使用一定的权限运行本程序。 | string 类型，默认为"" |
+| process-num | n | 指定使用多少个并发运行的 [dd](https://man7.org/linux/man-pages/man1/dd.1.html) 进程执行程序。 | uint8 类型，默认值为 1，范围为 1-255 |
+| size | s | 指定读取多少数据。size 为 多个 dd 读数据的总量。              |                                     |
 
 ##### 模拟磁盘写负载相关配置说明：
 
 | 配置项 | 配置缩写 | 说明 | 值 |
 | :---- | :------ | :-- | :- |
-| path | p | 指定所写数据的文件路径，如果没有设置此参数，或者设置参数值为空字符串，则会在程序执行目录下创建一个临时文件。根据写入文件的权限不同，会需要用户使用一定的权限运行本程序。 | string 类型，默认为"" |
-| process-num | n | 指定使用多少个并发运行的 [dd](https://man7.org/linux/man-pages/man1/dd.1.html) 进程执行程序。 | uint8 类型，默认值为 1，范围为1-255 |
-| size | s | 指定写入多少数据，size 为 多个dd 写数据的总量。 | string 类型，默认为""，合法形式为一个整数加一个单位，如：1M、512kB。支持的单位有 c=1, w=2, b=512, kB=1000, K=1024, MB=1000\*1000,M=1024\*1024, , GB=1000\*1000\*1000, G=1024\*1024\*1024 BYTE等， size 不能为"" |
+| path | p | 指定所写数据的文件路径。如果没有设置此参数，或者设置参数值为空字符串，则会在程序执行目录下创建一个临时文件。根据写入文件的权限不同，会需要用户使用一定的权限运行本程序。 | string 类型，默认为 "" |
+| process-num | n | 指定使用多少个并发运行的 [dd](https://man7.org/linux/man-pages/man1/dd.1.html) 进程执行程序。 | uint8 类型。默认值为 1，范围为 1-255 |
+| size | s | 指定写入多少数据，size 为 多个dd 写数据的总量。 | string 类型，默认为""，合法形式为一个整数加一个单位。例如：1M、512kB。支持的单位有 c=1、w=2、b=512、kB=1000、K=1024、MB=1000\*1000,M=1024\*1024、GB=1000\*1000\*1000、G=1024\*1024\*1024 BYTE等。size 不能为 "" 。|
 
 ##### 模拟磁盘填充相关配置说明：
 
 | 配置项    | 配置缩写 | 说明                                                         | 值                                                           |
 | :-------- | :------- | :----------------------------------------------------------- | :----------------------------------------------------------- |
-| destroy   | d        | 如果此参数为 true ，则在填充文件后立即删除填充文件           | bool 类型，默认为 false                                      |
-| fallocate | f        | 如果此参数为 true ，则使用 linux 调用 fallocate 来快速申请磁盘空间，此时 size 必须大于0。如果此参数为false，则使用 linux 调用 dd 以相对较慢速度填充磁盘。 | bool 类型，默认为 true                                       |
-| path      | p        | 指定所写数据的文件路径，如果没有设置此参数，或者设置参数值为空字符串，则会在程序执行目录下创建一个临时文件。根据写入文件的权限不同，会需要用户使用一定的权限运行本程序。 | string 类型，默认为""                                        |
-| percent   | c        | 指定填充多少百分比磁盘。                                     | string 类型，默认为 ""，可以填入 uint 类型的正整数， size 不能和 percent 都为"" |
-| size      | s        | 指定写入多少数据。                                           | string 类型，默认为""，合法形式为一个整数加一个单位，如：1M、512kB。支持的单位有 c =1, w =2, b =512, kB =1000, K =1024, MB =1000\*1000,M =1024\*1024, , GB =1000\*1000\*1000, G =1024\*1024\*1024 BYTE 等，size 不能和 percent 都为"" |
+| destroy   | d        | 如果此参数为 true ，则在填充文件后立即删除填充文件           | bool 类型，默认为 false。                                      |
+| fallocate | f        | 如果此参数为 true ，则使用 linux 调用 fallocate 来快速申请磁盘空间，此时 size 必须大于 0。如果此参数为 false，则使用 linux 调用 dd 以相对较慢速度填充磁盘。 | bool 类型，默认为 true。                                       |
+| path      | p        | 指定所写数据的文件路径。如果没有设置此参数，或者设置参数值为空字符串，则会在程序执行目录下创建一个临时文件。根据写入文件的权限不同，会需要用户使用一定的权限运行本程序。 | string 类型，默认为 ""                                        |
+| percent   | c        | 指定填充多少百分比磁盘。                                     | string 类型，默认为 ""，可以填入 uint 类型的正整数， size 不能和 percent 都为 "" |
+| size      | s        | 指定写入多少数据。                                           | string 类型，默认为""，合法形式为一个整数加一个单位。例如：1M、512kB。支持的单位有 c=1、w=2、b=512、kB=1000、K=1024、MB=1000\*1000,M=1024\*1024、GB=1000\*1000\*1000、G=1024\*1024\*1024 BYTE等。size 不能和 percent 都为 "" 。|
 
-#### 
+####
 
 #### 示例
 
-##### 模拟磁盘读负载：
+##### 模拟磁盘读负载
 
 ```bash
 chaosd attack disk add-payload read -s 1000G -n 7 -p /dev/zero
 ```
 
-输出如下所示：
+输出结果如下所示：
 
 ```bash
 andrew@LAPTOP-NUS30NQD:~/chaosd/bin$ ./chaosd attack disk add-payload read -s 1000G -n 7 -p /dev/zero
@@ -163,13 +163,13 @@ andrew@LAPTOP-NUS30NQD:~/chaosd/bin$ ./chaosd attack disk add-payload read -s 10
 Read file /dev/zero successfully, uid: 4bc9b74a-5fe2-4038-b4f2-09ae95b57694
 ```
 
-##### 模拟磁盘写负载：
+##### 模拟磁盘写负载
 
 ```bash
 chaosd attack disk add-payload write -s 2G -n 8
 ```
 
-输出如下所示：
+输出结果如下所示：
 
 ```bash
 [2021/05/20 14:28:14.452 +08:00] [INFO] [disk.go:128] ["0+0 records in\n0+0 records out\n0 bytes copied, 4.3e-05 s, 0.0 kB/s\n"]
@@ -184,13 +184,13 @@ chaosd attack disk add-payload write -s 2G -n 8
 Write file /home/andrew/chaosd/bin/example255569279 successfully, uid: e66afd86-6f3e-43a0-b161-09447ed84856
 ```
 
-##### 模拟磁盘填充：
+##### 模拟磁盘填充
 
 ```bash
 chaosd attack disk fill -c 50 -d
 ```
 
-输出如下所示：
+输出结果如下所示：
 
 ```bash
 [2021/05/20 14:30:02.943 +08:00] [INFO] [disk.go:215]
