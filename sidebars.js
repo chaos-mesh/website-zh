@@ -19,7 +19,10 @@ module.exports = {
         {
           type: 'category',
           label: '管理权限',
-          items: ['manage-roles', 'configure-protected-namespace'],
+          items: [
+            `manage-roles`,
+            `configure-enabled-namespace`,
+          ],
         },
         {
           type: 'category',
