@@ -19,7 +19,10 @@ module.exports = {
         {
           type: 'category',
           label: '管理权限',
-          items: ['manage-roles', 'configure-protected-namespace'],
+          items: [
+            `manage-roles`,
+            `configure-enabled-namespace`,
+          ],
         },
         {
           type: 'category',
@@ -73,6 +76,7 @@ module.exports = {
             'simulate-process-chaos-in-physical-nodes',
             'simulate-network-chaos-in-physical-nodes',
             'simulate-heavy-stress-in-physical-nodes',
+            'simulate-disk-pressure-in-physical-nodes',
           ],
         },
       ],
