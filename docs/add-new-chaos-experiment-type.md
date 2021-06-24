@@ -12,6 +12,8 @@ sidebar_label: 新增混沌实验类型
 - [运行混沌实验](#运行混沌实验)
 - [下一步](#下一步)
 
+一些 Kubernetes API 的相关知识对于理解你在做什么很有帮助，没有的话也没关系。
+
 ## 定义结构类型
 
 为了定义新混沌实验的结构类型, 在 API 目录中 [`api/v1alpha1`](https://github.com/chaos-mesh/chaos-mesh/tree/master/api/v1alpha1) 新建一个名为 `helloworldchaos_types.go` 的文件，写入以下内容:
@@ -114,13 +116,13 @@ type Impl struct {
 
 // Apply applies HelloWorldChaos
 func (impl *Impl) Apply(ctx context.Context, index int, records []*v1alpha1.Record, obj v1alpha1.InnerObject) (v1alpha1.Phase, error) {
-	impl.Log.Info("Hello World!")
+	impl.Log.Info("Hello world!")
 	return v1alpha1.Injected, nil
 }
 
 // Recover means the reconciler recovers the chaos action
 func (impl *Impl) Recover(ctx context.Context, index int, records []*v1alpha1.Record, obj v1alpha1.InnerObject) (v1alpha1.Phase, error) {
-	impl.Log.Info("Goodbye World!")
+	impl.Log.Info("Goodbye world!")
 	return v1alpha1.NotInjected, nil
 }
 
@@ -287,7 +289,7 @@ dashboard:
    ```
 
 ::: note 注意
-在实际使用中，你不应该将 chaos-testing 命名空间作为目标！然而 HelloworldChaos 不会做任何破坏性的事，所以这是安全的。
+在实际使用中，你不应该将 chaos-testing 命名空间作为目标！但是如果 HelloWorldChaos 没有一个目标，就无法看到效果。考虑到 HelloworldChaos 不会做任何破坏性的事，所以这是安全的。
 :::
 
 4. 运行混沌实验：
@@ -319,4 +321,6 @@ dashboard:
 
 ## 下一步
 
-恭喜你！你刚刚为 Chaos Mesh 新增了一种混沌实验。如果你在这一过程中遇到了问题，请告诉我们。如果你还想试试别的，来看看 [拓展 Chaos Daemon 接口](extend-chaos-daemon-interface.md)。
+恭喜你！你刚刚为 Chaos Mesh 新增了一种混沌实验。如果你在这一过程中遇到了问题，请告诉我们。
+
+你可能很好奇这一切是如何生效的。你可以试着看看 `controllers` 目录下的各类 `controller`，它们有自己的 README（如[controllers/common/README.md](https://github.com/chaos-mesh/chaos-mesh/blob/master/controllers/common/README.md）。你可以通过这些README了解每个controller的功能，也可以阅读[Chaos Mesh 架构](architecture.md)了解 Chaos Mesh 背后的原理。如果你还想动手试试别的，来看看 [拓展 Chaos Daemon 接口](extend-chaos-daemon-interface.md)。
