@@ -170,9 +170,7 @@ kubectl apply -f ./network-bandwidth.yaml
 1. 首先生成一个分布与上一个值有关的随机数：
 
 ```c
-value = prandom_u32();
-corr_plus_one = corr + 1;
-rnd = (value * ((1ull<<32) - corr_plus_one) + last_rnd * corr_plus_one) >> 32;
+rnd = value * (1-corr) + last_rnd * corr
 ```
 
 其中 `rnd` 为这一随机数。`corr` 为填写的 `correlation`。
