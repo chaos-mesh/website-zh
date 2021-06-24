@@ -3,15 +3,15 @@ title: 模拟 GCP 故障
 sidebar_label: 模拟 GCP 故障
 ---
 
-本文档介绍如何使用 Chaos Mesh 为 GCP 节点注入故障，并提供 Chaos Dashboard 和 YAML 文件两种方式用于创建 GcpChaos 实验。
+本文档介绍如何使用 Chaos Mesh 为 GCP 节点注入故障，并提供 Dashboard 和 YAML 文件两种方式用于创建 GcpChaos 实验。
 
 ## GcpChaos 介绍
 
 GcpChaos 能够帮助你模拟指定的 GCP 实例发生故障的情景。目前，GcpChaos 支持以下类型的故障：
 
--  **Node Stop**: 使指定的 GCP 实例进入停止状态。
--  **Node Reset**: 重置指定的 GCP 实例。
--  **Disk Loss**:  从指定的 EC2 实例中卸载存储卷。
+-  **Node Stop**：使指定的 GCP 实例进入停止状态。
+-  **Node Reset**：重置指定的 GCP 实例。
+-  **Disk Loss**：从指定的 EC2 实例中卸载存储卷。
 
 ## Secret 文件
 
@@ -32,19 +32,19 @@ stringData:
 
 - **name** 表示 Kubernetes Secret 对象的名字。
 - **namespace** 表示 Kubernetes Secret 对象的命名空间。
-- **service_account** 存储 GCP 集群的服务账号，请注意，你需要对 GCP 集群的服务账号进行 [Base64](https://zh.wikipedia.org/wiki/Base64) 编码。
+- **service_account** 存储 GCP 集群的服务账号。请注意，你需要对 GCP 集群的服务账号进行 [Base64](https://zh.wikipedia.org/wiki/Base64) 编码。
 
 ## 使用 Dashboard 方式创建实验
 
 :::note 注意
 
-## 使用前提
-1. 请确保已经安装了 dashboard 。
-2. 可以通过**kubectl port-forward**方式访问 dashboard ：
+在使用 Dashboard 方式创建实验前，请确保满足以下条件：
+1. 已安装 Dashboard。
+2. 可以通过 **kubectl port-forward** 方式访问 Dashboard ：
    ```bash
     kubectl port-forward -n chaos-testing svc/chaos-dashboard 2333:2333
    ```
-   接着你可以在浏览器通过[`http://localhost:2333`](http://localhost:2333)访问 dashboard 。
+   接着你可以在浏览器通过[`http://localhost:2333`](http://localhost:2333)访问 Dashboard 。
 
 :::
 
@@ -81,7 +81,7 @@ spec:
 
 依据此配置示例，Chaos Mesh 将向指定的 GCP 实例中注入 node-stop 故障，使该 GCP 实例将在 5 分钟时间内处于不可用的状态。
 
-查看更多关于停止 GCP 实例的信息，可以参考 [停止 GCP 实例](https://cloud.google.com/compute/docs/instances/stop-start-instance)。
+查看更多关于停止 GCP 实例的信息，可以参考[停止 GCP 实例](https://cloud.google.com/compute/docs/instances/stop-start-instance)。
 
 2. 使用 kubectl 创建实验，命令如下：
 
@@ -108,9 +108,9 @@ spec:
   duration: '5m'
 ```
 
-依据此配置示例，Chaos Mesh 将向指定的 GCP 实例中注入 node-reset 故障，使该 GCP 实例将重置一次。
+依据此配置示例，Chaos Mesh 将向指定的 GCP 实例中注入 node-reset 故障，使该 GCP 实例重置一次。
 
-查看更多关于重置 GCP 实例的信息, 可以参考 [重置 GCP 实例](https://cloud.google.com/compute/docs/instances/stop-start-instance#resetting_an_instance)。
+查看更多关于重置 GCP 实例的信息，可以参考[重置 GCP 实例](https://cloud.google.com/compute/docs/instances/stop-start-instance#resetting_an_instance)。
 
 2. 使用 kubectl 创建实验，命令如下：
 
@@ -140,7 +140,7 @@ spec:
 
 依据此配置示例，Chaos Mesh 将向指定的 GCP 实例中注入 disk-loss 故障，使该 GCP 实例在 5 分钟内与指定存储设备分离。
 
-查看更多关于分离 GCP 存储设备的信息, 可以参考 [分离 GCP 存储](https://cloud.google.com/compute/docs/reference/rest/v1/instances/detachDisk)。
+查看更多关于分离 GCP 存储设备的信息，可以参考 [分离 GCP 存储](https://cloud.google.com/compute/docs/reference/rest/v1/instances/detachDisk)。
 
 2. 使用 kubectl 创建实验，命令如下：
 
