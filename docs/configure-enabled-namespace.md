@@ -10,7 +10,7 @@ sidebar_label: 配置允许混沌实验的命名空间
 Chaos Mesh 提供了以下两种方式用于控制混沌实验生效的范围：
 
 - 要配置混沌实验只在指定的命名空间内生效，你需要开启 FilterNamespace 功能（默认关闭），此功能将在全局范围内生效。开启此功能后，你可以为允许混沌实验的命名空间添加注解，其他未添加注解的命名空间则会受到保护不会被注入故障。
-- 要为单个混沌实验指定实验生效的范围，请参考 [定义实验范围](define-chaos-experiment-scope.md)。
+- 要为单个混沌实验指定实验生效的范围，请参考[定义实验范围](define-chaos-experiment-scope.md)。
 
 ## 开启 FilterNamespace 功能
 
