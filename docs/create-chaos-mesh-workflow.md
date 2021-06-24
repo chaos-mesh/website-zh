@@ -122,7 +122,7 @@ children:
   - workflow-pod-chaos
 ```
 
-`templateType: Parallel` 代表节点的类型为并行； `duration: 240s` 代表这个节点下的所有并行实验预期在 240 秒内执行完成， 否则将超时； `tasks` 中代表了将要并行执行的其他 template 的名称。
+`templateType: Parallel` 代表节点的类型为并行； `deadline: 240s` 代表这个节点下的所有并行实验预期在 240 秒内执行完成， 否则将超时； `tasks` 中代表了将要并行执行的其他 template 的名称。
 
 再例如：
 
@@ -138,7 +138,7 @@ podChaos:
       'app': 'hello-kubernetes'
 ```
 
-`templateType: PodChaos` 代表节点的类型为 PodChaos 实验； `duration: 40s` 代表当前 Chaos 实验将持续 40 秒； `podChaos` 字段是 PodChaos 实验的定义；
+`templateType: PodChaos` 代表节点的类型为 PodChaos 实验； `deadline: 40s` 代表当前 Chaos 实验将持续 40 秒； `podChaos` 字段是 PodChaos 实验的定义；
 
 与 Chaos Dashboard 相比， 通过 YAML 与 `kubectl` 创建 Workflow 会更加灵活； 你可以对串行/并行编排进行嵌套， 声明复杂的编排， 甚至可以与条件分支组合达到循环的效果。
 
