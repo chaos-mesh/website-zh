@@ -3,4 +3,30 @@ title: 检查 Workflow 状态
 sidebar_label: 检查 Workflow 状态
 ---
 
-## TODO
+## 通过 Chaos Dashboard 检查 Workflow 状态
+
+<!--TODO: 待 Chaos Dashboard 完善后补充这一部分 -->
+
+## 通过 `kubectl` 检查 Workflow 状态
+
+1. 可以执行以下命令来获取当前已经创建的 Workflow：
+
+```shell
+kubectl -n <namespace> get workflow
+```
+
+2. 可以执行以下命令来获取当前 Workflow 下的所有 WorkflowNode：
+
+```shell
+kubectl -n <namespace> get workflownode --selector="chaos-mesh.org/workflow=<workflow-name>"
+```
+
+Workflow 在执行过程中的步骤会以 WorkflowNode 这一 CustomResource 来表示。
+
+3. 可以执行以下命令来获取 WorkflowNode 的详细状态：
+
+```shell
+kubectl -n <namespace> describe workflownode <workflow-node-name>
+```
+
+例如当前节点是否执行完成、并行/串行节点的执行状态、对应的 Chaos 实验对象等。
