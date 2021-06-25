@@ -107,7 +107,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/chaos-mesh/chaos-mesh/api/v1alpha1"
-  "github.com/chaos-mesh/chaos-mesh/controllers/chaosimpl/utils"
+	"github.com/chaos-mesh/chaos-mesh/controllers/chaosimpl/utils"
 	"github.com/chaos-mesh/chaos-mesh/controllers/common"
 	"github.com/chaos-mesh/chaos-mesh/controllers/utils/chaosdaemon"
 )
@@ -115,7 +115,7 @@ import (
 type Impl struct {
 	client.Client
 	Log logr.Logger
-  decoder *utils.ContianerRecordDecoder
+	decoder *utils.ContianerRecordDecoder
 }
 
 // Apply applies HelloWorldChaos
@@ -137,7 +137,7 @@ func NewImpl(c client.Client, log logr.Logger, decoder *utils.ContianerRecordDec
 		Impl: &Impl{
 			Client: c,
 			Log:    log.WithName("helloworldchaos"),
-      decoder: decoder,
+			decoder: decoder,
 		},
 		ObjectList: &v1alpha1.HelloWorldChaosList{},
 	}
@@ -317,7 +317,7 @@ dashboard:
    2021-06-24T06:42:26.858Z        INFO    helloworldchaos Hello World!
    ```
 
-  :::Note 注意
+  :::note 注意
     `{pod-post-fix}` 是一个随机串。你可以运行 `kubectl get pod -n chaos-testing` 来查看它。
   :::
 

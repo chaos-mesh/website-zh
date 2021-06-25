@@ -79,13 +79,13 @@ hack/kind-cluster-build.sh
 kind delete cluster --name=kind
 ```
 
-> 启动 Chaos Dashboard. (非必须)
->
-> ```bash
-> cd ui && yarn
-> # 启动
-> yarn start:default # cross-env REACT_APP_API_URL=http://localhost:2333 BROWSER=none react-scripts start
-> ```
+启动 Chaos Dashboard. (非必须)
+
+```bash
+cd ui && yarn
+# 启动
+yarn start:default # cross-env REACT_APP_API_URL=http://localhost:2333 BROWSER=none react-scripts start
+```
 
 ## 下一步
 

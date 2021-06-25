@@ -5,7 +5,7 @@ sidebar_label: 拓展 Chaos Daemon 接口
 
 在[新增混沌实验类型](add-new-chaos-experiment-type.md)中，你实现了一种名为HelloWorldChaos的混沌实验，它的功能是在 Chaos Controller Manager 的日志中输出一行 "Hello world!"。为了让 HelloWorldChaos 真正有用，你还需要向 Chaos Daemon 添加接口，从而在目标 Pod 上实际制造一些混乱。
 
-::: note 注意
+:::note 注意
   一些关于 Chaos Mesh 架构的知识对于帮助你理解这一文档非常有用！试着阅读[Chaos Mesh 架构](architecture.md)。
 :::
 
@@ -184,7 +184,7 @@ func (obj *HelloWorldChaos) GetSelectorSpecs() map[string]interface{} {
    )
    ```
 
-   ::: note 注意
+   :::note 注意
      在 HelloWorldChaos 中，恢复过程什么都没有做。这是因为 HelloWorldChaos 是一个 OneShot 实验。如果你的新实验需要恢复，你应该在其中实现相关逻辑。
    :::
 
