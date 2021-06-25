@@ -89,7 +89,6 @@ kind delete cluster --name=kind
 
 ## 下一步
 
-恭喜你！你现在已经完成了 Chaos Mesh 开发的准备工作，试试我们为你提供的两个例子吧：
+恭喜你！你现在已经完成了 Chaos Mesh 开发的准备工作，试试我们为你提供的例子吧：
 
 - [新增混沌实验类型](add-new-chaos-experiment-type.md)
-- [拓展 Chaos Daemon 接口](extend-chaos-daemon-interface.md)

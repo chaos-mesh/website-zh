@@ -6,7 +6,7 @@ sidebar_label: 拓展 Chaos Daemon 接口
 在[新增混沌实验类型](add-new-chaos-experiment-type.md)中，你实现了一种名为HelloWorldChaos的混沌实验，它的功能是在 Chaos Controller Manager 的日志中输出一行 "Hello world!"。为了让 HelloWorldChaos 真正有用，你还需要向 Chaos Daemon 添加接口，从而在目标 Pod 上实际制造一些混乱。
 
 ::: note 注意
-一些关于 Chaos Mesh 架构的知识对于帮助你理解这一文档非常有用！试着读读[Chaos Mesh 架构](architecture.md)。
+  一些关于 Chaos Mesh 架构的知识对于帮助你理解这一文档非常有用！试着阅读[Chaos Mesh 架构](architecture.md)。
 :::
 
 本文档分为以下几部分
@@ -47,7 +47,7 @@ func (obj *HelloWorldChaos) GetSelectorSpecs() map[string]interface{} {
 
 为了让 Chaos Daemon 能接受 Chaos Controller Manager 的请求，需要给它们加上新的 gRPC 接口。
 
-1. 在 [pkg/chaosdaemon/pb/chaosdaemon.proto](https://github.com/chaos-mesh/chaos-mesh/blob/master/pkg/chaosdaemon/pb/chaosdaemon.proto) 中加上新的 RPC。
+1. 在 `pkg/chaosdaemon/pb/chaosdaemon.proto` 中加上新的 RPC。
 
    ```proto
    service chaosDaemon {
@@ -116,77 +116,77 @@ func (obj *HelloWorldChaos) GetSelectorSpecs() map[string]interface{} {
 
    Chaos Controller Manager 需要在应用 HelloWorldChaos 时给 Chaos Daemon 发送请求。为此，我们需要对 `controllers/chaosimpl/helloworldchaos/types.go` 稍作修改。
 
-```go
-package helloworldchaos
+   ```go
+   package helloworldchaos
 
-import (
-	"context"
+   import (
+   	"context"
 
-	"github.com/chaos-mesh/chaos-mesh/api/v1alpha1"
-	"github.com/chaos-mesh/chaos-mesh/controllers/chaosimpl/utils"
-	"github.com/chaos-mesh/chaos-mesh/controllers/common"
-	"github.com/chaos-mesh/chaos-mesh/pkg/chaosdaemon/pb"
-	"github.com/go-logr/logr"
-	"go.uber.org/fx"
-	"sigs.k8s.io/controller-runtime/pkg/client"
-)
+   	"github.com/chaos-mesh/chaos-mesh/api/v1alpha1"
+   	"github.com/chaos-mesh/chaos-mesh/controllers/chaosimpl/utils"
+   	"github.com/chaos-mesh/chaos-mesh/controllers/common"
+   	"github.com/chaos-mesh/chaos-mesh/pkg/chaosdaemon/pb"
+   	"github.com/go-logr/logr"
+   	"go.uber.org/fx"
+   	"sigs.k8s.io/controller-runtime/pkg/client"
+   )
 
-type Impl struct {
-	client.Client
-	Log     logr.Logger
-	decoder *utils.ContianerRecordDecoder
-}
+   type Impl struct {
+   	client.Client
+   	Log     logr.Logger
+   	decoder *utils.ContianerRecordDecoder
+   }
 
-// Apply applies KernelChaos
-func (impl *Impl) Apply(ctx context.Context, index int, records []*v1alpha1.Record, obj v1alpha1.InnerObject) (v1alpha1.Phase, error) {
-	impl.Log.Info("Apply helloworld chaos")
-	decodedContainer, err := impl.decoder.DecodeContainerRecord(ctx, records[index])
-	if err != nil {
-		return v1alpha1.NotInjected, err
-	}
-	pbClient := decodedContainer.PbClient
-	containerId := decodedContainer.ContainerId
+   // Apply applies KernelChaos
+   func (impl *Impl) Apply(ctx context.Context, index int, records []*v1alpha1.Record, obj v1alpha1.InnerObject) (v1alpha1.Phase, error) {
+   	impl.Log.Info("Apply helloworld chaos")
+   	decodedContainer, err := impl.decoder.DecodeContainerRecord(ctx, records[index])
+   	if err != nil {
+   		return v1alpha1.NotInjected, err
+   	}
+   	pbClient := decodedContainer.PbClient
+   	containerId := decodedContainer.ContainerId
 
-	_, err = pbClient.ExecHelloWorldChaos(ctx, &pb.ExecHelloWorldRequest{
-		ContainerId: containerId,
-	})
-	if err != nil {
-		return v1alpha1.NotInjected, err
-	}
+   	_, err = pbClient.ExecHelloWorldChaos(ctx, &pb.ExecHelloWorldRequest{
+   		ContainerId: containerId,
+   	})
+   	if err != nil {
+   		return v1alpha1.NotInjected, err
+   	}
 
-	return v1alpha1.Injected, nil
-}
+   	return v1alpha1.Injected, nil
+   }
 
-// Recover means the reconciler recovers the chaos action
-func (impl *Impl) Recover(ctx context.Context, index int, records []*v1alpha1.Record, obj v1alpha1.InnerObject) (v1alpha1.Phase, error) {
-	impl.Log.Info("Recover helloworld chaos")
-	return v1alpha1.NotInjected, nil
-}
+   // Recover means the reconciler recovers the chaos action
+   func (impl *Impl) Recover(ctx context.Context, index int, records []*v1alpha1.Record, obj v1alpha1.InnerObject) (v1alpha1.Phase, error) {
+   	impl.Log.Info("Recover helloworld chaos")
+   	return v1alpha1.NotInjected, nil
+   }
 
-func NewImpl(c client.Client, log logr.Logger, decoder *utils.ContianerRecordDecoder) *common.ChaosImplPair {
-	return &common.ChaosImplPair{
-		Name:   "helloworldchaos",
-		Object: &v1alpha1.HelloWorldChaos{},
-		Impl: &Impl{
-			Client:  c,
-			Log:     log.WithName("helloworldchaos"),
-			decoder: decoder,
-		},
-		ObjectList: &v1alpha1.HelloWorldChaosList{},
-	}
-}
+   func NewImpl(c client.Client, log logr.Logger, decoder *utils.ContianerRecordDecoder) *common.ChaosImplPair {
+   	return &common.ChaosImplPair{
+   		Name:   "helloworldchaos",
+   		Object: &v1alpha1.HelloWorldChaos{},
+   		Impl: &Impl{
+   			Client:  c,
+   			Log:     log.WithName("helloworldchaos"),
+   			decoder: decoder,
+   		},
+   		ObjectList: &v1alpha1.HelloWorldChaosList{},
+   	}
+   }
 
-var Module = fx.Provide(
-	fx.Annotated{
-		Group:  "impl",
-		Target: NewImpl,
-	},
-)
-```
+   var Module = fx.Provide(
+   	fx.Annotated{
+   		Group:  "impl",
+   		Target: NewImpl,
+   	},
+   )
+   ```
 
-::: note 注意
-在 HelloWorldChaos 中，恢复过程什么都没有做。这是因为 HelloWorldChaos 是一个 OneShot 实验。如果你的新实验需要恢复，你应该在其中实现相关逻辑。
-:::
+   ::: note 注意
+     在 HelloWorldChaos 中，恢复过程什么都没有做。这是因为 HelloWorldChaos 是一个 OneShot 实验。如果你的新实验需要恢复，你应该在其中实现相关逻辑。
+   :::
 
 ## 验证实验效果
 
@@ -270,11 +270,11 @@ var Module = fx.Provide(
      可以看到两条 `ps aux`，对应两个不同的 Pod。
 
      ::: note 注意
-     如果你的集群有多个节点，你会发现有不止一个 Chaos Daemon Pod！试着查看每一个 Chaos Daemon Pod 的日志，寻找真正被调用的那一个。
+       如果你的集群有多个节点，你会发现有不止一个 Chaos Daemon Pod！试着查看每一个 Chaos Daemon Pod 的日志，寻找真正被调用的那一个。
      :::
 
 ## 下一步
 
-你可能很好奇这一切是如何生效的。你可以试着看看 `controllers` 目录下的各类 `controller`，它们有自己的 README（如[controllers/common/README.md](https://github.com/chaos-mesh/chaos-mesh/blob/master/controllers/common/README.md）。你可以通过这些README了解每个controller的功能，也可以阅读[Chaos Mesh 架构](architecture.md)了解 Chaos Mesh 背后的原理。
+你可能很好奇这一切是如何生效的。你可以试着看看 `controllers` 目录下的各类 `controller`，它们有自己的 README（如[controllers/common/README.md](https://github.com/chaos-mesh/chaos-mesh/blob/master/controllers/common/README.md)。你可以通过这些README了解每个controller的功能，也可以阅读[Chaos Mesh 架构](architecture.md)了解 Chaos Mesh 背后的原理。
 
-你已经准备好成为一名真正的 Chaos Mesh 开发者了！到 [Chaos Mesh](https://github.com/chaos-mesh/chaos-mesh) 里找一找练手的任务吧！我们推荐你先从简单的入手，就像[这些 good first issues](https://github.com/chaos-mesh/chaos-mesh/labels/good%20first%20issue)。
+你已经准备好成为一名真正的 Chaos Mesh 开发者了！到 [Chaos Mesh](https://github.com/chaos-mesh/chaos-mesh) 里找一找练手的任务吧！我们推荐你先从简单的入手，就像这些[ good first issues](https://github.com/chaos-mesh/chaos-mesh/labels/good%20first%20issue)。

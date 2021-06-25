@@ -80,7 +80,7 @@ status:
 
 ## 注册 CRD
 
-HelloWorldChaos 是一种 Kubernetes 自定义资源。这就要求你预先在 Kubernetes API 中注册 HelloWorldChaos 的 CRD。在根目录下运行 `make yaml`， 生成的 YAML 文件位于 `config/crd/bases/chaos-mesh.org_helloworldchaos.yaml`。 为将这个 YAML 文件合并入 `manifests/crd.yaml` 中, 修改 [`kustomization.yaml`](https://github.com/chaos-mesh/chaos-mesh/blob/master/config/crd/kustomization.yaml)，在其中加入新的一行:
+HelloWorldChaos 是一种 Kubernetes 自定义资源。这就要求你预先在 Kubernetes API 中注册 HelloWorldChaos 的 CRD。在根目录下运行 `make yaml`， 生成的 YAML 文件位于 `config/crd/bases/chaos-mesh.org_helloworldchaos.yaml`。 为将这个 YAML 文件合并入 `manifests/crd.yaml` 中, 修改 `config/crd/kustomization.yaml`，在其中加入新的一行:
 
 ```yaml
 resources:
@@ -155,18 +155,18 @@ var Module = fx.Provide(
 Chaos Mesh 使用 [fx](https://github.com/uber-go/fx) 这个库来进行依赖注入。为了将实现注册进 Controller Manager，需要在 `controllers/chaosimpl/fx.go` 中加入一行：
 
 ```go
-  ...
+	...
 	gcpchaos.Module,
 	stresschaos.Module,
 	jvmchaos.Module,
 	timechaos.Module,
-  helloworldchaos.Module // 新增一行，注意处理 import
+	helloworldchaos.Module // 新增一行，注意处理 import
 ```
 
 以及在 `controllers/types/types.go` 中加入：
 ```go
-  ...
-  fx.Annotated{
+	...
+	fx.Annotated{
 		Group: "objs",
 		Target: Object{
 			Name:   "timechaos",
@@ -182,7 +182,7 @@ Chaos Mesh 使用 [fx](https://github.com/uber-go/fx) 这个库来进行依赖�
 		},
 	},
 
-  fx.Annotated{
+	fx.Annotated{
 		Group: "objs",
 		Target: Object{
 			Name:   "helloworldchaos",
@@ -220,7 +220,7 @@ kind load docker-image localhost:5000/pingcap/chaos-dashboard:latest
 
 在你部署 Chaos Mesh 之前（使用 `helm install` 或 `helm upgrade`），记得修改 helm 模板的 [`values.yaml`](https://github.com/chaos-mesh/chaos-mesh/blob/master/helm/chaos-mesh/values.yaml)，把镜像更换成你本地 Docker Registry 中的镜像。
 
-具体一点，Chaos Mesh 的模板使用 `pingcap/chaos-mesh:latest` 作为默认 Registry，你需要把它换成 `DOCKER_REGISTRY` 环境变量的值（默认为 `localhost:5000`）, 就像这样：
+Chaos Mesh 的模板使用 `pingcap/chaos-mesh:latest` 作为默认 Registry，你需要把它换成 `DOCKER_REGISTRY` 环境变量的值（默认为 `localhost:5000`）, 就像这样：
 
 ```yaml
 controllerManager:
@@ -242,13 +242,13 @@ dashboard:
    kubectl create -f manifests/crd.yaml
    ```
 
-   你可以看到 HelloWorldChaos 被创建了：
+   可以看到 HelloWorldChaos 被创建了：
 
    ```log
    customresourcedefinition.apiextensions.k8s.io/helloworldchaos.chaos-mesh.org created
    ```
 
-   你现在可以查看 HelloWorldChaos 的 CRD：
+   现在可以查看 HelloWorldChaos 的 CRD：
 
    ```bash
    kubectl get crd helloworldchaos.chaos-mesh.org
@@ -266,7 +266,7 @@ dashboard:
    kubectl get pods --namespace chaos-testing -l app.kubernetes.io/instance=chaos-mesh
    ```
 
-  :::note
+  :::note 注意
     `--set chaosDaemon.runtime=containerd --set chaosDaemon.socketPath=/run/containerd/containerd.sock` 是用来在 kind 上运行 NetworkChaos 的。
   :::
 
@@ -317,8 +317,8 @@ dashboard:
    2021-06-24T06:42:26.858Z        INFO    helloworldchaos Hello World!
    ```
 
-  :::Note
-  `{pod-post-fix}` 是一个由 Kubernetes 生成的随机串。你可以运行 `kubectl get pod -n chaos-testing` 来查看它。
+  :::Note 注意
+    `{pod-post-fix}` 是一个随机串。你可以运行 `kubectl get pod -n chaos-testing` 来查看它。
   :::
 
 ## 下一步
