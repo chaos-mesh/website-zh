@@ -27,6 +27,7 @@ import (
 
 // +kubebuilder:object:root=true
 // +chaos-mesh:base
+// +chaos-mesh:oneshot=true
 
 // HelloWorldChaos is the Schema for the helloworldchaos API
 type HelloWorldChaos struct {
@@ -39,8 +40,8 @@ type HelloWorldChaos struct {
 
 // HelloWorldChaosSpec is the content of the specification for a HelloWorldChaos
 type HelloWorldChaosSpec struct {
-	// PodSelector specifies target
-	PodSelector `json:",inline"`
+	// ContainerSelector specifies target
+	ContainerSelector `json:",inline"`
 
 	// Duration represents the duration of the chaos action
 	// +optional
@@ -52,9 +53,10 @@ type HelloWorldChaosStatus struct {
 	ChaosStatus `json:",inline"`
 }
 
+// GetSelectorSpecs is a getter for selectors
 func (obj *HelloWorldChaos) GetSelectorSpecs() map[string]interface{} {
 	return map[string]interface{}{
-		".": &obj.Spec.PodSelector,
+		".": &obj.Spec.ContainerSelector,
 	}
 }
 ```
@@ -105,6 +107,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/chaos-mesh/chaos-mesh/api/v1alpha1"
+  "github.com/chaos-mesh/chaos-mesh/controllers/chaosimpl/utils"
 	"github.com/chaos-mesh/chaos-mesh/controllers/common"
 	"github.com/chaos-mesh/chaos-mesh/controllers/utils/chaosdaemon"
 )
@@ -112,6 +115,7 @@ import (
 type Impl struct {
 	client.Client
 	Log logr.Logger
+  decoder *utils.ContianerRecordDecoder
 }
 
 // Apply applies HelloWorldChaos
@@ -126,13 +130,14 @@ func (impl *Impl) Recover(ctx context.Context, index int, records []*v1alpha1.Re
 	return v1alpha1.NotInjected, nil
 }
 
-func NewImpl(c client.Client, log logr.Logger, builder *chaosdaemon.ChaosDaemonClientBuilder) *common.ChaosImplPair {
+func NewImpl(c client.Client, log logr.Logger, decoder *utils.ContianerRecordDecoder) *common.ChaosImplPair {
 	return &common.ChaosImplPair{
 		Name:   "helloworldchaos",
 		Object: &v1alpha1.HelloWorldChaos{},
 		Impl: &Impl{
 			Client: c,
 			Log:    log.WithName("helloworldchaos"),
+      decoder: decoder,
 		},
 		ObjectList: &v1alpha1.HelloWorldChaosList{},
 	}
@@ -234,10 +239,10 @@ dashboard:
 1. 将 CRD 注册进集群：
 
    ```bash
-   kubectl apply -f manifests/
+   kubectl create -f manifests/crd.yaml
    ```
 
-   你可以看到 HelloWorldChaos 也被创建了：
+   你可以看到 HelloWorldChaos 被创建了：
 
    ```log
    customresourcedefinition.apiextensions.k8s.io/helloworldchaos.chaos-mesh.org created
@@ -251,17 +256,9 @@ dashboard:
 
 2. 安装 Chaos Mesh：
 
-   - helm 3.X
-
-     ```bash
-     helm install chaos-mesh helm/chaos-mesh --namespace=chaos-testing --set chaosDaemon.runtime=containerd --set chaosDaemon.socketPath=/run/containerd/containerd.sock
-     ```
-
-   - helm 2.X
-
-     ```bash
-     helm install helm/chaos-mesh --name=chaos-mesh --namespace=chaos-testing --set chaosDaemon.runtime=containerd --set chaosDaemon.socketPath=/run/containerd/containerd.sock
-     ```
+   ```bash
+   helm install chaos-mesh helm/chaos-mesh --namespace=chaos-testing --set chaosDaemon.runtime=containerd --set chaosDaemon.socketPath=/run/containerd/containerd.sock
+   ```
 
    验证一下安装是否成功，查询 `chaos-testing` 命名空间的 Pod:
 
@@ -273,7 +270,15 @@ dashboard:
     `--set chaosDaemon.runtime=containerd --set chaosDaemon.socketPath=/run/containerd/containerd.sock` 是用来在 kind 上运行 NetworkChaos 的。
   :::
 
-3. 创建一个名为 `chaos.yaml` 的文件，写入以下内容：
+3. 部署用于测试的目标 Pod
+
+   ```bash
+   kubectl apply -f https://raw.githubusercontent.com/chaos-mesh/apps/master/ping/busybox-statefulset.yaml
+   ```
+
+   并确保其正常运行
+
+4. 创建一个名为 `chaos.yaml` 的文件，写入以下内容：
 
    ```yaml
    apiVersion: chaos-mesh.org/v1alpha1
@@ -284,15 +289,12 @@ dashboard:
    spec:
      selector:
        namespaces:
-         - chaos-testing
+         - busybox
+     mode: one
      duration: 1h
    ```
 
-::: note 注意
-在实际使用中，你不应该将 chaos-testing 命名空间作为目标！但是如果 HelloWorldChaos 没有一个目标，就无法看到效果。考虑到 HelloworldChaos 不会做任何破坏性的事，所以这是安全的。
-:::
-
-4. 运行混沌实验：
+5. 运行混沌实验：
 
    ```bash
    kubectl apply -f /path/to/chaos.yaml
@@ -323,4 +325,4 @@ dashboard:
 
 恭喜你！你刚刚为 Chaos Mesh 新增了一种混沌实验。如果你在这一过程中遇到了问题，请告诉我们。
 
-你可能很好奇这一切是如何生效的。你可以试着看看 `controllers` 目录下的各类 `controller`，它们有自己的 README（如[controllers/common/README.md](https://github.com/chaos-mesh/chaos-mesh/blob/master/controllers/common/README.md）。你可以通过这些README了解每个controller的功能，也可以阅读[Chaos Mesh 架构](architecture.md)了解 Chaos Mesh 背后的原理。如果你还想动手试试别的，来看看 [拓展 Chaos Daemon 接口](extend-chaos-daemon-interface.md)。
+如果你还想动手试试别的，来看看 [拓展 Chaos Daemon 接口](extend-chaos-daemon-interface.md)。
