@@ -72,7 +72,7 @@ Chaos Mesh 提供的 StressChaos 实验类型可用于模拟容器内压力的�
 
 | 参数   | 类型                              | 说明                | 默认值 | 是否必填 | 示例 |
 | ------ | --------------------------------- | ------------------- | ------ | -------- | ---- |
-| memory | [MemoryStressor](#memoryStressor) | 指定内存压力的参数  | 无     | 否       |      |
+| memory | [MemoryStressor](#memorystressor) | 指定内存压力的参数  | 无     | 否       |      |
 | cpu    | [CPUStressor](#cpustressor)       | 指定 CPU 压力的参数 | 无     | 否       |      |
 
 ##### MemoryStressor
