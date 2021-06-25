@@ -3,10 +3,10 @@ title: 拓展 Chaos Daemon 接口
 sidebar_label: 拓展 Chaos Daemon 接口
 ---
 
-在[新增混沌实验类型](add-new-chaos-experiment-type.md)中，你实现了一种名为HelloWorldChaos的混沌实验，它的功能是在 Chaos Controller Manager 的日志中输出一行 "Hello world!"。为了让 HelloWorldChaos 真正有用，你还需要向 Chaos Daemon 添加接口，从而在目标 Pod 上实际制造一些混乱。
+在[新增混沌实验类型](add-new-chaos-experiment-type.md)中，你实现了一种名为HelloWorldChaos的混沌实验，它的功能是在 Chaos Controller Manager 的日志中输出一行 "Hello world!"。为了让 HelloWorldChaos 真正有用，你还需要向 Chaos Daemon 添加接口，从而在目标 Pod 上实际制造一些混乱。比方说，获取目标 Pod 中正在运行的进程信息。
 
 :::note 注意
-  一些关于 Chaos Mesh 架构的知识对于帮助你理解这一文档非常有用！试着阅读[Chaos Mesh 架构](architecture.md)。
+  一些关于 Chaos Mesh 架构的知识对于帮助你理解这一文档非常有用！试着阅读 [Chaos Mesh 架构](architecture.md)。
 :::
 
 本文档分为以下几部分
@@ -269,12 +269,14 @@ func (obj *HelloWorldChaos) GetSelectorSpecs() map[string]interface{} {
 
      可以看到两条 `ps aux`，对应两个不同的 Pod。
 
-     ::: note 注意
+     :::note 注意
        如果你的集群有多个节点，你会发现有不止一个 Chaos Daemon Pod！试着查看每一个 Chaos Daemon Pod 的日志，寻找真正被调用的那一个。
      :::
 
 ## 下一步
 
-你可能很好奇这一切是如何生效的。你可以试着看看 `controllers` 目录下的各类 `controller`，它们有自己的 README（如[controllers/common/README.md](https://github.com/chaos-mesh/chaos-mesh/blob/master/controllers/common/README.md)。你可以通过这些README了解每个controller的功能，也可以阅读[Chaos Mesh 架构](architecture.md)了解 Chaos Mesh 背后的原理。
+恭喜你！HelloWorldChaos 已经成为一种有实际作用的混沌实验！如果你在这一过程中遇到了问题，请告诉我们。
 
-你已经准备好成为一名真正的 Chaos Mesh 开发者了！到 [Chaos Mesh](https://github.com/chaos-mesh/chaos-mesh) 里找一找练手的任务吧！我们推荐你先从简单的入手，就像这些[ good first issues](https://github.com/chaos-mesh/chaos-mesh/labels/good%20first%20issue)。
+你可能很好奇这一切是如何生效的。你可以试着看看 `controllers` 目录下的各类 `controller`，它们有自己的 README（如 [controllers/common/README.md](https://github.com/chaos-mesh/chaos-mesh/blob/master/controllers/common/README.md)。你可以通过这些README了解每个controller的功能，也可以阅读 [Chaos Mesh 架构](architecture.md)以了解 Chaos Mesh 背后的原理。
+
+你已经准备好成为一名真正的 Chaos Mesh 开发者了！到 [Chaos Mesh](https://github.com/chaos-mesh/chaos-mesh) 里找一找练手的任务吧！我们推荐你先从简单的入手，就像这些 [good first issues](https://github.com/chaos-mesh/chaos-mesh/labels/good%20first%20issue)。

@@ -16,7 +16,7 @@ sidebar_label: 新增混沌实验类型
 
 ## 定义结构类型
 
-为了定义新混沌实验的结构类型, 在 API 目录中 [`api/v1alpha1`](https://github.com/chaos-mesh/chaos-mesh/tree/master/api/v1alpha1) 新建一个名为 `helloworldchaos_types.go` 的文件，写入以下内容:
+为了定义新混沌实验的结构类型, 在 API 目录中 `api/v1alpha1` 新建一个名为 `helloworldchaos_types.go` 的文件，写入以下内容:
 
 ```go
 package v1alpha1
@@ -218,7 +218,7 @@ kind load docker-image localhost:5000/pingcap/chaos-dashboard:latest
 
 快要完成了。在这一步中，你需要将修改版的 Chaos Mesh 部署并测试 HelloWorldChaos。
 
-在你部署 Chaos Mesh 之前（使用 `helm install` 或 `helm upgrade`），记得修改 helm 模板的 [`values.yaml`](https://github.com/chaos-mesh/chaos-mesh/blob/master/helm/chaos-mesh/values.yaml)，把镜像更换成你本地 Docker Registry 中的镜像。
+在你部署 Chaos Mesh 之前（使用 `helm install` 或 `helm upgrade`），记得修改 helm 模板的 `helm/chaos-mesh/values.yaml`，把镜像更换成你本地 Docker Registry 中的镜像。
 
 Chaos Mesh 的模板使用 `pingcap/chaos-mesh:latest` 作为默认 Registry，你需要把它换成 `DOCKER_REGISTRY` 环境变量的值（默认为 `localhost:5000`）, 就像这样：
 
