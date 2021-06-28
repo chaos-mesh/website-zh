@@ -58,7 +58,9 @@ stringData:
 
 3. 填写实验信息，指定实验范围以及实验计划运行时间。
 
+![img](./img/create-gcp-chaos-on-dashborad-3.jpg)
 
+![img](./img/create-gcp-chaos-on-dashborad-4.jpg)
 
 4. 提交实验。
 
