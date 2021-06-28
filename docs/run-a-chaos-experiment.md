@@ -173,6 +173,8 @@ kubectl patch networchaos network-delay -p '{"spec":{"duration":"30s"}}'
 
 ![Edit experiment](img/configuration_zh.png)
 
+## 清理混沌实验
+
 ### 使用命令删除混沌实验
 
 结束混沌实验后，可以通过 `kubectl delete` 命令删除混沌实验。混沌实验删除后，注入的故障会被立刻恢复：
