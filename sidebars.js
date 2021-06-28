@@ -8,16 +8,21 @@ module.exports = {
     {
       type: 'category',
       label: '开始使用',
+      collapsed: false,
       items: [
         {
           type: 'category',
           label: '安装部署',
+          collapsed: false,
           items: ['quick-start', 'production-installation-using-helm', 'offline-installation'],
         },
         {
           type: 'category',
           label: '管理权限',
-          items: ['manage-roles', 'configure-protected-namespace'],
+          items: [
+            `manage-roles`,
+            `configure-enabled-namespace`,
+          ],
         },
         {
           type: 'category',
@@ -27,6 +32,7 @@ module.exports = {
             'define-scheduling-rules',
             'run-a-chaos-experiment',
             'inspect-chaos-experiment',
+            'clean-up-chaos-experiment',
           ],
         },
         {
@@ -35,7 +41,7 @@ module.exports = {
           items: [
             'create-chaos-mesh-workflow',
             'define-workflow-scheduling-rules',
-            'run-chaos-experiments-in-parallel-or-concurrently',
+            'run-chaos-experiments-in-serial-or-parallel',
             'inspect-chaos-mesh-workflow',
           ],
         },
@@ -51,9 +57,9 @@ module.exports = {
           items: [
             'simulate-pod-chaos-on-kubernetes',
             'simulate-network-chaos-on-kubernetes',
-            'simulate-dns-chaos-on-kubernetes',
             'simulate-heavy-stress-on-kubernetes',
             'simulate-io-chaos-on-kubernetes',
+            'simulate-dns-chaos-on-kubernetes',
             'simulate-time-chaos-on-kubernetes',
             'simulate-jvm-application-chaos',
             'simulate-kernel-chaos-on-kubernetes',
@@ -70,6 +76,7 @@ module.exports = {
             'simulate-process-chaos-in-physical-nodes',
             'simulate-network-chaos-in-physical-nodes',
             'simulate-heavy-stress-in-physical-nodes',
+            'simulate-disk-pressure-in-physical-nodes',
           ],
         },
       ],
