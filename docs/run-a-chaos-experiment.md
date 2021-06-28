@@ -62,7 +62,7 @@ sidebar_label: 运行实验
 
 Chaos Mesh 提供 `Schedule` 对象，帮助创建定时混沌实验和循环混沌实验。
 
-要创建带有时间调度规则混沌实验，请进行以下操作：
+要创建定时或循环混沌实验，请进行以下操作：
 
 1. 新建一个 YAML 文件用于定义混沌实验。在此 YAML 文件中，需要配置 `Schedule` 相关参数用于定义具体的时间调度规则，然后依据混沌实验类型配置故障相关参数。
 
@@ -113,9 +113,11 @@ Chaos Mesh 提供 `Schedule` 对象，帮助创建定时混沌实验和循环混
 
 ## 暂停混沌实验
 
-在混沌实验运行过程中，如需暂停混沌实验，可以使用命令设置暂停注解或是直接在 Dashboard 上点击**暂停**按钮。
+### 使用命令暂停或者恢复混沌实验
 
-例如，要暂停默认命名空间中一个 `network-delay` 的混沌实验，你可以使用以下命令：
+在混沌实验运行过程中，如需暂停混沌实验，可以使用命令设置暂停注解。
+
+例如，要暂停默认命名空间中一个名为 `network-delay` 的混沌实验，你可以使用以下命令：
 
 ```yaml
 kubectl annotate networkchaos network-delay experiment.chaos-mesh.org/pause=true
@@ -126,6 +128,8 @@ kubectl annotate networkchaos network-delay experiment.chaos-mesh.org/pause=true
 ```yaml
 kubectl annotate networkchaos network-delay experiment.chaos-mesh.org/pause-
 ```
+
+### 使用 Dashboard 暂停或者恢复混沌实验
 
 如果你想通过 Dashboard 暂停或者恢复混沌实验，找到对应的混沌实验点击**暂停**或者**启动**按钮即可。
 
@@ -140,9 +144,11 @@ kubectl annotate networkchaos network-delay experiment.chaos-mesh.org/pause-
 :::note 注意
 
 - 对于已经正常运行的一次性混沌实验，目前仅支持更新当前故障行为的持续时间（`duration` 参数），不支持更新其他故障配置参数。
-- 对于带有调度规则的混沌实验，对 `duration` 参数的更新将在当前正在执行的故障注入行为结束后生效。
+- 对于定时或循环混沌实验，对 `duration` 参数的更新将在当前正在执行的故障注入行为结束后生效。
 
 :::
+
+### 使用命令更新混沌实验
 
 如果使用 YAML 文件方式管理混沌实验，可以通过下列命令更新混沌实验：
 
@@ -161,11 +167,13 @@ kubectl patch networchaos network-delay -p '{"spec":{"duration":"30s"}}'
 
 更多通过 `kubectl` 命令来更新对象的操作，请参考 [kubectl 文档](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)。
 
+### 使用 Dashboard 更新混沌实验
+
 如果你想要在 Dashboard 更新混沌实验，可以点击对应混沌实验的**更新**按钮，通过编辑对应的对象进行更新。
 
 ![Edit experiment](img/configuration_zh.png)
 
-## 清理混沌实验
+### 使用命令删除混沌实验
 
 结束混沌实验后，可以通过 `kubectl delete` 命令删除混沌实验。混沌实验删除后，注入的故障会被立刻恢复：
 
@@ -180,6 +188,8 @@ kubectl delete networkchaos network-delay
 ```yaml
 kubectl annotate networkchaos web-show-network-delay chaos-mesh.chaos-mesh.org/cleanFinalizer=forced
 ```
+
+### 使用 Dashboard 删除混沌实验
 
 如果你想要在 Dashboard 上删除混沌实验并归档到历史记录汇总，可以点击对应混沌实验的**归档**按钮。
 

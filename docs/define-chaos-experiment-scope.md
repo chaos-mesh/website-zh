@@ -175,5 +175,3 @@ spec:
 在设置 Selectors 的同时，你也可以在 Dashboard 中实时预览实验目标的实际范围，并且可以直接修改 Selectors 过滤出的目标 Pod 范围。
 
 ![Dashboard Selectors](img/dashboard_selectors_zh.png)
-
-> > > > > > > upstream/main
