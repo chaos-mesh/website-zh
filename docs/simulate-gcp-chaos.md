@@ -52,9 +52,13 @@ stringData:
 
 ![img](./img/create-pod-chaos-on-dashborad-1.jpg)
 
-2. 在**选择目标**处选择 **Gcp 故障**，并选择具体行为，例如 **Node Stop**。
+2. 在**选择目标**处选择 **GCP 故障**，并选择具体行为，例如 **STOP NODE**。
+
+![img](./img/create-gcp-chaos-on-dashborad-2.jpg)
 
 3. 填写实验信息，指定实验范围以及实验计划运行时间。
+
+
 
 4. 提交实验。
 
