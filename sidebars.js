@@ -32,7 +32,6 @@ module.exports = {
             'define-scheduling-rules',
             'run-a-chaos-experiment',
             'inspect-chaos-experiment',
-            'clean-up-chaos-experiment',
           ],
         },
         {
