@@ -31,3 +31,31 @@ Chaosd 具有以下核心优势：
 
 - 命令行模式：将 Chaosd 作为命令行工具，直接运行即可注入故障、恢复故障。
 - 服务模式：将 Chaosd 作为服务运行在后台，通过发送 HTTP 请求来注入故障、恢复故障。
+
+### 下载
+
+指定要下载的版本，例如 v1.0.0：
+
+```bash
+export CHAOSD_VERSION=v1.0.0
+```
+
+如果要下载最新的非稳定版本，则使用 `latest`：
+
+```bash
+export CHAOSD_VERSION=latest
+```
+
+执行以下命令下载 Chaosd：
+
+```bash
+curl -fsSL -o chaosd-$CHAOSD_VERSION-linux-amd64.tar.gz https://mirrors.chaos-mesh.org/chaosd-$CHAOSD_VERSION-linux-amd64.tar.gz
+```
+
+解压文件并进入到文件夹中：
+
+```bash
+tar zxvf chaosd-$CHAOSD_VERSION-linux-amd64.tar.gz && cd chaosd-$CHAOSD_VERSION-linux-amd64
+```
+
+接下来就可以使用 Chaosd 了。
