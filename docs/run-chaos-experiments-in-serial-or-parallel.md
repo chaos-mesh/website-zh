@@ -43,11 +43,11 @@ spec:
         mode: all
         selector:
           labelSelectors:
-            "app": "hello-kubernetes"
+            'app': 'hello-kubernetes'
         delay:
-          latency: "90ms"
-          correlation: "25"
-          jitter: "90ms"
+          latency: '90ms'
+          correlation: '25'
+          jitter: '90ms'
     - name: workflow-stress-chaos
       templateType: StressChaos
       duration: 20s
@@ -55,12 +55,12 @@ spec:
         mode: one
         selector:
           labelSelectors:
-            "app": "hello-kubernetes"
+            'app': 'hello-kubernetes'
         stressors:
           cpu:
             workers: 1
             load: 20
-            options: ["--cpu 1", "--timeout 600"]
+            options: ['--cpu 1', '--timeout 600']
 ```
 
 声明了一个串行节点，名为 `serial-of-3-node`，将按照顺序执行 `workflow-stress-chaos`，`suspending` 与 `workflow-network-chaos`。待所有任务完成后，串行节点被标记为完成。
@@ -98,11 +98,11 @@ spec:
         mode: all
         selector:
           labelSelectors:
-            "app": "hello-kubernetes"
+            'app': 'hello-kubernetes'
         delay:
-          latency: "90ms"
-          correlation: "25"
-          jitter: "90ms"
+          latency: '90ms'
+          correlation: '25'
+          jitter: '90ms'
     - name: workflow-stress-chaos
       templateType: StressChaos
       duration: 20s
@@ -110,12 +110,12 @@ spec:
         mode: one
         selector:
           labelSelectors:
-            "app": "hello-kubernetes"
+            'app': 'hello-kubernetes'
         stressors:
           cpu:
             workers: 1
             load: 20
-            options: ["--cpu 1", "--timeout 600"]
+            options: ['--cpu 1', '--timeout 600']
 ```
 
 声明了一个并行节点，名为 `parallel-of-2-chaos`，将同时执行 `workflow-stress-chaos` 与 `workflow-network-chaos`。待所有任务完成后，并行节点被标记为完成。

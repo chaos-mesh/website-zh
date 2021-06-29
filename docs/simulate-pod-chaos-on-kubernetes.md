@@ -18,22 +18,22 @@ PodChaos 是 Chaos Mesh 中的一种故障类型，通过创建 PodChaos 类型�
 目前 Chaos Mesh 仅支持向特定类型的 Pod 中注入故障，例如 Deployment、Statefulset、Daemonset。Chaos Mesh 不支持向独立的 Pod 中注入故障，独立的 Pod 指未绑定到 ReplicaSet 或 Deployment 的 Pod。
 
 ## 注意事项
+
 创建 PodChaos 实验前，请确保以下事项：
-+ 目标 Pod 上没有运行 Chaos Mesh 的 Control Manager。
-+ 如果故障类型为 Pod Kill，配置了 ReplicaSet 或者类似保证 Pod 能够自动重启的机制。
+
+- 目标 Pod 上没有运行 Chaos Mesh 的 Control Manager。
+- 如果故障类型为 Pod Kill，配置了 ReplicaSet 或者类似保证 Pod 能够自动重启的机制。
 
 ## 使用 Chaos Dashboard 方式创建实验
 
 :::note 注意
 
 在使用 Chaos Dashboard 创建实验前：
-+ 确保已经安装了 Chaos Dashboard。
-+ 如果已安装 Chaos Dashboard，你可以通过运行 `kubectl port-forward` 命令的方式访问 Dashboard：
-    ```bash
-    kubectl port-forward -n chaos-testing svc/chaos-dashboard 2333:2333
-    ```
-然后可以在浏览器中输入 [`http://localhost:2333`](http://localhost:2333) 访问 Chaos Dashboard。
 
+- 确保已经安装了 Chaos Dashboard。
+- 如果已安装 Chaos Dashboard，你可以通过运行 `kubectl port-forward` 命令的方式访问 Dashboard：
+  `bash kubectl port-forward -n chaos-testing svc/chaos-dashboard 2333:2333 `
+  然后可以在浏览器中输入 [`http://localhost:2333`](http://localhost:2333) 访问 Chaos Dashboard。
 
 :::
 
@@ -111,12 +111,12 @@ spec:
 
 下表介绍以上 YAML 配置文件中的字段。
 
-|参数|类型|说明|默认值|是否必填|示例|
-|---|---|---|---|---|---|
-|action|string|指定要注入的故障类型，仅支持 `pod-failure`、`pod-kill`、`container-kill`|无|是|`pod-kill`|
-|mode|string|指定实验的运行方式，可选择的方式包括：`one`（表示随机选出一个符合条件的 Pod）、`all`（表示选出所有符合条件的 Pod）、`fixed`（表示选出指定数量且符合条件的 Pod）、`fixed-percent`（表示选出占符合条件的 Pod 中指定百分比的 Pod）、`random-max-percent`（表示选出占符合条件的 Pod 中不超过指定百分比的 Pod）|无|是|`one`|
-|value|string|取决与 `mode` 的配置，为 `mode` 提供对应的参数。例如，当你将 `mode` 配置为 `fixed-percent` 时，`value` 用于指定 Pod 的百分比。|无|否|2|
-|selector|struct|指定注入故障的目标 Pod，详情请参考[定义实验范围](./define-chaos-experiment-scope.md)|无|是||
-|containerNames|[]string|当你将 `action` 配置为 `container-kill` 时，此配置为必填，用于指定注入故障的目标 container 名|无|否|['prometheus']|
-|gracePeriod|int64|当你将 `action` 配置为 `pod-kill` 时，需要填写此项，用于指定删除 Pod 之前的持续时间 |0|否|0|
-|duration|string|指定实验的持续时间|无|是|30s|
+| 参数           | 类型     | 说明                                                                                                                                                                                                                                                                                                       | 默认值 | 是否必填 | 示例           |
+| -------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | -------- | -------------- |
+| action         | string   | 指定要注入的故障类型，仅支持 `pod-failure`、`pod-kill`、`container-kill`                                                                                                                                                                                                                                   | 无     | 是       | `pod-kill`     |
+| mode           | string   | 指定实验的运行方式，可选择的方式包括：`one`（表示随机选出一个符合条件的 Pod）、`all`（表示选出所有符合条件的 Pod）、`fixed`（表示选出指定数量且符合条件的 Pod）、`fixed-percent`（表示选出占符合条件的 Pod 中指定百分比的 Pod）、`random-max-percent`（表示选出占符合条件的 Pod 中不超过指定百分比的 Pod） | 无     | 是       | `one`          |
+| value          | string   | 取决与 `mode` 的配置，为 `mode` 提供对应的参数。例如，当你将 `mode` 配置为 `fixed-percent` 时，`value` 用于指定 Pod 的百分比。                                                                                                                                                                             | 无     | 否       | 2              |
+| selector       | struct   | 指定注入故障的目标 Pod，详情请参考[定义实验范围](./define-chaos-experiment-scope.md)                                                                                                                                                                                                                       | 无     | 是       |                |
+| containerNames | []string | 当你将 `action` 配置为 `container-kill` 时，此配置为必填，用于指定注入故障的目标 container 名                                                                                                                                                                                                              | 无     | 否       | ['prometheus'] |
+| gracePeriod    | int64    | 当你将 `action` 配置为 `pod-kill` 时，需要填写此项，用于指定删除 Pod 之前的持续时间                                                                                                                                                                                                                        | 0      | 否       | 0              |
+| duration       | string   | 指定实验的持续时间                                                                                                                                                                                                                                                                                         | 无     | 是       | 30s            |

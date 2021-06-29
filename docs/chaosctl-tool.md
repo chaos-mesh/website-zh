@@ -21,7 +21,7 @@ curl -sSL https://mirrors.chaos-mesh.org/latest/chaosctl
    git clone https://github.com/chaos-mesh/chaos-mesh.git
    ```
 
-2. 切换至 Chaos Mesh目录下
+2. 切换至 Chaos Mesh 目录下
 
 3. 执行
 
