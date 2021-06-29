@@ -5,7 +5,7 @@ sidebar_label: 模拟主机故障
 
 ## 模拟主机故障
 
-Chaos Mesh 支持模拟主机关机故障。本文档介绍如何使用命令行模拟主机关机故障。
+Chaosd 支持模拟主机关机故障。本文档介绍如何使用命令行模拟主机关机故障。
 
 ### 创建实验
 
@@ -15,9 +15,9 @@ Chaos Mesh 支持模拟主机关机故障。本文档介绍如何使用命令行
 chaosd attack host shutdown
 ```
 
-##### 该命令会导致在关闭所有进程后关机。
+执行该命令后，你的主机会在所有进程关闭后关机。
 
-可以通过运行以下命令行查看 Chaosd 支持哪些类型的主机关机实验：
+要查看 Chaosd 支持哪些类型的主机关机实验，执行以下命令：
 
 ```bash
 chaosd attack host shutdown -h
@@ -42,11 +42,4 @@ Global Flags:
 
 ```bash
 chaosd attack host shutdown
-```
-
-输出如下所示：
-
-```bash
-chaosd attack host shutdown
-Shutdown successfully, uid: 4bc9b74a-5fe2-4038-b4f3-09ae95b57694
 ```
