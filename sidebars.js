@@ -113,7 +113,7 @@ module.exports = {
     {
       type: 'category',
       label: '常见问题与故障',
-      items: ['faqs', 'troubleshooting-guide'],
+      items: ['faqs', 'troubleshooting-guide', 'upgrade-to-2.0'],
     },
     {
       type: 'category',
