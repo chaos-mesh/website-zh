@@ -34,11 +34,11 @@ Chaosd 具有以下核心优势：
 
 ### 运行环境
 
-需要 Linux 系统内核 2.17 及以上版本。
+Linux 系统内核必须为 2.17 及以上版本。
 
 ### 下载
 
-指定要下载的版本，例如 v1.0.0：
+通过 [releases](https://github.com/chaos-mesh/chaosd/releases) 查看所有已发布版本，然后指定要下载的版本，例如 v1.0.0：
 
 ```bash
 export CHAOSD_VERSION=v1.0.0
