@@ -174,8 +174,11 @@ podChaos:
 | timeChaos           | object              | 配置 TimeChaos，当 type 为 TimeChaos 时需要配置该字段。详见 [模拟时间故障](simulate-time-chaos-on-kubernetes.md)                                                                              | 无     | 否       |                                                     |
 | schedule            | object              | 配置 Schedule ，当 type 为 Schedule 时需要配置该字段。详见 [定义调度规则](define-scheduling-rules.md)                                                                                         | 无     | 否       |                                                     |
 
-注意，当在 Workflow 中建立有持续时间的 Chaos 时，需要将持续时间填写到外层的 `deadline` 字段中，而不是使用 Chaos 中的 `duration` 字段。
+:::note 注意
 
+当在 Workflow 中建立有持续时间的 Chaos 时，需要将持续时间填写到外层的 `deadline` 字段中，而不是使用 Chaos 中的 `duration` 字段。
+
+:::
 ### Task 字段说明
 
 | 参数      | 类型   | 说明                                                                                                                                                                                     | 默认值 | 是否必填 | 示例 |
@@ -190,12 +193,12 @@ podChaos:
 | target     | string | 当前条件分支想要执行的 template 名称                                                                                                     | 无     | 是       | another-chaos |
 | expression | string | 类型为布尔的表达式，在自定义任务完成后，当表达式值为真时，当前条件分支将会被执行。未设置该值时，条件分支将会在自定义任务完成后直接执行。 | 无     | 否       | exitCode == 0 |
 
-目前在 `expression` 中提供了两个魔法值：
+目前在 `expression` 中提供了两个上下文变量：
 
 - `exitCode` 表示自定义任务的退出码。
 - `stdout` 表示自定义任务的标准输出。
 
-> 更多的魔法值将在后续补充。
+> 更多的上下文变量将在后续补充。
 
 可参考[该文档](https://github.com/antonmedv/expr/blob/master/docs/Language-Definition.md)编写 `expression` 表达式。
 
