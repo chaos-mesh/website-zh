@@ -13,7 +13,7 @@ chaos-mesh-action 是一个 GitHub action，已经在 [GitHub 市场](https://gi
 
 [GitHub Action](https://docs.github.com/en/actions) 是 GitHub 原生支持的 CI/CD 功能，通过它我们可以轻松地在 GitHub 仓库中构建自动化和自定义的软件开发工作流（workflow）。
 
-结合 GitHub Action，Chaos Mesh 可以更容易地融入到系统的日常开发和测试中，从而保证每次在 GitHub 上提交的代码没有 bug（至少可以通过测试），不会破坏现有的逻辑。 下图显示了集成到 CI 工作流中的 chaos-mesh-action：
+结合 GitHub Action，Chaos Mesh 可以更容易地融入到系统的日常开发和测试中，从而保证每次在 GitHub 上提交的代码没有 bug（至少可以通过测试），不会破坏现有的逻辑。 下图显示了集成到 CI workflow 中的 chaos-mesh-action：
 
 ![chaos-mesh-action-integrate-in-the-ci-workflow](./img/chaos-mesh-action-integrate-in-the-ci-workflow.png)
 
@@ -36,7 +36,7 @@ chaos-mesh-action 用于 Github workflow。 GitHub workflow 是一个可配置�
 例如，让我们设计一个简单的测试 workflow，包括以下步骤：
 
 1. 在 Kubernetes 集群中创建两个 Pod。
-2. 从另一个 Ping 一个 Pod。
+2. 从一个 Pod ping 另一个 Pod。
 3. 使用 Chaos Mesh 注入网络延迟故障，测试 ping 命令是否收到影响。
 
 ### 创建 workflow
@@ -44,13 +44,13 @@ chaos-mesh-action 用于 Github workflow。 GitHub workflow 是一个可配置�
 在设计 workflow 之后，让我们来创建它。
 
 1. 导航到要测试软件的 GitHub 仓库。
-2. 开始创建工作流，点击 `Actions`，然后点击 `New workflow`。
+2. 开始创建 workflow，点击 `Actions`，然后点击 `New workflow`。
 
 ![creating-a-workflow](./img/creating-a-workflow.png)
 
 workflow 本质上是按顺序自动进行的作业配置。 请注意，以下的作业（job）是在单个文件中配置的。 为了更好地说明，我们将脚本拆分为不同的作业组，如下所示：
 
-- 设置工作流名称和触发规则
+- 设置 workflow 名称和触发规则
 
   将 workflow 命名为 “Chaos”。 当代码推送到 master 分支或向 master 分支提交 pull request 时，会触发此 workflow。
 
@@ -68,7 +68,7 @@ workflow 本质上是按顺序自动进行的作业配置。 请注意，以下�
 
 - 安装 CI 相关的环境
 
-  此配置指定操作系统 (Ubuntu)，并使用 helm/kind-action 创建 Kind 集群。 然后，它输出集群的相关信息。 最后，它会检出该 workflow 要访问的 GitHub 仓库。
+  此配置指定操作系统 (Ubuntu)，并使用 helm/kind-action 创建 Kind 集群。 然后，它输出集群的相关信息。最后，它会检出该 workflow 要访问的 GitHub 仓库。
 
   ```yaml
   jobs:
@@ -158,7 +158,7 @@ workflow 本质上是按顺序自动进行的作业配置。 请注意，以下�
 
 - 运行 workflow
 
-  现在 workflow 已配置好了，我们可以通过向 master 分支提交 pull request 来触发它。 workflow 运行完成后，验证 job 中输出的结果类似于以下内容：
+  现在 workflow 已配置好了，我们可以通过向 master 分支提交 pull request 来触发它。workflow 运行完成后，验证 job 中输出的结果类似于以下内容：
 
   ```log
   do some verification
