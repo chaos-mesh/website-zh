@@ -56,10 +56,16 @@ export CHAOSD_VERSION=latest
 curl -fsSL -o chaosd-$CHAOSD_VERSION-linux-amd64.tar.gz https://mirrors.chaos-mesh.org/chaosd-$CHAOSD_VERSION-linux-amd64.tar.gz
 ```
 
-解压文件并进入到文件夹中：
+解压文件并转移到 /usr/local 目录下：
 
 ```bash
-tar zxvf chaosd-$CHAOSD_VERSION-linux-amd64.tar.gz && cd chaosd-$CHAOSD_VERSION-linux-amd64
+tar zxvf chaosd-$CHAOSD_VERSION-linux-amd64.tar.gz && sudo mv chaosd-$CHAOSD_VERSION-linux-amd64 /usr/local/
+```
+
+将 Chaosd 目录加到环境变量 `PATH` 中：
+
+```bash
+export PATH=/usr/local/chaosd-$CHAOSD_VERSION-linux-amd64:$PATH
 ```
 
 接下来就可以使用 Chaosd 了。
