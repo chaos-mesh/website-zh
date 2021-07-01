@@ -5,21 +5,21 @@ sidebar_label: 集成 Chaos Mesh 到 GitHub Actions
 
 Chaos Mesh 是一个云原生混沌测试平台，可以在 Kubernetes 环境中编排混沌实验。 Chaos Mesh 凭借其丰富的故障注入类型和易于使用的 Dashboard 在社区中广受欢迎，但将它用于端到端（e2e）测试或持续集成 (CI) 仍然有些困难。 因此，在系统开发过程中引入的问题在发布之前可能无法被发现。
 
-在本文中，我将分享如何使用 Chaos-mesh-action 将 Chaos Mesh 集成到 CI 中。
+在本文中，我将分享如何使用 chaos-mesh-action 将 Chaos Mesh 集成到 CI 中。
 
-Chaos-mesh-action 是一个 GitHub action，已经在 [GitHub 市场](https://github.com/marketplace/actions/chaos-mesh)上发布了，源代码也在 [GitHub](https://github.com/chaos-mesh/chaos-mesh-action) 上。
+chaos-mesh-action 是一个 GitHub action，已经在 [GitHub 市场](https://github.com/marketplace/actions/chaos-mesh)上发布了，源代码也在 [GitHub](https://github.com/chaos-mesh/chaos-mesh-action) 上。
 
-## Chaos-mesh-action 的设计
+## chaos-mesh-action 的设计
 
 [GitHub Action](https://docs.github.com/en/actions) 是 GitHub 原生支持的 CI/CD 功能，通过它我们可以轻松地在 GitHub 仓库中构建自动化和自定义的软件开发工作流（workflow）。
 
-结合 GitHub Action，Chaos Mesh 可以更容易地融入到系统的日常开发和测试中，从而保证每次在 GitHub 上提交的代码没有 bug（至少可以通过测试），不会破坏现有的逻辑。 下图显示了集成到 CI 工作流中的 Chaos-mesh-action：
+结合 GitHub Action，Chaos Mesh 可以更容易地融入到系统的日常开发和测试中，从而保证每次在 GitHub 上提交的代码没有 bug（至少可以通过测试），不会破坏现有的逻辑。 下图显示了集成到 CI 工作流中的 chaos-mesh-action：
 
 ![chaos-mesh-action-integrate-in-the-ci-workflow](./img/chaos-mesh-action-integrate-in-the-ci-workflow.png)
 
-## 在 GitHub workflow 中使用 Chaos-mesh-action
+## 在 GitHub workflow 中使用 chaos-mesh-action
 
-Chaos-mesh-action 用于 Github workflow。 GitHub workflow 是一个可配置的自动化流程，您可以在您的仓库中设置它，以构建、测试、打包、发布或部署任何 GitHub 项目。 要将 Chaos Mesh 集成到您的 CI 中，请执行以下操作：
+chaos-mesh-action 用于 Github workflow。 GitHub workflow 是一个可配置的自动化流程，你可以在你的仓库中设置它，以构建、测试、打包、发布或部署任何 GitHub 项目。 要将 Chaos Mesh 集成到你的 CI 中，请执行以下操作：
 
 1. 设计 workflow。
 2. 创建 workflow。
@@ -27,7 +27,7 @@ Chaos-mesh-action 用于 Github workflow。 GitHub workflow 是一个可配置�
 
 ### 设计 workflow
 
-在设计 workflow 之前，您必须考虑以下问题：
+在设计 workflow 之前，你必须考虑以下问题：
 
 - 我们将在此 workflow 中测试哪些功能？
 - 我们将注入哪些类型的故障？
@@ -110,7 +110,7 @@ workflow 本质上是按顺序自动进行的作业配置。 请注意，以下�
         CFG_BASE64: YXBpVmVyc2lvbjogY2hhb3MtbWVzaC5vcmcvdjFhbHBoYTEKa2luZDogTmV0d29ya0NoYW9zCm1ldGFkYXRhOgogIG5hbWU6IG5ldHdvcmstZGVsYXkKICBuYW1lc3BhY2U6IGJ1c3lib3gKc3BlYzoKICBhY3Rpb246IGRlbGF5ICMgdGhlIHNwZWNpZmljIGNoYW9zIGFjdGlvbiB0byBpbmplY3QKICBtb2RlOiBhbGwKICBzZWxlY3RvcjoKICAgIHBvZHM6CiAgICAgIGJ1c3lib3g6CiAgICAgICAgLSBidXN5Ym94LTAKICBkZWxheToKICAgIGxhdGVuY3k6ICIxMG1zIgogIGR1cmF0aW9uOiAiNXMiCiAgc2NoZWR1bGVyOgogICAgY3JvbjogIkBldmVyeSAxMHMiCiAgZGlyZWN0aW9uOiB0bwogIHRhcmdldDoKICAgIHNlbGVjdG9yOgogICAgICBwb2RzOgogICAgICAgIGJ1c3lib3g6CiAgICAgICAgICAtIGJ1c3lib3gtMQogICAgbW9kZTogYWxsCg==
   ```
 
-  通过 chaos-mesh-action，Chaos Mesh 的安装和故障的注入会自动完成。您只需要准备好混沌实验的配置，并获取它的 Base64 值。 这里，我们想给 Pod 注入网络延迟，我们使用的混沌配置如下：
+  通过 chaos-mesh-action，Chaos Mesh 的安装和故障的注入会自动完成。你只需要准备好混沌实验的配置，并获取它的 Base64 值。 这里，我们想给 Pod 注入网络延迟，我们使用的混沌配置如下：
 
   ```yaml
   apiVersion: chaos-mesh.org/v1alpha1
@@ -183,6 +183,6 @@ workflow 本质上是按顺序自动进行的作业配置。 请注意，以下�
 
 目前我们已经在 [TiDB Operator](https://github.com/pingcap/tidb-operator) 项目中应用了 chaos-mesh-action, 在 workflow 中注入 Pod 故障来验证 operator 实例的重启功能。 目的是为了保证在注入的故障随机删除 operator 的 Pod 时，tidb-operator 能够正常工作。 更多详情可以查看 [TiDB Operator 页面](https://github.com/pingcap/tidb-operator/actions?query=workflow%3Achaos)。
 
-未来，我们计划将 Chaos-mesh-action 应用到更多的测试中，以保证 TiDB 及相关组件的稳定性。 欢迎您使用 Chaos-mesh-action 创建自己的 workflow。
+未来，我们计划将 chaos-mesh-action 应用到更多的测试中，以保证 TiDB 及相关组件的稳定性。 欢迎你使用 chaos-mesh-action 创建自己的 workflow。
 
 如果你发现错误，或者认为缺少某些内容，请随时提交 issue、pull request(PR)，或加入我们的 [CNCF](https://www.cncf.io/) slack 工作区中的 [#project-chaos-mesh](https://slack.cncf.io/) 频道。
