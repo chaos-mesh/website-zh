@@ -5,7 +5,7 @@ sidebar_label: Chaosd 组件简介
 
 ## Chaosd 组件简介
 
-[Chaosd](https://github.com/chaos-mesh/chaosd) 是 Chaos Mesh 提供的一款混沌工程测试工具，用于在物理机环境上注入故障，并提供故障恢复功能。
+[Chaosd](https://github.com/chaos-mesh/chaosd) 是 Chaos Mesh 提供的一款混沌工程测试工具（需要单独[下载和部署](#下载和部署)），用于在物理机环境上注入故障，并提供故障恢复功能。
 
 Chaosd 具有以下核心优势：
 
@@ -36,36 +36,44 @@ Chaosd 具有以下核心优势：
 
 Linux 系统内核必须为 2.17 及以上版本。
 
-### 下载
+### 下载和部署
 
-通过 [releases](https://github.com/chaos-mesh/chaosd/releases) 查看所有已发布版本，然后指定要下载的版本，例如 v1.0.0：
+1. 将要下载的 Chaosd 版本设置为环境变量
 
-```bash
-export CHAOSD_VERSION=v1.0.0
-```
+   通过 [releases](https://github.com/chaos-mesh/chaosd/releases) 查看所有已发布版本，然后指定要下载的版本，例如 v1.0.0：
 
-如果要下载最新的非稳定版本，则使用 `latest`：
+   ```bash
+   export CHAOSD_VERSION=v1.0.0
+   ```
 
-```bash
-export CHAOSD_VERSION=latest
-```
+   如果要下载最新的非稳定版本，则使用 `latest`：
 
-执行以下命令下载 Chaosd：
+   ```bash
+   export CHAOSD_VERSION=latest
+   ```
 
-```bash
-curl -fsSL -o chaosd-$CHAOSD_VERSION-linux-amd64.tar.gz https://mirrors.chaos-mesh.org/chaosd-$CHAOSD_VERSION-linux-amd64.tar.gz
-```
+2. 下载 Chaosd
 
-解压文件并转移到 /usr/local 目录下：
+   执行以下命令：
 
-```bash
-tar zxvf chaosd-$CHAOSD_VERSION-linux-amd64.tar.gz && sudo mv chaosd-$CHAOSD_VERSION-linux-amd64 /usr/local/
-```
+   ```bash
+   curl -fsSL -o chaosd-$CHAOSD_VERSION-linux-amd64.tar.gz https://mirrors.chaos-mesh.org/chaosd-$CHAOSD_VERSION-linux-amd64.tar.gz
+   ```
 
-将 Chaosd 目录加到环境变量 `PATH` 中：
+3. 解压 Chaosd 文件并转移到 /usr/local 目录下
 
-```bash
-export PATH=/usr/local/chaosd-$CHAOSD_VERSION-linux-amd64:$PATH
-```
+   执行以下命令：
+
+   ```bash
+   tar zxvf chaosd-$CHAOSD_VERSION-linux-amd64.tar.gz && sudo mv chaosd-$CHAOSD_VERSION-linux-amd64 /usr/local/
+   ```
+
+4. 将 Chaosd 目录加到环境变量 `PATH` 中
+
+   执行以下命令：
+
+   ```bash
+   export PATH=/usr/local/chaosd-$CHAOSD_VERSION-linux-amd64:$PATH
+   ```
 
 接下来就可以使用 Chaosd 了。
