@@ -23,15 +23,7 @@ sidebar_label: 创建 Chaos Mesh Workflow
 
 Chaos Mesh Workflow 在设计时一定程度上参考了 Argo Workflow。如果您熟悉 Argo Workflow 您也能很快地上手 Chaos Mesh Workflow。
 
-:::note 注意
-
 Github 仓库中含有其他 Workflow 的[示例](https://github.com/chaos-mesh/chaos-mesh/tree/master/examples/workflow).
-
-:::
-
-## 使用 Chaos Dashboard 创建 Workflow
-
-<!--TODO: 待 Chaos Dashboard 完善后补充这一部分 -->
 
 ## 使用 YAML 文件与 `kubectl` 创建 Workflow
 
@@ -176,6 +168,7 @@ podChaos:
 当在 Workflow 中建立有持续时间的 Chaos 时，需要将持续时间填写到外层的 `deadline` 字段中，而不是使用 Chaos 中的 `duration` 字段。
 
 :::
+
 ### Task 字段说明
 
 | 参数      | 类型   | 说明                                                                                                                                                                                     | 默认值 | 是否必填 | 示例 |
