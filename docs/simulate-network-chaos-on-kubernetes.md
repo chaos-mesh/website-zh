@@ -212,7 +212,7 @@ rnd = value * (1-corr) + last_rnd * corr
 | corrupt     | string | 表示包错误发生的概率                         | 0      | 否       | 0.5  |
 | correlation | string | 表示包错误发生的概率与前一次是否发生的相关性 | 0      | 否       | 0.5  |
 
-对于 `reorder`，`loss`，`duplicate`，`corrupt` 这些偶发事件，`correlation` 则更为复杂。具体模型描述参考 [NetemCLG](http://netgroup.uniroma2.it/twiki/bin/view.cgi/Main/NetemCLG) 。
+对于 `reorder`，`loss`，`duplicate`，`corrupt` 这些偶发事件，`correlation` 则更为复杂。具体模型描述参考 [NetemCLG](https://webcache.googleusercontent.com/search?q=cache:eyq0K8omWiMJ:netgroup.uniroma2.it/NetemCLG/+&cd=1&hl=zh-CN&ct=clnk&gl=jp) 。
 
 #### Bandwidth
 
