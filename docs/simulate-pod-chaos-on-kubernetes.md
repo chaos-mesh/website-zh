@@ -49,62 +49,86 @@ PodChaos 是 Chaos Mesh 中的一种故障类型，通过创建 PodChaos 类型�
 
 ## 使用 YAML 配置文件创建实验
 
-### pod-failure 配置文件示例
+### pod-failure 示例
 
-依据此配置示例，Chaos Mesh 将向指定的 Pod 中注入 `pod-failure` 故障，将使该 Pod 在 30 秒内处于不可用的状态。
+1. 将实验配置写入到文件中 `pod-failure.yaml`，内容示例如下：
 
-```yaml
-apiVersion: chaos-mesh.org/v1alpha1
-kind: PodChaos
-metadata:
-  name: pod-failure-example
-  namespace: chaos-testing
-spec:
-  action: pod-failure
-  mode: one
-  duration: '30s'
-  selector:
-    labelSelectors:
-      'app.kubernetes.io/component': 'tikv'
+  ```yaml
+  apiVersion: chaos-mesh.org/v1alpha1
+  kind: PodChaos
+  metadata:
+    name: pod-failure-example
+    namespace: chaos-testing
+  spec:
+    action: pod-failure
+    mode: one
+    duration: '30s'
+    selector:
+      labelSelectors:
+        'app.kubernetes.io/component': 'tikv'
+  ```
+
+  依据此配置示例，Chaos Mesh 将向指定的 Pod 中注入 `pod-failure` 故障，将使该 Pod 在 30 秒内处于不可用的状态。
+
+2. 使用 `kubectl` 创建实验，命令如下：
+
+```bash
+kubectl apply -f ./pod-failure.yaml
 ```
 
-### pod-kill 配置文件示例
+### pod-kill 示例
 
-依据此配置示例，Chaos Mesh 将向指定的 Pod 中注入 `pod-kill` 故障，将使该 Pod 被杀死一次。
+1. 将实验配置写入到文件中 `pod-kill.yaml`，内容示例如下：
 
-```yaml
-apiVersion: chaos-mesh.org/v1alpha1
-kind: PodChaos
-metadata:
-  name: pod-kill-example
-  namespace: chaos-testing
-spec:
-  action: pod-kill
-  mode: one
-  selector:
-    namespaces:
-      - tidb-cluster-demo
-    labelSelectors:
-      'app.kubernetes.io/component': 'tikv'
+  ```yaml
+  apiVersion: chaos-mesh.org/v1alpha1
+  kind: PodChaos
+  metadata:
+    name: pod-kill-example
+    namespace: chaos-testing
+  spec:
+    action: pod-kill
+    mode: one
+    selector:
+      namespaces:
+        - tidb-cluster-demo
+      labelSelectors:
+        'app.kubernetes.io/component': 'tikv'
+  ```
+
+  依据此配置示例，Chaos Mesh 将向指定的 Pod 中注入 `pod-kill` 故障，将使该 Pod 被杀死一次。
+
+2. 使用 `kubectl` 创建实验，命令如下：
+
+```bash
+kubectl apply -f ./pod-kill.yaml
 ```
 
-### container-kill 配置文件示例
+### container-kill 示例
 
-依据此配置示例，Chaos Mesh 将向指定的 Container 中注入 `container-kill` 故障，将使该 Container 被杀死一次。
+1. 将实验配置写入到文件中 `container-kill.yaml`，内容示例如下：
 
-```yaml
-apiVersion: chaos-mesh.org/v1alpha1
-kind: PodChaos
-metadata:
-  name: container-kill-example
-  namespace: chaos-testing
-spec:
-  action: container-kill
-  mode: one
-  containerNames: ['prometheus']
-  selector:
-    labelSelectors:
-      'app.kubernetes.io/component': 'monitor'
+  ```yaml
+  apiVersion: chaos-mesh.org/v1alpha1
+  kind: PodChaos
+  metadata:
+    name: container-kill-example
+    namespace: chaos-testing
+  spec:
+    action: container-kill
+    mode: one
+    containerNames: ['prometheus']
+    selector:
+      labelSelectors:
+        'app.kubernetes.io/component': 'monitor'
+  ```
+
+  依据此配置示例，Chaos Mesh 将向指定的 Container 中注入 `container-kill` 故障，将使该 Container 被杀死一次。
+
+2. 使用 `kubectl` 创建实验，命令如下：
+
+```bash
+kubectl apply -f ./container-kill.yaml
 ```
 
 ### 字段说明
