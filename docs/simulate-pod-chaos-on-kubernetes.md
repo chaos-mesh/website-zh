@@ -72,9 +72,9 @@ PodChaos 是 Chaos Mesh 中的一种故障类型，通过创建 PodChaos 类型�
 
 2. 使用 `kubectl` 创建实验，命令如下：
 
-```bash
-kubectl apply -f ./pod-failure.yaml
-```
+  ```bash
+  kubectl apply -f ./pod-failure.yaml
+  ```
 
 ### pod-kill 示例
 
@@ -100,9 +100,9 @@ kubectl apply -f ./pod-failure.yaml
 
 2. 使用 `kubectl` 创建实验，命令如下：
 
-```bash
-kubectl apply -f ./pod-kill.yaml
-```
+  ```bash
+  kubectl apply -f ./pod-kill.yaml
+  ```
 
 ### container-kill 示例
 
@@ -127,9 +127,9 @@ kubectl apply -f ./pod-kill.yaml
 
 2. 使用 `kubectl` 创建实验，命令如下：
 
-```bash
-kubectl apply -f ./container-kill.yaml
-```
+  ```bash
+  kubectl apply -f ./container-kill.yaml
+  ```
 
 ### 字段说明
 

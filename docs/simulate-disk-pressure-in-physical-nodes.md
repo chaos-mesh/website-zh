@@ -126,7 +126,7 @@ Global Flags:
 | process-num | n        | 指定使用多少个并发运行的 [dd](https://man7.org/linux/man-pages/man1/dd.1.html) 进程执行程序。                                                                            | uint8 类型。默认值为 1，范围为 1-255                                                                                                                                                                                |
 | size        | s        | 指定写入多少数据，size 为 多个 dd 写数据的总量。                                                                                                                         | string 类型，默认为""，合法形式为一个整数加一个单位。例如：1M、512kB。支持的单位有 c=1、w=2、b=512、kB=1000、K=1024、MB=1000\*1000,M=1024\*1024、GB=1000\*1000\*1000、G=1024\*1024\*1024 BYTE 等。size 不能为 "" 。 |
 
-### 模拟磁盘写负载示例
+#### 模拟磁盘写负载示例
 
 ```bash
 chaosd attack disk add-payload write -s 2G -n 8
@@ -149,7 +149,7 @@ Write file /home/andrew/chaosd/bin/example255569279 successfully, uid: e66afd86-
 
 ### 模拟磁盘填充
 
-### 模拟磁盘填充命令
+#### 模拟磁盘填充命令
 
 ```bash
 chaosd attack disk fill -h
@@ -198,6 +198,6 @@ chaosd attack disk fill -c 50 -d
 Fill file /home/andrew/chaosd/bin/example623832242 successfully, uid: 097b4214-8d8e-46ad-8768-c3e0d8cbb326
 ```
 
-### 使用服务模式创建实验
+## 使用服务模式创建实验
 
 （待补充）
