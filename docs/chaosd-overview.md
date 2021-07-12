@@ -40,8 +40,6 @@ Linux 系统内核必须为 2.17 及以上版本。
 
 1. 将要下载的 Chaosd 版本设置为环境变量，例如 v1.0.0：
 
-   通过 [releases](https://github.com/chaos-mesh/chaosd/releases) 查看所有已发布版本，然后指定要下载的版本，例如 v1.0.0：
-
    ```bash
    export CHAOSD_VERSION=v1.0.0
    ```
@@ -54,25 +52,19 @@ Linux 系统内核必须为 2.17 及以上版本。
    export CHAOSD_VERSION=latest
    ```
 
-2. 下载 Chaosd。
-
-   执行以下命令：
+2. 下载 Chaosd：
 
    ```bash
    curl -fsSL -o chaosd-$CHAOSD_VERSION-linux-amd64.tar.gz https://mirrors.chaos-mesh.org/chaosd-$CHAOSD_VERSION-linux-amd64.tar.gz
    ```
 
-3. 解压 Chaosd 文件并转移到 /usr/local 目录下。
-
-   执行以下命令：
+3. 解压 Chaosd 文件并转移到 /usr/local 目录下：
 
    ```bash
    tar zxvf chaosd-$CHAOSD_VERSION-linux-amd64.tar.gz && sudo mv chaosd-$CHAOSD_VERSION-linux-amd64 /usr/local/
    ```
 
-4. 将 Chaosd 目录加到环境变量 `PATH` 中。
-
-   执行以下命令：
+4. 将 Chaosd 目录加到环境变量 `PATH` 中：
 
    ```bash
    export PATH=/usr/local/chaosd-$CHAOSD_VERSION-linux-amd64:$PATH
