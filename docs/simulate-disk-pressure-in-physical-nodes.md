@@ -3,7 +3,7 @@ title: 模拟磁盘故障
 sidebar_label: 模拟磁盘故障
 ---
 
-本文主要介绍如何使用 Chaosd 模拟磁盘故障场景。使用该功能，你可以在物理机器上模拟磁盘读写负载（通过 [dd](https://man7.org/linux/man-pages/man1/dd.1.html)）或磁盘填充（通过 [dd](https://man7.org/linux/man-pages/man1/dd.1.html)或 [fallocate](https://man7.org/linux/man-pages/man1/fallocate.1.html)）。
+本文主要介绍如何使用 Chaosd 模拟磁盘故障场景。使用该功能，你可以在物理机器上模拟磁盘读写负载（通过 [dd](https://man7.org/linux/man-pages/man1/dd.1.html)）或磁盘填充（通过 [dd](https://man7.org/linux/man-pages/man1/dd.1.html) 或 [fallocate](https://man7.org/linux/man-pages/man1/fallocate.1.html)）。
 
 ## 使用命令行模式创建实验
 
