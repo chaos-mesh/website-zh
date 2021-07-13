@@ -5,33 +5,30 @@ sidebar_label: 模拟文件 I/O 故障
 
 本文档主要介绍如何在 Chaos Mesh 中创建 IOChaos 混沌实验。
 
-## IOChaos 简介
+## IOChaos 介绍
 
-IOChaos 能够帮助你模拟文件系统故障。目前支持以下类型的故障：
+IOChaos 是 Chaos Mesh 中的一种故障类型。通过创建 IOChaos 类型的混沌实验，你可以模拟文件系统发生故障的情景。目前，IOChaos 支持模拟以下故障类型：
 
-1. latency：为文件系统调用加入延迟
-
-2. fault：使文件系统调用返回错误
-
-3. attrOverride：修改文件属性
-
-4. mistake：使文件读到或写入错误的值
+- latency：为文件系统调用加入延迟
+- fault：使文件系统调用返回错误
+- attrOverride：修改文件属性
+- mistake：使文件读到或写入错误的值
 
 详细的功能介绍参见[使用 YAML 文件创建实验](#使用-yaml-文件创建实验)。
 
 ## 注意事项
 
-1. 请确保目标 Pod 上没有运行 Chaos Mesh 的 Controller Manager。
+1. 创建 IOChaos 实验前，请确保目标 Pod 上没有运行 Chaos Mesh 的 Controller Manager。
 
 2. IOChaos 可能会损坏你的数据，在生产环境中请**谨慎**使用。
 
 ## 使用 Dashboard 创建实验
 
-1. 单击实验页面中的“新的实验”按钮进行创建实验。
+1. 单击实验页面中的**新的实验**按钮创建实验。
 
    ![新建实验](../static/img/create-io-chaos-on-dashborad-1.jpg)
 
-2. 在“选择目标”处选择“文件系统注入”，并选择具体行为，如“LATENCY”
+2. 在**选择目标**处选择**文件系统注入**，并选择具体行为，如**LATENCY**。
 
    ![设置实验类型](../static/img/create-io-chaos-on-dashborad-2.jpg)
 
@@ -47,112 +44,136 @@ IOChaos 能够帮助你模拟文件系统故障。目前支持以下类型的故
 
 ## 使用 YAML 文件创建实验
 
-如使用 YAML 方式创建实验，需要将实验配置写入到文件（如 `iochaos.yaml`）中。下文介绍各类型错误配置文件示例。
+### latency 示例
 
-### latency 配置文件示例
+1. 将实验配置写入到文件中 `io-latency.yaml`，内容示例如下：
 
-```yaml
-apiVersion: chaos-mesh.org/v1alpha1
-kind: IOChaos
-metadata:
-  name: io-latency-example
-  namespace: chaos-testing
-spec:
-  action: latency
-  mode: one
-  selector:
-    labelSelectors:
-      app: etcd
-  volumePath: /var/run/etcd
-  path: '/var/run/etcd/**/*'
-  delay: '100ms'
-  percent: 50
-  duration: '400s'
-```
+  ```yaml
+  apiVersion: chaos-mesh.org/v1alpha1
+  kind: IOChaos
+  metadata:
+    name: io-latency-example
+    namespace: chaos-testing
+  spec:
+    action: latency
+    mode: one
+    selector:
+      labelSelectors:
+        app: etcd
+    volumePath: /var/run/etcd
+    path: '/var/run/etcd/**/*'
+    delay: '100ms'
+    percent: 50
+    duration: '400s'
+  ```
 
-该实验配置可以使得 `/var/run/etcd` 目录下的所有文件系统操作（包括读，写，列出目录内容等）产生 100 毫秒延迟。
+  依据此配置示例，Chaos Mesh 将向 `/var/run/etcd` 目录注入延迟故障，使该目录下的所有文件系统操作（包括读，写，列出目录内容等）产生 100 毫秒延迟。
 
-### fault 配置文件示例
+2. 使用 `kubectl` 创建实验，命令如下：
 
-```yaml
-apiVersion: chaos-mesh.org/v1alpha1
-kind: IOChaos
-metadata:
-  name: io-fault-example
-  namespace: chaos-testing
-spec:
-  action: fault
-  mode: one
-  selector:
-    labelSelectors:
-      app: etcd
-  volumePath: /var/run/etcd
-  path: /var/run/etcd/**/*
-  errno: 5
-  percent: 50
-  duration: '400s'
-```
+  ```bash
+  kubectl apply -f ./io-latency.yaml
+  ```
 
-该实验配置可以使得 `/var/run/etcd` 目录下的所有文件系统操作有 50% 的概率发生错误，并返回错误码 5 (Input/output error)。
+### fault 示例
 
-### attrOverride 配置文件示例
+1. 将实验配置写入到文件中 `io-fault.yaml`，内容示例如下：
 
-```yaml
-apiVersion: chaos-mesh.org/v1alpha1
-kind: IOChaos
-metadata:
-  name: io-attr-example
-  namespace: chaos-testing
-spec:
-  action: attrOverride
-  mode: one
-  selector:
-    labelSelectors:
-      app: etcd
-  volumePath: /var/run/etcd
-  path: /var/run/etcd/**/*
-  attr:
-    perm: 72
-  percent: 10
-  duration: '400s'
-```
+  ```yaml
+  apiVersion: chaos-mesh.org/v1alpha1
+  kind: IOChaos
+  metadata:
+    name: io-fault-example
+    namespace: chaos-testing
+  spec:
+    action: fault
+    mode: one
+    selector:
+      labelSelectors:
+        app: etcd
+    volumePath: /var/run/etcd
+    path: /var/run/etcd/**/*
+    errno: 5
+    percent: 50
+    duration: '400s'
+  ```
 
-该实验配置可以使得 `/var/run/etcd` 目录下的所有文件系统操作将有 10% 的概率使目标文件的权限变为 72（即八进制下的 110），这将使得文件只能由拥有者与其所在的组执行，无权进行其他操作。
+  依据此配置示例，Chaos Mesh 将向 `/var/run/etcd` 目录注入文件错误故障，使该目录下的所有文件系统操作有 50% 的概率发生错误，并返回错误码 5 (Input/output error)。
 
-### mistake 配置文件示例
+2. 使用 `kubectl` 创建实验，命令如下：
 
-```yaml
-apiVersion: chaos-mesh.org/v1alpha1
-kind: IOChaos
-metadata:
-  name: io-mistake-example
-  namespace: chaos-testing
-spec:
-  action: mistake
-  mode: one
-  selector:
-    labelSelectors:
-      app: etcd
-  volumePath: /var/run/etcd
-  path: /var/run/etcd/**/*
-  mistake:
-    filling: zero
-    maxOccurrences: 1
-    maxLength: 10
-  methods:
-    - READ
-    - WRITE
-  percent: 10
-  duration: '400s'
-```
+  ```bash
+  kubectl apply -f ./io-fault.yaml
+  ```
 
-该实验配置可以使得 `/var/run/etcd` 目录下的读写操作将有 10% 的概率将发生错误。其中以字节为单位，最大长度为 10 的 1 处随机位置将被替换为 0。
+### attrOverride 示例
 
-最后，使用 kubectl 创建实验，命令如下：
+1. 将实验配置写入到文件中 `io-attr.yaml`，内容示例如下：
 
-```bash
-kubectl apply -f iochaos.yaml
-```
+  ```yaml
+  apiVersion: chaos-mesh.org/v1alpha1
+  kind: IOChaos
+  metadata:
+    name: io-attr-example
+    namespace: chaos-testing
+  spec:
+    action: attrOverride
+    mode: one
+    selector:
+      labelSelectors:
+        app: etcd
+    volumePath: /var/run/etcd
+    path: /var/run/etcd/**/*
+    attr:
+      perm: 72
+    percent: 10
+    duration: '400s'
+  ```
+
+  依据此配置示例，Chaos Mesh 将向 `/var/run/etcd` 目录注入 `attrOverride` 故障，使该目录下的所有文件系统操作将有 10% 的概率使目标文件的权限变为 72（即八进制下的 110），这将使得文件只能由拥有者与其所在的组执行，无权进行其他操作。
+  
+2. 使用 `kubectl` 创建实验，命令如下：
+
+  ```bash
+  kubectl apply -f ./io-attr.yaml
+  ```
+
+### mistake 示例
+
+1. 将实验配置写入到文件中 `io-mistake.yaml`，内容示例如下：
+
+  ```yaml
+  apiVersion: chaos-mesh.org/v1alpha1
+  kind: IOChaos
+  metadata:
+    name: io-mistake-example
+    namespace: chaos-testing
+  spec:
+    action: mistake
+    mode: one
+    selector:
+      labelSelectors:
+        app: etcd
+    volumePath: /var/run/etcd
+    path: /var/run/etcd/**/*
+    mistake:
+      filling: zero
+      maxOccurrences: 1
+      maxLength: 10
+    methods:
+      - READ
+      - WRITE
+    percent: 10
+    duration: '400s'
+  ```
+
+  依据此配置示例，Chaos Mesh 将向 `/var/run/etcd` 目录注入读写错误故障，使该目录下的读写操作将有 10% 的概率将发生错误。其中以字节为单位，最大长度为 10 的 1 处随机位置将被替换为 0。
+  
+2. 使用 `kubectl` 创建实验，命令如下：
+
+  ```bash
+  kubectl apply -f ./io-mistake.yaml
+  ```
 
 ### 字段说明
 
@@ -166,14 +187,14 @@ kubectl apply -f iochaos.yaml
 | value         | string   | 取决与 `mode` 的配置，为 `mode` 提供对应的参数。例如，当你将 `mode` 配置为 `fixed-percent` 时，`value` 用于指定 Pod 的百分比                                                                                                                                                                               |                    | 否       | 2                   |
 | volumePath    | string   | volume 在目标容器内的挂载点，必须为挂载的根目录                                                                                                                                                                                                                                                            |                    | 是       | /var/run/etcd       |
 | path          | string   | 注入错误的生效范围，可以是通配符，也可以是单个文件                                                                                                                                                                                                                                                         | 默认对所有文件生效 | 否       | /var/run/etcd/\*_/_ |
-| methods       | string[] | 需要注入故障的文件系统调用类型，具体支持的类型见[附录 A](#附录-a:methods-类型)                                                                                                                                                                                                                             | 所有类型           | 否       | READ                |
+| methods       | string[] | 需要注入故障的文件系统调用类型，具体支持的类型见[附录 A](#附录-a：methods-类型)                                                                                                                                                                                                                             | 所有类型           | 否       | READ                |
 | percent       | int      | 每次操作发生故障的概率，单位为%                                                                                                                                                                                                                                                                            | 100                | 否       | 100                 |
 | containerName | string   | 指定注入的容器名                                                                                                                                                                                                                                                                                           |                    | 否       |                     |
 | duration      | string   | 指定具体实验的持续时间                                                                                                                                                                                                                                                                                     |                    | 是       | 30s                 |
 
 #### 与 action 相关的字段
 
-这些字段仅在 action 为对应值时才有意义
+这些字段仅在 action 为对应值时才有意义：
 
 - latency
 
