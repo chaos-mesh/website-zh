@@ -11,6 +11,8 @@
 
 [![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/chaos-mesh/website-zh)
 
+[文档地址](https://chaos-mesh.org/website-zh/)
+
 ## 目前的工作
 
 <!-- markdown-link-check-disable-line -->
