@@ -28,7 +28,7 @@ HTTPChaos 支持多种类型故障的组合。在创建 HTTPChaos 实验时，�
 
 ## 创建实验
 
-Chaos Mesh 目前只支持使用 YAML 配置文件创建 HTTPChaos 实验。在 YAML 配置文件中，你可以只模拟一种 HTTP 故障类型，也可以模拟几种 HTTP 故障的组合。
+Chaos Mesh 目前仅支持使用 YAML 配置文件创建 HTTPChaos 实验。在 YAML 配置文件中，你可以模拟一种 HTTP 故障类型，也可以模拟多种 HTTP 故障的组合。
 
 ### `abort` 示例
 
@@ -54,7 +54,7 @@ Chaos Mesh 目前只支持使用 YAML 配置文件创建 HTTPChaos 实验。在 
       cron: '@every 10m'
   ```
 
-  依据此配置示例，Chaos Mesh 将向指定的 Pod 中注入 `abort` 故障，将使该 Pod 的服务器连接妹 10 分钟就中断 5 分钟。
+  依据此配置示例，Chaos Mesh 将向指定的 Pod 中注入 `abort` 故障，将使该 Pod 的服务器每 10 分钟中断 5 分钟。
 
 2. 使用 `kubectl` 创建实验，命令如下：
 
