@@ -77,7 +77,7 @@ spec:
         调用链的类型是 frame 数组，由以下三个部分组成：
 
         - **funcname**：可以从内核源码或 `/proc/kallsyms` 中找到 `funcname`，比如 `ext4_mount`。
-        - **parameters**：用于过滤。如果你想在 `d_alloc_parallel(struct dentry *parent, const struct qstr *name)` with a special name `bananas` 路径上注入 slab 错误，你需要将 parameters 设置为 `struct dentry *parent, const struct qstr *name` 否则省略此配置。
+        - **parameters**：用于过滤。如果你想在 `d_alloc_parallel(struct dentry *parent, const struct qstr *name)`（其中 `name` 为 `bananas`）路径上注入 slab 错误，你需要将 parameters 设置为 `struct dentry *parent, const struct qstr *name` 否则省略此配置。
         - **predicate**：用于访问 frame 数组的参数，以 **parameters** 为例，你可以把它设置为 `STRNCMP(name->name, "bananas", 8)` 来控制故障注入路径，也可以不设置，使得所有执行 `d_alloc_parallel` 的调用路径都注入 slab 故障。
 
     - **headers** 指定你需要的内核头文件，比如："linux/mmzone.h"，"linux/blkdev.h" 等。
