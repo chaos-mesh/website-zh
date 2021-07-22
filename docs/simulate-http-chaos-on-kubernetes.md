@@ -54,7 +54,7 @@ Chaos Mesh 目前仅支持使用 YAML 配置文件创建 HTTPChaos 实验。在 
       cron: '@every 10m'
   ```
 
-  依据此配置示例，Chaos Mesh 将向指定的 Pod 中注入 `abort` 故障，将使该 Pod 的服务器每 10 分钟中断 5 分钟。
+  依据此配置示例，Chaos Mesh 将每 10 分钟向指定的 Pod 中注入 `abort` 故障 5 分钟，故障注入期间该 Pod 的 80 端口 `/api` 路径的 GET 请求会被中断。
 
 2. 使用 `kubectl` 创建实验，命令如下：
 
