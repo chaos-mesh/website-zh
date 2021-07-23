@@ -145,7 +145,7 @@ workflow 本质上是按顺序自动进行的作业配置。 请注意，以下�
 
 - 验证系统正确性
 
-  在此 job 中，workflow 从一个 Pod 中 ping 另一个 Pod，并观察网络延迟的变化。
+  在此 job 中，workflow 从一个 Pod 中 ping 另一个 Pod.请观察网络延迟的变化。
 
   ```yaml
   - name: Verify
