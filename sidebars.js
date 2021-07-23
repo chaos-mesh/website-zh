@@ -80,18 +80,18 @@ module.exports = {
         },
       ],
     },
-    {
-      type: 'category',
-      label: '使用案例',
-      items: ['multi-data-center-scenario'],
-    },
+    //{
+    //  type: 'category',
+    //  label: '使用案例',
+    //  items: ['multi-data-center-scenario'],
+   // },
     {
       type: 'category',
       label: '工具整合',
       items: [
         'integrate-chaos-mesh-into-github-actions',
-        'use-argo-to-orchestrate-chaos-experiments',
-        'use-grafana-to-inspect-chaos-experiments',
+      //  'use-argo-to-orchestrate-chaos-experiments',
+      //  'use-grafana-to-inspect-chaos-experiments',
       ],
     },
     {
@@ -102,28 +102,29 @@ module.exports = {
         'configure-development-environment',
         'add-new-chaos-experiment-type',
         'extend-chaos-daemon-interface',
-        'extend-chaosd',
-        {
-          type: 'category',
-          label: '客户端',
-          items: ['go-client', 'rust-client', 'java-client', 'python-client'],
-        },
+      //  'extend-chaosd',
+      //  {
+      //    type: 'category',
+      //    label: '客户端',
+      //    items: ['go-client', 'rust-client', 'java-client', 'python-client'],
+      //  },
       ],
     },
     {
       type: 'category',
       label: '参考指南',
-      items: ['architecture', 'chaos-engineering-principles', 'chaosctl-tool', 'glossary'],
-    },
-    {
-      type: 'category',
-      label: '常见问题与故障',
-      items: ['faqs', 'troubleshooting-guide'],
-    },
-    {
-      type: 'category',
-      label: '版本发布历史',
-      items: ['release-2.0.0', 'release-1.0.0', 'release-0.0.9', 'release-0.0.8'],
+      items: ['chaosctl-tool'],
+      //items: ['architecture', 'chaos-engineering-principles', 'chaosctl-tool', 'glossary'],
+    //},
+    //{
+    //  type: 'category',
+    //  label: '常见问题与故障',
+    //  items: ['faqs', 'troubleshooting-guide'],
+    //},
+    //{
+    //  type: 'category',
+    //  label: '版本发布历史',
+    //  items: ['release-2.0.0', 'release-1.0.0', 'release-0.0.9', 'release-0.0.8'],
     },
   ],
 }
