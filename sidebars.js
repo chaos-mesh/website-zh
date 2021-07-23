@@ -39,7 +39,6 @@ module.exports = {
           label: '编排多个混沌实验',
           items: [
             'create-chaos-mesh-workflow',
-            'define-workflow-scheduling-rules',
             'run-chaos-experiments-in-serial-or-parallel',
             'inspect-chaos-mesh-workflow',
           ],
