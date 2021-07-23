@@ -308,7 +308,7 @@ dashboard:
    kubectl logs chaos-controller-manager-{pod-post-fix} -n chaos-testing
    ```
 
-   The log is as follows:
+   显示日志如下：
 
    ```log
    2021-06-24T06:42:26.858Z        INFO    records apply chaos     {"id": "chaos-testing/chaos-daemon-vsmc5"}
