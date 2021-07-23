@@ -6,10 +6,10 @@ sidebar_label: 拓展 Chaos Daemon 接口
 在[新增混沌实验类型](add-new-chaos-experiment-type.md)中，你实现了一种名为HelloWorldChaos的混沌实验，它的功能是在 Chaos Controller Manager 的日志中输出一行 "Hello world!"。为了让 HelloWorldChaos 真正有用，你还需要向 Chaos Daemon 添加接口，从而在目标 Pod 上实际制造一些混乱。比方说，获取目标 Pod 中正在运行的进程信息。
 
 :::note 注意
-  一些关于 Chaos Mesh 架构的知识对于帮助你理解这一文档非常有用！试着阅读 [Chaos Mesh 架构](architecture.md)。
+  一些关于 Chaos Mesh 架构的知识对于帮助你理解这一文档非常有用，例如 [Chaos Mesh 架构](architecture.md)。
 :::
 
-本文档分为以下几部分
+本文档分为以下几部分：
 
 - [选择器](#选择器)
 - [实现 gRPC 接口](#实现-grpc-接口)
@@ -41,7 +41,7 @@ func (obj *HelloWorldChaos) GetSelectorSpecs() map[string]interface{} {
 }
 ```
 
-在 Chaos Mesh 中，混沌实验使用通过选择器来定义试验范围。选择器可以限定目标的命名空间，注解，标签等等。选择器也可以是一些更特殊的值（如 AwsChaos 中的 AwsSelector）。通常来说，每个混沌实验只需要一个选择器，但也有例外，比如 NetworkChaos 有时需要两个选择器作为网络分区的两个对象。
+在 Chaos Mesh 中，混沌实验通过选择器来定义试验范围。选择器可以限定目标的命名空间、注解、标签等。选择器也可以是一些更特殊的值（如 AwsChaos 中的 AwsSelector）。通常来说，每个混沌实验只需要一个选择器，但也有例外，比如 NetworkChaos 有时需要两个选择器作为网络分区的两个对象。
 
 ## 实现 gRPC 接口
 
@@ -110,11 +110,11 @@ func (obj *HelloWorldChaos) GetSelectorSpecs() map[string]interface{} {
 
    在 `chaos-daemon` 收到 `ExecHelloWorldChaos` 请求后, 它会输出当前容器的进程列表.
 
-3. 在应用混沌实验中发送 gRPC 请求
+3. 在应用混沌实验中发送 gRPC 请求。
 
    每个混沌实验都有其生命周期，它首先被应用，然后被恢复。有一些混沌实验无法被恢复（如 PodChaos 中的 PodKill，以及 HelloWorldChaos），我们称之为 OneShot 实验，你可以在 HelloWorldChaos 结构的定义上方找到一行 `+chaos-mesh:oneshot=true`。
 
-   Chaos Controller Manager 需要在应用 HelloWorldChaos 时给 Chaos Daemon 发送请求。为此，我们需要对 `controllers/chaosimpl/helloworldchaos/types.go` 稍作修改。
+   Chaos Controller Manager 需要在应用 HelloWorldChaos 时给 Chaos Daemon 发送请求。为此，你需要对 `controllers/chaosimpl/helloworldchaos/types.go` 稍作修改。
 
    ```go
    package helloworldchaos
@@ -190,9 +190,9 @@ func (obj *HelloWorldChaos) GetSelectorSpecs() map[string]interface{} {
 
 ## 验证实验效果
 
-你已经完成了所有步骤，是时候看看效果如何了：
+要验证实验效果，请进行以下操作：
 
-1. 重新编译 Docker 镜像，并推送到本地 Registry 上，然后加载进 kind（如果你使用 kind）
+1. 重新编译 Docker 镜像，并推送到本地 Registry 上，然后加载进 kind（如果你使用 kind）：
 
    ```bash
    make image
@@ -202,19 +202,19 @@ func (obj *HelloWorldChaos) GetSelectorSpecs() map[string]interface{} {
    kind load docker-image localhost:5000/pingcap/chaos-dashboard:latest
    ```
 
-2. 更新 Chaos Mesh
+2. 更新 Chaos Mesh：
 
    ```bash
    helm upgrade chaos-mesh helm/chaos-mesh --namespace=chaos-testing
    ```
 
-3. 部署用于测试的目标 Pod（如果你已经在之前部署了这个 Pod，跳过这一步）
+3. 部署用于测试的目标 Pod（如果你已经在之前部署了这个 Pod，请跳过这一步）：
 
    ```bash
    kubectl apply -f https://raw.githubusercontent.com/chaos-mesh/apps/master/ping/busybox-statefulset.yaml
    ```
 
-4. 新建一个 YAML 文件，写入
+4. 新建一个 YAML 文件，写入：
 
    ```yaml
    apiVersion: chaos-mesh.org/v1alpha1
@@ -229,7 +229,7 @@ func (obj *HelloWorldChaos) GetSelectorSpecs() map[string]interface{} {
      duration: 1h
    ```
 
-5. 应用混沌实验
+5. 应用混沌实验：
 
    ```bash
    kubectl apply -f /path/to/helloworld.yaml
@@ -243,7 +243,7 @@ func (obj *HelloWorldChaos) GetSelectorSpecs() map[string]interface{} {
      kubectl logs chaos-controller-manager-{pod-post-fix} -n chaos-testing
      ```
 
-     寻找以下内容:
+     查找以下内容:
 
      ```log
      2021-06-25T06:02:12.754Z        INFO    records apply chaos     {"id": "busybox/busybox-1/busybox"}
@@ -256,7 +256,7 @@ func (obj *HelloWorldChaos) GetSelectorSpecs() map[string]interface{} {
      kubectl logs chaos-daemon-{pod-post-fix} -n chaos-testing
      ```
 
-     寻找以下内容:
+     查找以下内容:
 
      ```log
      2021-06-25T06:25:13.048Z        INFO    chaos-daemon-server     ExecHelloWorldChaos     {"request": "container_id:\"containerd://af1b99df3513c49c4cab4f12e468ed1d7a274fe53722bd883256d8f65bc9f681\""}
@@ -275,8 +275,8 @@ func (obj *HelloWorldChaos) GetSelectorSpecs() map[string]interface{} {
 
 ## 下一步
 
-恭喜你！HelloWorldChaos 已经成为一种有实际作用的混沌实验！如果你在这一过程中遇到了问题，请告诉我们。
+在完成上述步骤后，HelloWorldChaos 已经成为一种有实际作用的混沌实验。如果你在这一过程中遇到了问题，请在 GitHub 创建一个 [issue](https://github.com/pingcap/chaos-mesh/issues) 向 Chaos Mesh 团队反馈。
 
-你可能很好奇这一切是如何生效的。你可以试着看看 `controllers` 目录下的各类 `controller`，它们有自己的 README（如 [controllers/common/README.md](https://github.com/chaos-mesh/chaos-mesh/blob/master/controllers/common/README.md)。你可以通过这些README了解每个controller的功能，也可以阅读 [Chaos Mesh 架构](architecture.md)以了解 Chaos Mesh 背后的原理。
+你可能很好奇这一切是如何生效的。你可以试着看看 `controllers` 目录下的各类 `controller`，它们有自己的 README（如 [controllers/common/README.md](https://github.com/chaos-mesh/chaos-mesh/blob/master/controllers/common/README.md)。你可以通过这些 README 了解每个controller 的功能，也可以阅读 [Chaos Mesh 架构](architecture.md)了解 Chaos Mesh 背后的原理。
 
-你已经准备好成为一名真正的 Chaos Mesh 开发者了！到 [Chaos Mesh](https://github.com/chaos-mesh/chaos-mesh) 里找一找练手的任务吧！我们推荐你先从简单的入手，就像这些 [good first issues](https://github.com/chaos-mesh/chaos-mesh/labels/good%20first%20issue)。
+你已经准备好成为一名真正的 Chaos Mesh 开发者了！到 [Chaos Mesh](https://github.com/chaos-mesh/chaos-mesh) 里找一找练手的任务吧！推荐你先从简单的入手，就像这些 [good first issues](https://github.com/chaos-mesh/chaos-mesh/labels/good%20first%20issue)。

@@ -3,7 +3,7 @@ title: 配置开发环境
 sidebar_label: 配置开发环境
 ---
 
-本文档帮助你搭建 Chaos Mesh 的开发环境
+本文档介绍如何搭建 Chaos Mesh 的开发环境。
 
 ## 环境要求
 
@@ -16,24 +16,24 @@ sidebar_label: 配置开发环境
 
 ## 准备工具链
 
-确保你已经配置好了上述的环境，遵从如下步骤来配置用于编译 Chaos Mesh 的工具链
+配置好上述环境后，请按照以下步骤配置用于编译 Chaos Mesh 的工具链。
 
-1. 将 Chaos Mesh 项目克隆至本地.
+1. 将 Chaos Mesh 项目克隆至本地。
 
    ```bash
    git clone https://github.com/chaos-mesh/chaos-mesh.git
    cd chaos-mesh
    ```
 
-2. 安装 Kubernetes API 开发框架 - [kubebuilder](https://github.com/kubernetes-sigs/kubebuilder) 和 [kustomize](https://github.com/kubernetes-sigs/kustomize).
+2. 安装 Kubernetes API 开发框架 - [kubebuilder](https://github.com/kubernetes-sigs/kubebuilder) 和 [kustomize](https://github.com/kubernetes-sigs/kustomize)。
 
    ```bash
    make ensure-all
    ```
 
-3. 确保 [Docker](https://docs.docker.com/install/) 已经在你的电脑上安装并且正在运行.
+3. 确保你的环境中已经安装 [Docker](https://docs.docker.com/install/) 并且正在运行。
 
-4. 确保 [Docker Registry](https://docs.docker.com/registry/) 正在运行. 将环境变量 `DOCKER_REGISTRY` 设置为其地址:
+4. 确保 [Docker Registry](https://docs.docker.com/registry/) 正在运行。将环境变量 `DOCKER_REGISTRY` 设置为其地址:
 
    ```bash
    echo 'export DOCKER_REGISTRY=localhost:5000' >> ~/.bash_profile
@@ -50,14 +50,14 @@ sidebar_label: 配置开发环境
    source ~/.bash_profile
    ```
 
-6. 检查 Nodejs 相关环境.
+6. 检查 Nodejs 相关环境。
 
    ```bash
     node -v
     yarn -v
    ```
 
-现在你可以尝试编译 Chaos Mesh
+现在你可以尝试编译 Chaos Mesh：
 
 ```bash
 make
@@ -67,19 +67,19 @@ make
 
 ## 准备部署环境
 
-在工具链准备完之后，你还需要一个本地的 Kubernetes 集群以部署 Chaos Mesh。由于 kind 已经安装好了，你可以直接使用我们提供的脚本启动一个 Kubernetes 集群：
+在工具链准备完之后，你还需要一个本地的 Kubernetes 集群用于部署 Chaos Mesh。由于 kind 已经安装好了，你可以直接使用以下脚本启动一个 Kubernetes 集群：
 
 ```bash
 hack/kind-cluster-build.sh
 ```
 
-当你使用完这个集群，希望删除它时，可以使用：
+当你不再需要此集群，希望删除它时，可以使用：
 
 ```bash
 kind delete cluster --name=kind
 ```
 
-启动 Chaos Dashboard. (非必须)
+启动 Chaos Dashboard。(非必须)
 
 ```bash
 cd ui && yarn
@@ -89,6 +89,4 @@ yarn start:default # cross-env REACT_APP_API_URL=http://localhost:2333 BROWSER=n
 
 ## 下一步
 
-恭喜你！你现在已经完成了 Chaos Mesh 开发的准备工作，试试我们为你提供的例子吧：
-
-- [新增混沌实验类型](add-new-chaos-experiment-type.md)
+在完成上述 Chaos Mesh 开发的准备工作后，请尝试[新增混沌实验类型](add-new-chaos-experiment-type.md)。

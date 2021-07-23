@@ -3,7 +3,7 @@ title: 开发指南概览
 sidebar_label: 开发指南概览
 ---
 
-本文档介绍如何开发 Chaos Mesh。在开始之前，推荐阅读以下材料以熟悉整个项目
+本文档介绍如何开发 Chaos Mesh。在开始之前，推荐阅读以下材料以熟悉整个项目：
 
 - [README](https://github.com/chaos-mesh/chaos-mesh/blob/master/README.md)
 - [README (Dashboard)](https://github.com/chaos-mesh/chaos-mesh/blob/master/ui/README.md)

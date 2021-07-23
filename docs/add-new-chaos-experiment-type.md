@@ -3,7 +3,7 @@ title: 新增混沌实验类型
 sidebar_label: 新增混沌实验类型
 ---
 
-本文档向你介绍如何开发一种新的混沌实验。我们将开发一种名为 HelloWorldChaos 的混沌实验，它的功能是向日志中输出一行 "Hello world!"。为了完成这一目标，我们需要如下几步：
+本文档介绍如何开发一种新的混沌实验类型。以开发一种名为 HelloWorldChaos 的混沌实验类型为例，它的功能是向日志中输出一行 "Hello world!"。为了完成这一目标，你需要完成如下几步：
 
 - [定义结构类型](#定义结构类型)
 - [注册 CRD](#注册-crd)
@@ -12,7 +12,6 @@ sidebar_label: 新增混沌实验类型
 - [运行混沌实验](#运行混沌实验)
 - [下一步](#下一步)
 
-一些 Kubernetes API 的相关知识对于理解你在做什么很有帮助，没有的话也没关系。
 
 ## 定义结构类型
 
@@ -76,7 +75,7 @@ status:
   ...
 ```
 
-在 Chaos Mesh 根目录下运行 `make generate` 会为 HelloWorldChaos 生成一些用于编译 Chaos Mesh 的辅助代码，别忘了这一步。
+在 Chaos Mesh 根目录下运行 `make generate` 会为 HelloWorldChaos 生成一些用于编译 Chaos Mesh 的辅助代码。
 
 ## 注册 CRD
 
@@ -90,11 +89,11 @@ resources:
   - bases/chaos-mesh.org_helloworldchaos.yaml # 新增一行
 ```
 
-再运行一次 `make yaml`, HelloWorldChaos 的定义就会出现在 `manifests/crd.yaml` 里了. 你可以用 `git diff` 确认这一点。
+再运行一次 `make yaml`, HelloWorldChaos 的定义就会出现在 `manifests/crd.yaml` 里。 如需确认，你可以使用 `git diff` 命令。
 
 ## 注册混沌实验的处理函数
 
-创建一个新文件 `controllers/chaosimpl/helloworldchaos/types.go` 并写入如下内容
+创建一个新文件 `controllers/chaosimpl/helloworldchaos/types.go` 并写入如下内容：
 
 ```go
 package helloworldchaos
@@ -152,7 +151,7 @@ var Module = fx.Provide(
 
 ```
 
-Chaos Mesh 使用 [fx](https://github.com/uber-go/fx) 这个库来进行依赖注入。为了将实现注册进 Controller Manager，需要在 `controllers/chaosimpl/fx.go` 中加入一行：
+Chaos Mesh 使用 [fx](https://github.com/uber-go/fx) 这个库来进行依赖注入。为了实现注册进 Controller Manager，需要在 `controllers/chaosimpl/fx.go` 中加入一行：
 
 ```go
 	...
@@ -216,11 +215,11 @@ kind load docker-image localhost:5000/pingcap/chaos-dashboard:latest
 
 ## 运行混沌实验
 
-快要完成了。在这一步中，你需要将修改版的 Chaos Mesh 部署并测试 HelloWorldChaos。
+在这一步中，你需要将修改版的 Chaos Mesh 部署并测试 HelloWorldChaos。
 
-在你部署 Chaos Mesh 之前（使用 `helm install` 或 `helm upgrade`），记得修改 helm 模板的 `helm/chaos-mesh/values.yaml`，把镜像更换成你本地 Docker Registry 中的镜像。
+在你部署 Chaos Mesh 之前（使用 `helm install` 或 `helm upgrade`），请修改 helm 模板的 `helm/chaos-mesh/values.yaml`，把镜像更换成你本地 Docker Registry 中的镜像。
 
-Chaos Mesh 的模板使用 `pingcap/chaos-mesh:latest` 作为默认 Registry，你需要把它换成 `DOCKER_REGISTRY` 环境变量的值（默认为 `localhost:5000`）, 就像这样：
+Chaos Mesh 的模板使用 `pingcap/chaos-mesh:latest` 作为默认 Registry，你需要把它换成 `DOCKER_REGISTRY` 环境变量的值（默认为 `localhost:5000`），示例如下：
 
 ```yaml
 controllerManager:
@@ -270,13 +269,13 @@ dashboard:
     `--set chaosDaemon.runtime=containerd --set chaosDaemon.socketPath=/run/containerd/containerd.sock` 是用来在 kind 上运行 NetworkChaos 的。
   :::
 
-3. 部署用于测试的目标 Pod
+3. 部署用于测试的目标 Pod：
 
    ```bash
    kubectl apply -f https://raw.githubusercontent.com/chaos-mesh/apps/master/ping/busybox-statefulset.yaml
    ```
 
-   并确保其正常运行
+   请确保用于测试的目标 Pod 可以正常运行。
 
 4. 创建一个名为 `chaos.yaml` 的文件，写入以下内容：
 
@@ -304,7 +303,7 @@ dashboard:
    kubectl get HelloWorldChaos -n chaos-testing
    ```
 
-   现在你应该可以在 `chaos-controller-manager` 的日志中看到 `Hello World!` ：
+   现在查看 `chaos-controller-manager` 的日志，就会看到 `Hello World!` ：
 
    ```bash
    kubectl logs chaos-controller-manager-{pod-post-fix} -n chaos-testing
@@ -323,6 +322,6 @@ dashboard:
 
 ## 下一步
 
-恭喜你！你刚刚为 Chaos Mesh 新增了一种混沌实验。如果你在这一过程中遇到了问题，请告诉我们。
+如果你在新增混沌实验类型的过程中遇到了问题，请在 GitHub 创建一个 [issue](https://github.com/pingcap/chaos-mesh/issues) 向 Chaos Mesh 团队反馈。
 
-如果你还想动手试试别的，来看看 [拓展 Chaos Daemon 接口](extend-chaos-daemon-interface.md)。
+如果你还想动手试试别的，请参阅 [拓展 Chaos Daemon 接口](extend-chaos-daemon-interface.md)。
