@@ -31,7 +31,7 @@ sidebar_label: 配置开发环境
    make ensure-all
    ```
 
-3. 确保你的环境中已经安装 [Docker](https://docs.docker.com/install/) 并且正在运行。
+3. 确保你的环境中已经安装 [Docker](https://docs.docker.com/install/) 并且正在运行 Docker。
 
 4. 确保 [Docker Registry](https://docs.docker.com/registry/) 正在运行。将环境变量 `DOCKER_REGISTRY` 设置为其地址:
 
@@ -79,7 +79,7 @@ hack/kind-cluster-build.sh
 kind delete cluster --name=kind
 ```
 
-启动 Chaos Dashboard。(非必须)
+如需启动 Chaos Dashboard，请运行以下命令：
 
 ```bash
 cd ui && yarn

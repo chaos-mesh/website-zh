@@ -14,7 +14,7 @@ sidebar_label: 新增混沌实验类型
 
 ## 定义结构类型
 
-为了定义新混沌实验的结构类型, 在 API 目录中 `api/v1alpha1` 新建一个名为 `helloworldchaos_types.go` 的文件，写入以下内容:
+为了定义新混沌实验的结构类型，在 API 目录中 `api/v1alpha1` 新建一个名为 `helloworldchaos_types.go` 的文件，写入以下内容:
 
 ```go
 package v1alpha1
@@ -78,7 +78,7 @@ status:
 
 ## 注册 CRD
 
-HelloWorldChaos 是一种 Kubernetes 自定义资源。这就要求你预先在 Kubernetes API 中注册 HelloWorldChaos 的 CRD。在根目录下运行 `make yaml`， 生成的 YAML 文件位于 `config/crd/bases/chaos-mesh.org_helloworldchaos.yaml`。 为将这个 YAML 文件合并入 `manifests/crd.yaml` 中, 修改 `config/crd/kustomization.yaml`，在其中加入新的一行:
+HelloWorldChaos 是一种 Kubernetes 自定义资源。这就要求你预先在 Kubernetes API 中注册 HelloWorldChaos 的 CRD。在根目录下运行 `make yaml`， 生成的 YAML 文件位于 `config/crd/bases/chaos-mesh.org_helloworldchaos.yaml`。 为将这个 YAML 文件合并入 `manifests/crd.yaml` 中，修改 `config/crd/kustomization.yaml`，在其中加入新的一行:
 
 ```yaml
 resources:
@@ -150,7 +150,7 @@ var Module = fx.Provide(
 
 ```
 
-Chaos Mesh 使用 [fx](https://github.com/uber-go/fx) 这个库来进行依赖注入。为了实现注册进 Controller Manager，需要在 `controllers/chaosimpl/fx.go` 中加入一行：
+Chaos Mesh 使用 [fx](https://github.com/uber-go/fx) 这个库来进行依赖注入。为了注册进 Controller Manager，需要在 `controllers/chaosimpl/fx.go` 中加入一行：
 
 ```go
 	...
@@ -214,7 +214,7 @@ kind load docker-image localhost:5000/pingcap/chaos-dashboard:latest
 
 ## 运行混沌实验
 
-在这一步中，你需要将修改版的 Chaos Mesh 部署并测试 HelloWorldChaos。
+在这一步中，你需要部署修改版的 Chaos Mesh 并测试 HelloWorldChaos。
 
 在你部署 Chaos Mesh 之前（使用 `helm install` 或 `helm upgrade`），请修改 helm 模板的 `helm/chaos-mesh/values.yaml`，把镜像更换成你本地 Docker Registry 中的镜像。
 
@@ -232,7 +232,7 @@ dashboard:
   ...
 ```
 
-接下来试着运行 HelloWorldChaos
+接下来，请尝试运行 HelloWorldChaos。
 
 1. 将 CRD 注册进集群：
 
@@ -240,7 +240,7 @@ dashboard:
    kubectl create -f manifests/crd.yaml
    ```
 
-   可以看到 HelloWorldChaos 被创建了：
+   可以看到 HelloWorldChaos 已经被创建：
 
    ```log
    customresourcedefinition.apiextensions.k8s.io/helloworldchaos.chaos-mesh.org created
@@ -323,4 +323,4 @@ dashboard:
 
 如果你在新增混沌实验类型的过程中遇到了问题，请在 GitHub 创建一个 [issue](https://github.com/pingcap/chaos-mesh/issues) 向 Chaos Mesh 团队反馈。
 
-如果你还想动手试试别的，请参阅 [拓展 Chaos Daemon 接口](extend-chaos-daemon-interface.md)。
+如果你想进一步尝试开发工作，请参阅 [拓展 Chaos Daemon 接口](extend-chaos-daemon-interface.md)。
