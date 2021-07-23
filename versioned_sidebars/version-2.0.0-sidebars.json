@@ -190,30 +190,11 @@
     {
       "collapsed": true,
       "type": "category",
-      "label": "使用案例",
-      "items": [
-        {
-          "type": "doc",
-          "id": "version-2.0.0/multi-data-center-scenario"
-        }
-      ]
-    },
-    {
-      "collapsed": true,
-      "type": "category",
       "label": "工具整合",
       "items": [
         {
           "type": "doc",
           "id": "version-2.0.0/integrate-chaos-mesh-into-github-actions"
-        },
-        {
-          "type": "doc",
-          "id": "version-2.0.0/use-argo-to-orchestrate-chaos-experiments"
-        },
-        {
-          "type": "doc",
-          "id": "version-2.0.0/use-grafana-to-inspect-chaos-experiments"
         }
       ]
     },
@@ -237,33 +218,6 @@
         {
           "type": "doc",
           "id": "version-2.0.0/extend-chaos-daemon-interface"
-        },
-        {
-          "type": "doc",
-          "id": "version-2.0.0/extend-chaosd"
-        },
-        {
-          "collapsed": true,
-          "type": "category",
-          "label": "客户端",
-          "items": [
-            {
-              "type": "doc",
-              "id": "version-2.0.0/go-client"
-            },
-            {
-              "type": "doc",
-              "id": "version-2.0.0/rust-client"
-            },
-            {
-              "type": "doc",
-              "id": "version-2.0.0/java-client"
-            },
-            {
-              "type": "doc",
-              "id": "version-2.0.0/python-client"
-            }
-          ]
         }
       ]
     },
@@ -274,57 +228,7 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-2.0.0/architecture"
-        },
-        {
-          "type": "doc",
-          "id": "version-2.0.0/chaos-engineering-principles"
-        },
-        {
-          "type": "doc",
           "id": "version-2.0.0/chaosctl-tool"
-        },
-        {
-          "type": "doc",
-          "id": "version-2.0.0/glossary"
-        }
-      ]
-    },
-    {
-      "collapsed": true,
-      "type": "category",
-      "label": "常见问题与故障",
-      "items": [
-        {
-          "type": "doc",
-          "id": "version-2.0.0/faqs"
-        },
-        {
-          "type": "doc",
-          "id": "version-2.0.0/troubleshooting-guide"
-        }
-      ]
-    },
-    {
-      "collapsed": true,
-      "type": "category",
-      "label": "版本发布历史",
-      "items": [
-        {
-          "type": "doc",
-          "id": "version-2.0.0/release-2.0.0"
-        },
-        {
-          "type": "doc",
-          "id": "version-2.0.0/release-1.0.0"
-        },
-        {
-          "type": "doc",
-          "id": "version-2.0.0/release-0.0.9"
-        },
-        {
-          "type": "doc",
-          "id": "version-2.0.0/release-0.0.8"
         }
       ]
     }
