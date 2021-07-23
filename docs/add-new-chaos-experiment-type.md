@@ -12,7 +12,6 @@ sidebar_label: 新增混沌实验类型
 - [运行混沌实验](#运行混沌实验)
 - [下一步](#下一步)
 
-
 ## 定义结构类型
 
 为了定义新混沌实验的结构类型, 在 API 目录中 `api/v1alpha1` 新建一个名为 `helloworldchaos_types.go` 的文件，写入以下内容:
@@ -163,6 +162,7 @@ Chaos Mesh 使用 [fx](https://github.com/uber-go/fx) 这个库来进行依赖�
 ```
 
 以及在 `controllers/types/types.go` 中加入：
+
 ```go
 	...
 	fx.Annotated{
@@ -190,22 +190,21 @@ Chaos Mesh 使用 [fx](https://github.com/uber-go/fx) 这个库来进行依赖�
 	},
 ```
 
-
 ## 编译 Docker 镜像
 
-在完成了前面所有步骤后，你可以尝试编译镜像：
+1. 在完成了前面所有步骤后，你可以尝试编译镜像：
 
 ```bash
 make
 ```
 
-然后将它推送到你的本地 Docker Registry 中
+2. 将它推送到本地的 Docker Registry 中
 
 ```bash
 make docker-push
 ```
 
-如果你的 Kubernetes 集群部署在 kind 上，你还需要将镜像加载进 kind 中
+3. 如果你的 Kubernetes 集群部署在 kind 上，则还需要将镜像加载进 kind 中
 
 ```bash
 kind load docker-image localhost:5000/pingcap/chaos-mesh:latest
@@ -265,9 +264,9 @@ dashboard:
    kubectl get pods --namespace chaos-testing -l app.kubernetes.io/instance=chaos-mesh
    ```
 
-  :::note 注意
-    `--set chaosDaemon.runtime=containerd --set chaosDaemon.socketPath=/run/containerd/containerd.sock` 是用来在 kind 上运行 NetworkChaos 的。
-  :::
+:::note 注意
+`--set chaosDaemon.runtime=containerd --set chaosDaemon.socketPath=/run/containerd/containerd.sock` 是用来在 kind 上运行 NetworkChaos 的。
+:::
 
 3. 部署用于测试的目标 Pod：
 
@@ -316,9 +315,9 @@ dashboard:
    2021-06-24T06:42:26.858Z        INFO    helloworldchaos Hello World!
    ```
 
-  :::note 注意
-    `{pod-post-fix}` 是一个随机串。你可以运行 `kubectl get pod -n chaos-testing` 来查看它。
-  :::
+:::note 注意
+`{pod-post-fix}` 是一个随机串。你可以运行 `kubectl get pod -n chaos-testing` 来查看它。
+:::
 
 ## 下一步
 
