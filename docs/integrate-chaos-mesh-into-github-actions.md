@@ -3,15 +3,13 @@ title: 集成 Chaos Mesh 到 GitHub Actions
 sidebar_label: 集成 Chaos Mesh 到 GitHub Actions
 ---
 
-Chaos Mesh 是一个云原生混沌测试平台，可以在 Kubernetes 环境中编排混沌实验。 Chaos Mesh 凭借其丰富的故障注入类型和易于使用的 Dashboard 在社区中广受欢迎，但将它用于端到端（e2e）测试或持续集成 (CI) 仍然有些困难。 因此，在系统开发过程中引入的问题在发布之前可能无法被发现。
+本文介绍如何使用 chaos-mesh-action 将 Chaos Mesh 集成到 CI 中，帮助你在产品发布前发现在系统开发过程中引入的问题。
 
-在本文中，我将分享如何使用 chaos-mesh-action 将 Chaos Mesh 集成到 CI 中。
-
-chaos-mesh-action 是一个 GitHub action，已经在 [GitHub 市场](https://github.com/marketplace/actions/chaos-mesh)上发布了，源代码也在 [GitHub](https://github.com/chaos-mesh/chaos-mesh-action) 上。
+chaos-mesh-action 是一个 GitHub action，已经在 [GitHub 市场](https://github.com/marketplace/actions/chaos-mesh)上发布，源代码也在 [GitHub](https://github.com/chaos-mesh/chaos-mesh-action) 上。
 
 ## chaos-mesh-action 的设计
 
-[GitHub Action](https://docs.github.com/en/actions) 是 GitHub 原生支持的 CI/CD 功能，通过它我们可以轻松地在 GitHub 仓库中构建自动化和自定义的软件开发工作流（workflow）。
+[GitHub Action](https://docs.github.com/en/actions) 是 GitHub 原生支持的 CI/CD 功能，通过它你可以轻松地在 GitHub 仓库中构建自动化和自定义的软件开发工作流（workflow）。
 
 结合 GitHub Action，Chaos Mesh 可以更容易地融入到系统的日常开发和测试中，从而保证每次在 GitHub 上提交的代码没有 bug（至少可以通过测试），不会破坏现有的逻辑。 下图显示了集成到 CI workflow 中的 chaos-mesh-action：
 
@@ -29,9 +27,9 @@ chaos-mesh-action 用于 Github workflow。 GitHub workflow 是一个可配置�
 
 在设计 workflow 之前，你必须考虑以下问题：
 
-- 我们将在此 workflow 中测试哪些功能？
-- 我们将注入哪些类型的故障？
-- 我们如何验证系统的正确性？
+- 要在此 workflow 中测试哪些功能？
+- 要注入哪些类型的故障？
+- 如何验证系统的正确性？
 
 例如，让我们设计一个简单的测试 workflow，包括以下步骤：
 
@@ -41,14 +39,14 @@ chaos-mesh-action 用于 Github workflow。 GitHub workflow 是一个可配置�
 
 ### 创建 workflow
 
-在设计 workflow 之后，让我们来创建它。
+在设计好 workflow 之后，请按照以下步骤创建 workflow。
 
 1. 导航到要测试软件的 GitHub 仓库。
 2. 开始创建 workflow，点击 `Actions`，然后点击 `New workflow`。
 
 ![creating-a-workflow](./img/creating-a-workflow.png)
 
-workflow 本质上是按顺序自动进行的作业配置。 请注意，以下的作业（job）是在单个文件中配置的。 为了更好地说明，我们将脚本拆分为不同的作业组，如下所示：
+workflow 本质上是按顺序自动进行的作业配置。 请注意，以下的作业（job）是在单个文件中配置的。 为了更好地说明，本文将脚本拆分为不同的作业组，如下所示：
 
 - 设置 workflow 名称和触发规则
 
@@ -92,7 +90,7 @@ workflow 本质上是按顺序自动进行的作业配置。 请注意，以下�
 
 - 部署应用程序
 
-  在我们的示例中，此 job 部署了一个应用程序，它会创建两个 Kubernetes Pod。
+  在以下示例中，此 job 部署了一个应用程序，它会创建两个 Kubernetes Pod。
 
   ```yaml
   - name: Deploy an application
@@ -110,7 +108,7 @@ workflow 本质上是按顺序自动进行的作业配置。 请注意，以下�
         CFG_BASE64: YXBpVmVyc2lvbjogY2hhb3MtbWVzaC5vcmcvdjFhbHBoYTEKa2luZDogTmV0d29ya0NoYW9zCm1ldGFkYXRhOgogIG5hbWU6IG5ldHdvcmstZGVsYXkKICBuYW1lc3BhY2U6IGJ1c3lib3gKc3BlYzoKICBhY3Rpb246IGRlbGF5ICMgdGhlIHNwZWNpZmljIGNoYW9zIGFjdGlvbiB0byBpbmplY3QKICBtb2RlOiBhbGwKICBzZWxlY3RvcjoKICAgIHBvZHM6CiAgICAgIGJ1c3lib3g6CiAgICAgICAgLSBidXN5Ym94LTAKICBkZWxheToKICAgIGxhdGVuY3k6ICIxMG1zIgogIGR1cmF0aW9uOiAiNXMiCiAgc2NoZWR1bGVyOgogICAgY3JvbjogIkBldmVyeSAxMHMiCiAgZGlyZWN0aW9uOiB0bwogIHRhcmdldDoKICAgIHNlbGVjdG9yOgogICAgICBwb2RzOgogICAgICAgIGJ1c3lib3g6CiAgICAgICAgICAtIGJ1c3lib3gtMQogICAgbW9kZTogYWxsCg==
   ```
 
-  通过 chaos-mesh-action，Chaos Mesh 的安装和故障的注入会自动完成。你只需要准备好混沌实验的配置，并获取它的 Base64 值。 这里，我们想给 Pod 注入网络延迟，我们使用的混沌配置如下：
+  通过 chaos-mesh-action，Chaos Mesh 的安装和故障的注入会自动完成。你只需要准备好混沌实验的配置，并获取它的 Base64 值。如果想给 Pod 注入网络延迟，可以使用以下示例配置：
 
   ```yaml
   apiVersion: chaos-mesh.org/v1alpha1
@@ -181,8 +179,8 @@ workflow 本质上是按顺序自动进行的作业配置。 请注意，以下�
 
 ## 当前状态和后续步骤
 
-目前我们已经在 [TiDB Operator](https://github.com/pingcap/tidb-operator) 项目中应用了 chaos-mesh-action, 在 workflow 中注入 Pod 故障来验证 operator 实例的重启功能。 目的是为了保证在注入的故障随机删除 operator 的 Pod 时，tidb-operator 能够正常工作。 更多详情可以查看 [TiDB Operator 页面](https://github.com/pingcap/tidb-operator/actions?query=workflow%3Achaos)。
+目前 chaos-mesh-action 已经应用于 [TiDB Operator](https://github.com/pingcap/tidb-operator) 项目，可以在 workflow 中注入 Pod 故障用于验证 operator 实例的重启功能。 目的是为了保证在注入的故障随机删除 operator 的 Pod 时，TiDB Operator 能够正常工作。 更多详情可以查看 [TiDB Operator 页面](https://github.com/pingcap/tidb-operator/actions?query=workflow%3Achaos)。
 
-未来，我们计划将 chaos-mesh-action 应用到更多的测试中，以保证 TiDB 及相关组件的稳定性。 欢迎你使用 chaos-mesh-action 创建自己的 workflow。
+未来，chaos-mesh-action 将被应用到 TiDB 更多的测试中，以保证 TiDB 及相关组件的稳定性。 欢迎你使用 chaos-mesh-action 创建自己的 workflow。
 
-如果你发现错误，或者认为缺少某些内容，请随时提交 issue、pull request(PR)，或加入我们的 [CNCF](https://www.cncf.io/) slack 工作区中的 [#project-chaos-mesh](https://slack.cncf.io/) 频道。
+如果你发现错误，或者认为缺少某些内容，请随时提交 [issue](https://github.com/pingcap/chaos-mesh/issues)、[pull request(PR)](https://github.com/chaos-mesh/chaos-mesh/pulls)，或加入我们的 [CNCF](https://www.cncf.io/) slack 工作区中的 [#project-chaos-mesh](https://slack.cncf.io/) 频道。
