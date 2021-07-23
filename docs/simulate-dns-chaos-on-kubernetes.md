@@ -39,7 +39,7 @@ kubectl get pods -n chaos-testing -l app.kubernetes.io/component=chaos-dns-serve
 
 1. 单击实验页面中的“新的实验”按钮创建实验：
 
-   ![创建实验](./img/create-new-exp.jpeg)
+   ![创建实验](./img/create-new-exp.png)
 
 2. 在“选择目标”处选择 “DNS 故障”，然后选择具体行为，例如 `ERROR`，最后填写匹配规则：
 
