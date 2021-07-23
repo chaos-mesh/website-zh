@@ -13,7 +13,7 @@ Chaos Mesh 提供的 TimeChaos 实验类型可用于模拟时间偏移的场景�
 
 1. 打开 Chaos Dashboard 面板，单击实验页面中“**新的实验**”按钮创建实验：
 
-   ![创建实验](./img/create-new-exp.jpeg)
+   ![创建实验](./img/create-new-exp.png)
 
 2. 在“**选择目标**”区域选择“**时钟偏移**”，然后填写选定的时钟和偏移量。
 

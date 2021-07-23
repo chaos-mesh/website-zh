@@ -13,7 +13,7 @@ Chaos Mesh 提供的 StressChaos 实验类型可用于模拟容器内压力的�
 
 1. 打开 Chaos Dashboard 面板，单击实验页面中“**新的实验**”按钮创建实验：
 
-   ![创建实验](./img/create-new-exp.jpeg)
+   ![创建实验](./img/create-new-exp.png)
 
 2. 在“**选择目标**”区域选择“**压力测试**”，然后填写实验内容，配置字段详见[配置说明](#字段说明)中的介绍。
 
