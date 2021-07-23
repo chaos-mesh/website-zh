@@ -40,6 +40,8 @@ Use "chaosd attack stress [command] --help" for more information about a command
 
 ### 模拟 CPU 压力场景
 
+#### 模拟 CPU 压力命令
+
 运行以下命令可查看模拟 CPU 压力场景支持的配置：
 
 ```bash
@@ -64,7 +66,7 @@ Global Flags:
       --log-level string   the log level of chaosd, the value can be 'debug', 'info', 'warn' and 'error'
 ```
 
-相关配置说明如下表所示：
+#### 模拟 CPU 压力相关配置说明
 
 | 配置项  | 配置缩写 | 说明                                                                                         | 值                                          |
 | :------ | :------- | :------------------------------------------------------------------------------------------- | :------------------------------------------ |
@@ -72,7 +74,23 @@ Global Flags:
 | workers | w        | 指定用于生成 CPU 压力的 worker 数量                                                          | int 类型，默认值为 1                        |
 | options | o        | stress-ng 的其他参数设置，一般情况下不需要配置                                               | string 类型，默认值为 ""                    |
 
+#### 模拟 CPU 压力示例
+
+```bash
+chaosd attack stress cpu --workers 2 --load 10
+```
+
+输出如下所示：
+
+```bash
+[2021/05/12 03:38:33.698 +00:00] [INFO] [stress.go:66] ["stressors normalize"] [arguments=" --cpu 2 --cpu-load 10"]
+[2021/05/12 03:38:33.702 +00:00] [INFO] [stress.go:82] ["Start stress-ng process successfully"] [command="/usr/bin/stress-ng --cpu 2 --cpu-load 10"] [Pid=27483]
+Attack stress cpu successfully, uid: 4f33b2d4-aee6-43ca-9c43-0f12867e5c9c
+```
+
 ### 模拟内存压力场景
+
+#### 模拟内存压力命令
 
 运行以下命令可查看模拟内存压力场景支持的配置：
 
@@ -98,7 +116,7 @@ Global Flags:
       --log-level string   the log level of chaosd, the value can be 'debug', 'info', 'warn' and 'error'
 ```
 
-模拟内存压力相关配置说明如下表所示：
+#### 模拟内存压力相关配置说明
 
 | 配置项  | 配置缩写 | 说明                                           | 值                                                                                                          |
 | :------ | :------- | :--------------------------------------------- | :---------------------------------------------------------------------------------------------------------- |
@@ -106,23 +124,7 @@ Global Flags:
 | workers | w        | 指定用于生成内存压力的 worker 数量             | int 类型，默认值为 1                                                                                        |
 | options | o        | stress-ng 的其他参数设置，一般情况下不需要配置 | string 类型，默认值为 ""                                                                                    |
 
-### 使用示例
-
-模拟生成 CPU 压力：
-
-```bash
-chaosd attack stress cpu --workers 2 --load 10
-```
-
-输出如下所示：
-
-```bash
-[2021/05/12 03:38:33.698 +00:00] [INFO] [stress.go:66] ["stressors normalize"] [arguments=" --cpu 2 --cpu-load 10"]
-[2021/05/12 03:38:33.702 +00:00] [INFO] [stress.go:82] ["Start stress-ng process successfully"] [command="/usr/bin/stress-ng --cpu 2 --cpu-load 10"] [Pid=27483]
-Attack stress cpu successfully, uid: 4f33b2d4-aee6-43ca-9c43-0f12867e5c9c
-```
-
-模拟生成内存压力：
+#### 模拟内存压力示例
 
 ```bash
 chaosd attack stress mem --workers 2 --size 100M
