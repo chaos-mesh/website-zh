@@ -63,7 +63,7 @@ NetworkChaos 是 Chaos Mesh 中的一种故障类型。通过创建 NetworkChaos
       jitter: '0ms'
   ```
 
-  该配置将使目标 Pod 的网络连接产生 10 毫秒的延迟。除了注入延迟以外，Chaos Mesh 还支持注入丢包、乱序等功能，详见[字段说明](#字段说明)
+  该配置将使目标 Pod 的网络连接产生 10 毫秒的延迟。除了注入延迟以外，Chaos Mesh 还支持注入丢包、乱序等功能，详见[字段说明](#字段说明)。
 
 2. 使用 `kubectl` 创建实验，命令如下：
 
@@ -141,7 +141,7 @@ NetworkChaos 是 Chaos Mesh 中的一种故障类型。通过创建 NetworkChaos
 
 | 参数           | 类型     | 说明                                                                                                                                                                                                                                                                                                       | 默认值 | 是否必填 | 示例      |
 | -------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | -------- | --------- |
-| action         | string   | 指定具体的故障类型，可设置的类型包括：`netem`，`delay`（表示网络延迟故障），`loss`（表示丢包故障），`duplicate`（表示包重复故障），`corrupt`（表示包错误故障）、`partition`（表示网络分区故障）、或`bandwidth`（表示带宽限制故障）。当指定了 `action` 字段后，请参考[与 `action` 相关的字段说明](#与-action-相关的字段说明)配置其他需要的字段。  | 无     | 是       | partition |
+| action         | string   | 指定具体的故障类型，可设置的类型包括：`netem`、`delay`（表示网络延迟故障）、`loss`（表示丢包故障）、`duplicate`（表示包重复故障）、`corrupt`（表示包错误故障）、`partition`（表示网络分区故障）、或`bandwidth`（表示带宽限制故障）。当指定了 `action` 字段后，请参考[与 `action` 相关的字段说明](#与-action-相关的字段说明)配置其他需要的字段。  | 无     | 是       | partition |
 | target         | Selector | 与 direction 组合使用，使 Chaos 只对部分包生效                                                                                                                                                                                                                                                           | 无     | 否       |           |
 | direction      | enum     | 指定 `target` 包的方向，可设置的值包括 `from` (表示来自 `target` 的包）、`to`（表示发往 `target` 的包）、 或 `both`（表示 `target` 收到或者发出的包），使 Chaos 只对指定方向的包生效。| to     | 否       | both      |
 | mode           | string   | 指定实验的运行方式，可选择的方式包括：`one`（表示随机选出一个符合条件的 Pod）、`all`（表示选出所有符合条件的 Pod）、`fixed`（表示选出指定数量且符合条件的 Pod）、`fixed-percent`（表示选出占符合条件的 Pod 中指定百分比的 Pod）、`random-max-percent`（表示选出占符合条件的 Pod 中不超过指定百分比的 Pod） | 无     | 是       | `one`     |
@@ -151,12 +151,12 @@ NetworkChaos 是 Chaos Mesh 中的一种故障类型。通过创建 NetworkChaos
 
 ### 与 `action` 相关的字段说明
 
-针对 Net Emulation 类型和 Bandwidth 类型 的 `action`，你还可以进一步设置相关参数。
+对于 Net Emulation 类型和 Bandwidth 类型的 `action`，你还可以按照本小节的字段说明进一步设置相关参数。
 
 - Net Emulation 类型：`delay`、`loss`、`duplicate`、`corrupt`
 - Bandwidth 类型：`bandwidth`
 
-#### `delay`
+#### delay
 
 如果将 `action` 设置为 `delay`，表示模拟网络延迟故障。此时，你还可以设置以下相关参数。
 
@@ -185,7 +185,7 @@ NetworkChaos 是 Chaos Mesh 中的一种故障类型。通过创建 NetworkChaos
 
   其中 `sigma` 为 `jitter`，`mu` 为 `latency`。
 
-#### `reorder`
+#### reorder
 
 如果将 `action` 设置为 `reorder`，表示模拟网络包乱序的故障。此时，你还可以设置以下相关参数。
 
@@ -195,7 +195,7 @@ NetworkChaos 是 Chaos Mesh 中的一种故障类型。通过创建 NetworkChaos
 | correlation | string | 表示发生重新排序的概率与前一次的相关性 | 0      | 否       | 0.5  |
 | gap         | int    | 表示乱序将包推后的距离                 | 0      | 否       | 5    |
 
-#### `loss`
+#### loss
 
 如果将 `action` 设置为 `loss`，表示模拟丢包故障。此时，你还可以设置以下相关参数。
 
@@ -204,7 +204,7 @@ NetworkChaos 是 Chaos Mesh 中的一种故障类型。通过创建 NetworkChaos
 | loss        | string | 表示丢包发生的概率                         | 0      | 否       | 0.5  |
 | correlation | string | 表示丢包发生的概率与前一次是否发生的相关性 | 0      | 否       | 0.5  |
 
-#### `duplicate`
+#### duplicate
 
 如果将 `action` 设置为 `duplicate`，表示模拟包重复故障。此时，你还可以设置以下相关参数。
 
@@ -213,7 +213,7 @@ NetworkChaos 是 Chaos Mesh 中的一种故障类型。通过创建 NetworkChaos
 | duplicate   | string | 表示包重复发生的概率                         | 0      | 否       | 0.5  |
 | correlation | string | 表示包重复发生的概率与前一次是否发生的相关性 | 0      | 否       | 0.5  |
 
-#### `corrupt`
+#### corrupt
 
 如果将 `action` 设置为 `corrupt`，表示模拟包错误的情况。此时，你还可以设置以下相关参数。
 
@@ -222,11 +222,11 @@ NetworkChaos 是 Chaos Mesh 中的一种故障类型。通过创建 NetworkChaos
 | corrupt     | string | 表示包错误发生的概率                         | 0      | 否       | 0.5  |
 | correlation | string | 表示包错误发生的概率与前一次是否发生的相关性 | 0      | 否       | 0.5  |
 
-对于 `reorder`，`loss`，`duplicate`，`corrupt` 这些偶发事件，`correlation` 则更为复杂。具体模型描述参考 [NetemCLG](http://web.archive.org/web/20200120162102/http://netgroup.uniroma2.it/twiki/bin/view.cgi/Main/NetemCLG) 。
+对于 `reorder`、`loss`、`duplicate`、`corrupt` 这些偶发事件，`correlation` 则更为复杂。具体模型描述参考 [NetemCLG](http://web.archive.org/web/20200120162102/http://netgroup.uniroma2.it/twiki/bin/view.cgi/Main/NetemCLG) 。
 
-#### `bandwidth`
+#### bandwidth
 
-如果将 `action` 设置为 `bandwidth`，表示模拟带宽限制的故障。此时，你还可以设置以下相关参数。
+如果将 `action` 设置为 `bandwidth`，表示模拟带宽限制的故障。此时，你还需要设置以下相关参数。
 
 | 参数     | 类型   | 说明                     | 默认值 | 是否必填 | 示例  |
 | -------- | ------ | ------------------------ | ------ | -------- | ----- |
@@ -236,4 +236,4 @@ NetworkChaos 是 Chaos Mesh 中的一种故障类型。通过创建 NetworkChaos
 | peakrate | uint64 | `bucket` 的最大消耗率 （通常情况下不需要设置）   |        | 否       | 1     |
 | minburst | uint32 | `peakrate bucket` 的大小  （通常情况下不需要设置） |        | 否       | 1     |
 
-如果需要进一步了解这些字段的含义，可以参考 [tc-tbf 文档](https://man7.org/linux/man-pages/man8/tc-tbf.8.html)。
+如果需要进一步了解这些字段的含义，请参阅 [tc-tbf 文档](https://man7.org/linux/man-pages/man8/tc-tbf.8.html)。
