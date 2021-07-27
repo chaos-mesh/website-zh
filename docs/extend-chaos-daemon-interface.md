@@ -185,7 +185,7 @@ func (obj *HelloWorldChaos) GetSelectorSpecs() map[string]interface{} {
    ```
 
    :::note 注意
-   在 HelloWorldChaos 中，恢复过程什么都没有做。这是因为 HelloWorldChaos 是一个 OneShot 实验。如果你的新实验需要恢复，你应该在其中实现相关逻辑。
+   在 HelloWorldChaos 中，恢复过程什么都没有做。这是因为 HelloWorldChaos 是一个只运行一次的实验。如果你的新实验需要恢复，你应该在其中实现相关逻辑。
    :::
 
 ## 验证实验效果
