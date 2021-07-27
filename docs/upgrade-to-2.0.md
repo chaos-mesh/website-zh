@@ -11,10 +11,16 @@ CRD 在 Chaos Mesh 2.0 中发生了变化，旧版本实验的 YAML 文件无法
 
 为了简化升级过程，Chaos Mesh 2.0 提供了以下升级工具：
 
-- `migrate.sh`：用于自动导出并升级实验 YAML 文件、升级 CRD、导入升级后的 YAML 文件。可以从仓库的 `tools/schedule-migration/migrate.sh` 处获得
-- `schedule-migration`：用于将手动指定的旧版 YAML 更新为新版 YAML。该工具可以从 [链接](https://mirrors.chaos-mesh.org/v2.0.0/schedule-migration) 下载，二进制适用于 Linux x86_64 平台；其他操作系统/架构可从仓库中 `tools/schedule-migration/main.go` 文件自行编译。
+- `migrate.sh`：用于自动导出并升级实验 YAML 文件、升级 CRD、导入升级后的 YAML 文件。
+- `schedule-migration`：用于将手动指定的旧版 YAML 更新为新版 YAML。
 
-要获取升级工具，建议将 Chaos Mesh 项目克隆至本地，或是从（这里应该有一个打包好的链接）下载，然后查看 tools/schedule-migration 目录。
+要获取升级工具，建议将 Chaos Mesh 项目克隆至本地执行 `make schedule-migration.tar.gz`，或是从 https://mirrors.chaos-mesh.org/v2.0.0/schedule-migration.tar.gz 下载。使用以下命令将其解压，即可得到上述两个工具：
+
+```
+tar xvf ./schedule-migration.tar.gz
+```
+
+该压缩包打包的 `schedule-migration` 工具仅适用于 Linux x86_64 平台，其他操作系统 / 架构的用户需要自行编译。
 
 ## 第 1 步：导出并升级实验
 
@@ -28,10 +34,10 @@ bash migrate.sh -e
 
 在当前目录下出现了许多 YAML 文件，这些就是被导出的实验文件。导出的实验已经被自动升级。
 
-此外，你也可以使用工具手动升级旧版 YAML。将 `tools/schedule-migration` 目录下的 `main.go` 编译为可执行文件，然后运行：
+此外，你也可以使用工具手动升级旧版 YAML。运行：
 
 ```bash
-./main <path-to-old-yaml> <path-to-new-yaml>
+./schedule-migration <path-to-old-yaml> <path-to-new-yaml>
 ```
 
 就可以看到被升级过的新 YAML 文件。在删除旧资源后重新应用新 YAML 即可完成更新。
