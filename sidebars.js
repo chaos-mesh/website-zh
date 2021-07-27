@@ -8,16 +8,18 @@ module.exports = {
     {
       type: 'category',
       label: '开始使用',
+      collapsed: false,
       items: [
         {
           type: 'category',
           label: '安装部署',
+          collapsed: false,
           items: ['quick-start', 'production-installation-using-helm', 'offline-installation'],
         },
         {
           type: 'category',
           label: '管理权限',
-          items: ['manage-roles', 'configure-protected-namespace'],
+          items: [`manage-roles`, `configure-enabled-namespace`],
         },
         {
           type: 'category',
@@ -27,7 +29,6 @@ module.exports = {
             'define-scheduling-rules',
             'run-a-chaos-experiment',
             'inspect-chaos-experiment',
-            'clean-up-chaos-experiment',
           ],
         },
         {
@@ -35,8 +36,7 @@ module.exports = {
           label: '编排多个混沌实验',
           items: [
             'create-chaos-mesh-workflow',
-            'define-workflow-scheduling-rules',
-            'run-chaos-experiments-in-parallel-or-concurrently',
+            'run-chaos-experiments-in-serial-or-parallel',
             'inspect-chaos-mesh-workflow',
           ],
         },
@@ -52,9 +52,9 @@ module.exports = {
           items: [
             'simulate-pod-chaos-on-kubernetes',
             'simulate-network-chaos-on-kubernetes',
-            'simulate-dns-chaos-on-kubernetes',
             'simulate-heavy-stress-on-kubernetes',
             'simulate-io-chaos-on-kubernetes',
+            'simulate-dns-chaos-on-kubernetes',
             'simulate-time-chaos-on-kubernetes',
             'simulate-jvm-application-chaos',
             'simulate-kernel-chaos-on-kubernetes',
@@ -71,22 +71,24 @@ module.exports = {
             'simulate-process-chaos-in-physical-nodes',
             'simulate-network-chaos-in-physical-nodes',
             'simulate-heavy-stress-in-physical-nodes',
+            'simulate-host-console-in-physical-nodes',
+            'simulate-disk-pressure-in-physical-nodes',
           ],
         },
       ],
     },
-    {
-      type: 'category',
-      label: '使用案例',
-      items: ['multi-data-center-scenario'],
-    },
+    //{
+    //  type: 'category',
+    //  label: '使用案例',
+    //  items: ['multi-data-center-scenario'],
+    // },
     {
       type: 'category',
       label: '工具整合',
       items: [
         'integrate-chaos-mesh-into-github-actions',
-        'use-argo-to-orchestrate-chaos-experiments',
-        'use-grafana-to-inspect-chaos-experiments',
+        //  'use-argo-to-orchestrate-chaos-experiments',
+        //  'use-grafana-to-inspect-chaos-experiments',
       ],
     },
     {
@@ -97,28 +99,37 @@ module.exports = {
         'configure-development-environment',
         'add-new-chaos-experiment-type',
         'extend-chaos-daemon-interface',
-        'extend-chaosd',
-        {
-          type: 'category',
-          label: '客户端',
-          items: ['go-client', 'rust-client', 'java-client', 'python-client'],
-        },
+        //  'extend-chaosd',
+        //  {
+        //    type: 'category',
+        //    label: '客户端',
+        //    items: ['go-client', 'rust-client', 'java-client', 'python-client'],
+        //  },
       ],
     },
     {
       type: 'category',
       label: '参考指南',
-      items: ['architecture', 'chaos-engineering-principles', 'chaosctl-tool', 'glossary'],
+      items: [
+        // 'architecture',
+        // 'chaos-engineering-principles',
+        'chaosctl-tool',
+        // 'glossary'
+      ],
     },
     {
       type: 'category',
       label: '常见问题与故障',
-      items: ['faqs', 'troubleshooting-guide', 'upgrade-to-2.0'],
+      items: [
+        // 'faqs', 
+        // 'troubleshooting-guide',
+        'upgrade-to-2.0'
+      ],
     },
-    {
-      type: 'category',
-      label: '版本发布历史',
-      items: ['release-2.0.0', 'release-1.0.0', 'release-0.0.9', 'release-0.0.8'],
-    },
+    //{
+    //  type: 'category',
+    //  label: '版本发布历史',
+    //  items: ['release-2.0.0', 'release-1.0.0', 'release-0.0.9', 'release-0.0.8'],
+    // },
   ],
 }
