@@ -46,43 +46,43 @@ spec:
 
 - **mode** 指定实验的运行方式，可选择的方式包括：
 
-    - `one`：表示随机选出一个符合条件的 Pod
-    - `all`：表示选出所有符合条件的 Pod
-    - `fixed`：表示选出指定数量且符合条件的 Pod
-    - `fixed-percent`：表示选出符合条件的 Pod 中指定百分比的 Pod
-    - `random-max-percent`：表示选出占符合条件的 Pod 中不超过指定百分比的 Pod
+  - `one`：表示随机选出一个符合条件的 Pod
+  - `all`：表示选出所有符合条件的 Pod
+  - `fixed`：表示选出指定数量且符合条件的 Pod
+  - `fixed-percent`：表示选出符合条件的 Pod 中指定百分比的 Pod
+  - `random-max-percent`：表示选出占符合条件的 Pod 中不超过指定百分比的 Pod
 
 - **selector** 指定需要注入故障的目标 Pods。
 - **failedkernRequest** 指定故障模式 (kmalloc, bio 等)，可以指定一个具体的调用链路径和可选的过滤条件。配置项包括：
 
-    - **failtype** 指定故障类型，可设置的值包括：
+  - **failtype** 指定故障类型，可设置的值包括：
 
-        - '0'：表明注入 slab 分配错误 should\_failslab。
-        - '1'：表明注入 内存页分配错误 should\_fail\_alloc\_page。
-        - '2'：表明注入 bio 错误 should\_fail\_bio。
+    - '0'：表明注入 slab 分配错误 should_failslab。
+    - '1'：表明注入 内存页分配错误 should_fail_alloc_page。
+    - '2'：表明注入 bio 错误 should_fail_bio。
 
-        对于这三种故障的更多信息，请参考 [fault-injection](https://www.kernel.org/doc/html/latest/fault-injection/fault-injection.html) 和 [inject_example](http://github.com/iovisor/bcc/blob/master/tools/inject_example.txt)。
+    对于这三种故障的更多信息，请参考 [fault-injection](https://www.kernel.org/doc/html/latest/fault-injection/fault-injection.html) 和 [inject_example](http://github.com/iovisor/bcc/blob/master/tools/inject_example.txt)。
 
-    - **callchain** 指定一个具体的调用链，例如：
+  - **callchain** 指定一个具体的调用链，例如：
 
-        ```c
-        ext4_mount
-        -> mount_subtree
-        -> ...
-            -> should_failslab
-        ```
+    ```c
+    ext4_mount
+    -> mount_subtree
+    -> ...
+        -> should_failslab
+    ```
 
-        也可以使用函数参数作为过滤条件，进一步细粒度的故障注入。请参考 [call chain and predicate examples](https://github.com/chaos-mesh/bpfki/tree/develop/examples) 来获得更多信息。如果没有指定调用链，请保持 `callchain` 为空，表明它将在任意调用 slab alloc 的路径（比如 kmalloc）上注入故障。
+    也可以使用函数参数作为过滤条件，进一步细粒度的故障注入。请参考 [call chain and predicate examples](https://github.com/chaos-mesh/bpfki/tree/develop/examples) 来获得更多信息。如果没有指定调用链，请保持 `callchain` 为空，表明它将在任意调用 slab alloc 的路径（比如 kmalloc）上注入故障。
 
-        调用链的类型是 frame 数组，由以下三个部分组成：
+    调用链的类型是 frame 数组，由以下三个部分组成：
 
-        - **funcname**：可以从内核源码或 `/proc/kallsyms` 中找到 `funcname`，比如 `ext4_mount`。
-        - **parameters**：用于过滤。如果你想在 `d_alloc_parallel(struct dentry *parent, const struct qstr *name)`（其中 `name` 为 `bananas`）路径上注入 slab 错误，你需要将 parameters 设置为 `struct dentry *parent, const struct qstr *name` 否则省略此配置。
-        - **predicate**：用于访问 frame 数组的参数，以 **parameters** 为例，你可以把它设置为 `STRNCMP(name->name, "bananas", 8)` 来控制故障注入路径，也可以不设置，使得所有执行 `d_alloc_parallel` 的调用路径都注入 slab 故障。
+    - **funcname**：可以从内核源码或 `/proc/kallsyms` 中找到 `funcname`，比如 `ext4_mount`。
+    - **parameters**：用于过滤。如果你想在 `d_alloc_parallel(struct dentry *parent, const struct qstr *name)`（其中 `name` 为 `bananas`）路径上注入 slab 错误，你需要将 parameters 设置为 `struct dentry *parent, const struct qstr *name` 否则省略此配置。
+    - **predicate**：用于访问 frame 数组的参数，以 **parameters** 为例，你可以把它设置为 `STRNCMP(name->name, "bananas", 8)` 来控制故障注入路径，也可以不设置，使得所有执行 `d_alloc_parallel` 的调用路径都注入 slab 故障。
 
-    - **headers** 指定你需要的内核头文件，比如："linux/mmzone.h"，"linux/blkdev.h" 等。
-    - **probability** 指定故障发生概率，如果你想要 1% 的概率，请将其设置为 '1'.
-    - **times** 指定触发故障的最大次数。
+  - **headers** 指定你需要的内核头文件，比如："linux/mmzone.h"，"linux/blkdev.h" 等。
+  - **probability** 指定故障发生概率，如果你想要 1% 的概率，请将其设置为 '1'.
+  - **times** 指定触发故障的最大次数。
 
 ## 使用 kubectl 创建实验
 
@@ -92,7 +92,7 @@ spec:
 kubectl apply -f KernelChaos
 ```
 
-KernelChaos 功能和 [inject.py](https://github.com/iovisor/bcc/blob/master/tools/inject.py) 类似，你可以阅读  [inject_example.txt](https://github.com/iovisor/bcc/blob/master/tools/inject_example.txt) 来获得更多的信息。
+KernelChaos 功能和 [inject.py](https://github.com/iovisor/bcc/blob/master/tools/inject.py) 类似，你可以阅读 [inject_example.txt](https://github.com/iovisor/bcc/blob/master/tools/inject_example.txt) 来获得更多的信息。
 
 下面是一个简单的例子：
 
@@ -135,6 +135,6 @@ int main(void) {
 
 ## 使用限制
 
-通过 container\_id 可以限制故障注入范围，但有些路径会触发系统级别的行为。比如：
+通过 container_id 可以限制故障注入范围，但有些路径会触发系统级别的行为。比如：
 
 当 `failtype` 为 `1` 时，它意味着物理页面分配失败。如果这个事件在很短的时间内频繁触发（例如，`while (1) {memset(malloc(1M), '1', 1M)}`），会触发系统调用 oom-killer 来回收内存。

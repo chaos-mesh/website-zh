@@ -117,11 +117,15 @@ module.exports = {
         // 'glossary'
       ],
     },
-    //{
-    //  type: 'category',
-    //  label: '常见问题与故障',
-    //  items: ['faqs', 'troubleshooting-guide'],
-    //},
+    {
+      type: 'category',
+      label: '常见问题与故障',
+      items: [
+        // 'faqs', 
+        // 'troubleshooting-guide',
+        'upgrade-to-2.0'
+      ],
+    },
     //{
     //  type: 'category',
     //  label: '版本发布历史',

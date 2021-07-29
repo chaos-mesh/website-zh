@@ -44,110 +44,110 @@ NetworkChaos 是 Chaos Mesh 中的一种故障类型。通过创建 NetworkChaos
 
 1. 将实验配置写入 `network-delay.yaml` 文件，内容示例如下：
 
-  ```yaml
-  apiVersion: chaos-mesh.org/v1alpha1
-  kind: NetworkChaos
-  metadata:
-    name: delay
-  spec:
-    action: delay
-    mode: one
-    selector:
-      namespaces:
-        - default
-      labelSelectors:
-        'app': 'web-show'
-    delay:
-      latency: '10ms'
-      correlation: '100'
-      jitter: '0ms'
-  ```
+   ```yaml
+   apiVersion: chaos-mesh.org/v1alpha1
+   kind: NetworkChaos
+   metadata:
+     name: delay
+   spec:
+     action: delay
+     mode: one
+     selector:
+       namespaces:
+         - default
+       labelSelectors:
+         'app': 'web-show'
+     delay:
+       latency: '10ms'
+       correlation: '100'
+       jitter: '0ms'
+   ```
 
-  该配置将使目标 Pod 的网络连接产生 10 毫秒的延迟。除了注入延迟以外，Chaos Mesh 还支持注入丢包、乱序等功能，详见[字段说明](#字段说明)。
+该配置将使目标 Pod 的网络连接产生 10 毫秒的延迟。除了注入延迟以外，Chaos Mesh 还支持注入丢包、乱序等功能，详见[字段说明](#字段说明)。
 
 2. 使用 `kubectl` 创建实验，命令如下：
 
-  ```bash
-  kubectl apply -f ./network-delay.yaml
-  ```
+   ```bash
+   kubectl apply -f ./network-delay.yaml
+   ```
 
 ### Partition 示例
 
 1. 将实验配置写入 `network-partition.yaml` 文件，内容示例如下：
 
-  ```yaml
-  apiVersion: chaos-mesh.org/v1alpha1
-  kind: NetworkChaos
-  metadata:
-    name: partition
-  spec:
-    action: partition
-    mode: all
-    selector:
-      namespaces:
-        - default
-      labelSelectors:
-        'app': 'app1'
-    direction: to
-    target:
-      mode: all
-      selector:
-        namespaces:
-          - default
-        labelSelectors:
-          'app': 'app2'
-  ```
+   ```yaml
+   apiVersion: chaos-mesh.org/v1alpha1
+   kind: NetworkChaos
+   metadata:
+     name: partition
+   spec:
+     action: partition
+     mode: all
+     selector:
+       namespaces:
+         - default
+       labelSelectors:
+         'app': 'app1'
+     direction: to
+     target:
+       mode: all
+       selector:
+         namespaces:
+           - default
+         labelSelectors:
+           'app': 'app2'
+   ```
 
-  该配置将阻止从 `app1` 向 `app2` 建立的连接。`direction` 字段的值可以选择 `to`，`from` 及 `both`，详见[字段说明](#字段说明)。
+该配置将阻止从 `app1` 向 `app2` 建立的连接。`direction` 字段的值可以选择 `to`，`from` 及 `both`，详见[字段说明](#字段说明)。
 
 2. 使用 `kubectl` 创建实验，命令如下：
 
-  ```bash
-  kubectl apply -f ./network-partition.yaml
-  ```
+   ```bash
+   kubectl apply -f ./network-partition.yaml
+   ```
 
 ### Bandwidth 示例
 
 1. 将实验配置写入 `network-bandwidth.yaml` 文件，内容示例如下：
 
-  ```yaml
-  apiVersion: chaos-mesh.org/v1alpha1
-  kind: NetworkChaos
-  metadata:
-    name: bandwidth
-  spec:
-    action: bandwidth
-    mode: all
-    selector:
-      namespaces:
-        - default
-      labelSelectors:
-        'app': 'app1'
-    bandwidth:
-      rate: '1mbps'
-  ```
+   ```yaml
+   apiVersion: chaos-mesh.org/v1alpha1
+   kind: NetworkChaos
+   metadata:
+     name: bandwidth
+   spec:
+     action: bandwidth
+     mode: all
+     selector:
+       namespaces:
+         - default
+       labelSelectors:
+         'app': 'app1'
+     bandwidth:
+       rate: '1mbps'
+   ```
 
-  该配置将限制 `app1` 的带宽为 1 mbps。
+该配置将限制 `app1` 的带宽为 1 mbps。
 
 2. 使用 `kubectl` 创建实验，命令如下：
 
-  ```bash
-  kubectl apply -f ./network-bandwidth.yaml
-  ```
+   ```bash
+   kubectl apply -f ./network-bandwidth.yaml
+   ```
 
 ## 字段说明
 
 ### 通过字段说明
 
-| 参数           | 类型     | 说明                                                                                                                                                                                                                                                                                                       | 默认值 | 是否必填 | 示例      |
-| -------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | -------- | --------- |
-| action         | string   | 指定具体的故障类型，可设置的类型包括：`netem`、`delay`（表示网络延迟故障）、`loss`（表示丢包故障）、`duplicate`（表示包重复故障）、`corrupt`（表示包错误故障）、`partition`（表示网络分区故障）、或`bandwidth`（表示带宽限制故障）。当指定了 `action` 字段后，请参考[与 `action` 相关的字段说明](#与-action-相关的字段说明)配置其他需要的字段。  | 无     | 是       | partition |
-| target         | Selector | 与 direction 组合使用，使 Chaos 只对部分包生效                                                                                                                                                                                                                                                           | 无     | 否       |           |
-| direction      | enum     | 指定 `target` 包的方向，可设置的值包括 `from` (表示来自 `target` 的包）、`to`（表示发往 `target` 的包）、 或 `both`（表示 `target` 收到或者发出的包），使 Chaos 只对指定方向的包生效。| to     | 否       | both      |
-| mode           | string   | 指定实验的运行方式，可选择的方式包括：`one`（表示随机选出一个符合条件的 Pod）、`all`（表示选出所有符合条件的 Pod）、`fixed`（表示选出指定数量且符合条件的 Pod）、`fixed-percent`（表示选出占符合条件的 Pod 中指定百分比的 Pod）、`random-max-percent`（表示选出占符合条件的 Pod 中不超过指定百分比的 Pod） | 无     | 是       | `one`     |
-| value          | string   | 取决与 `mode` 的配置，为 `mode` 提供对应的参数。例如，当你将 `mode` 配置为 `fixed-percent` 时，`value` 用于指定 Pod 的百分比                                                                                                                                                                               | 无     | 否       | 2         |
-| containerNames | []string | 指定注入的容器名称                                                                                                                                                                                                                                                                                         | 无     | 否       | ["nginx"] |
-| selector       | struct   | 指定注入故障的目标 Pod，详情请参考[定义实验范围](./define-chaos-experiment-scope.md)                                                                                                                                                                                                                       | 无     | 是       |           |
+| 参数           | 类型     | 说明                                                                                                                                                                                                                                                                                                                                            | 默认值 | 是否必填 | 示例      |
+| -------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | -------- | --------- |
+| action         | string   | 指定具体的故障类型，可设置的类型包括：`netem`、`delay`（表示网络延迟故障）、`loss`（表示丢包故障）、`duplicate`（表示包重复故障）、`corrupt`（表示包错误故障）、`partition`（表示网络分区故障）、或`bandwidth`（表示带宽限制故障）。当指定了 `action` 字段后，请参考[与 `action` 相关的字段说明](#与-action-相关的字段说明)配置其他需要的字段。 | 无     | 是       | partition |
+| target         | Selector | 与 direction 组合使用，使 Chaos 只对部分包生效                                                                                                                                                                                                                                                                                                  | 无     | 否       |           |
+| direction      | enum     | 指定 `target` 包的方向，可设置的值包括 `from` (表示来自 `target` 的包）、`to`（表示发往 `target` 的包）、 或 `both`（表示 `target` 收到或者发出的包），使 Chaos 只对指定方向的包生效。                                                                                                                                                          | to     | 否       | both      |
+| mode           | string   | 指定实验的运行方式，可选择的方式包括：`one`（表示随机选出一个符合条件的 Pod）、`all`（表示选出所有符合条件的 Pod）、`fixed`（表示选出指定数量且符合条件的 Pod）、`fixed-percent`（表示选出占符合条件的 Pod 中指定百分比的 Pod）、`random-max-percent`（表示选出占符合条件的 Pod 中不超过指定百分比的 Pod）                                      | 无     | 是       | `one`     |
+| value          | string   | 取决与 `mode` 的配置，为 `mode` 提供对应的参数。例如，当你将 `mode` 配置为 `fixed-percent` 时，`value` 用于指定 Pod 的百分比                                                                                                                                                                                                                    | 无     | 否       | 2         |
+| containerNames | []string | 指定注入的容器名称                                                                                                                                                                                                                                                                                                                              | 无     | 否       | ["nginx"] |
+| selector       | struct   | 指定注入故障的目标 Pod，详情请参考[定义实验范围](./define-chaos-experiment-scope.md)                                                                                                                                                                                                                                                            | 无     | 是       |           |
 
 ### 与 `action` 相关的字段说明
 
@@ -171,19 +171,19 @@ NetworkChaos 是 Chaos Mesh 中的一种故障类型。通过创建 NetworkChaos
 
 1. 首先生成一个分布与上一个值有关的随机数：
 
-  ```c
-  rnd = value * (1-corr) + last_rnd * corr
-  ```
+   ```c
+   rnd = value * (1-corr) + last_rnd * corr
+   ```
 
-  其中 `rnd` 为这一随机数。`corr` 为填写的 `correlation`。
+其中 `rnd` 为这一随机数。`corr` 为填写的 `correlation`。
 
 2. 使用这一随机数决定当前包的延迟：
 
-  ```c
-  ((rnd % (2 * sigma)) + mu) - sigma
-  ```
+   ```c
+   ((rnd % (2 * sigma)) + mu) - sigma
+   ```
 
-  其中 `sigma` 为 `jitter`，`mu` 为 `latency`。
+   其中 `sigma` 为 `jitter`，`mu` 为 `latency`。
 
 #### reorder
 
@@ -228,12 +228,12 @@ NetworkChaos 是 Chaos Mesh 中的一种故障类型。通过创建 NetworkChaos
 
 如果将 `action` 设置为 `bandwidth`，表示模拟带宽限制的故障。此时，你还需要设置以下相关参数。
 
-| 参数     | 类型   | 说明                     | 默认值 | 是否必填 | 示例  |
-| -------- | ------ | ------------------------ | ------ | -------- | ----- |
-| rate     | string | 表示带宽限制的速率       |        | 是       | 1mbps |
-| limit    | uint32 | 表示在队列中等待的字节数 |        | 是       | 1     |
-| buffer   | uint32 | 能够瞬间发送的最大字节数 |        | 是       | 1     |
-| peakrate | uint64 | `bucket` 的最大消耗率 （通常情况下不需要设置）   |        | 否       | 1     |
-| minburst | uint32 | `peakrate bucket` 的大小  （通常情况下不需要设置） |        | 否       | 1     |
+| 参数     | 类型   | 说明                                              | 默认值 | 是否必填 | 示例  |
+| -------- | ------ | ------------------------------------------------- | ------ | -------- | ----- |
+| rate     | string | 表示带宽限制的速率                                |        | 是       | 1mbps |
+| limit    | uint32 | 表示在队列中等待的字节数                          |        | 是       | 1     |
+| buffer   | uint32 | 能够瞬间发送的最大字节数                          |        | 是       | 1     |
+| peakrate | uint64 | `bucket` 的最大消耗率 （通常情况下不需要设置）    |        | 否       | 1     |
+| minburst | uint32 | `peakrate bucket` 的大小 （通常情况下不需要设置） |        | 否       | 1     |
 
 如果需要进一步了解这些字段的含义，请参阅 [tc-tbf 文档](https://man7.org/linux/man-pages/man8/tc-tbf.8.html)。
