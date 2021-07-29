@@ -3,15 +3,15 @@ title: 模拟 GCP 故障
 sidebar_label: 模拟 GCP 故障
 ---
 
-本文档介绍如何使用 Chaos Mesh 为 GCP 节点注入故障，并提供 Dashboard 和 YAML 文件两种方式用于创建 GcpChaos 实验。
+本文档介绍如何使用 Chaos Mesh 为 GCP 节点注入故障，并提供 Dashboard 和 YAML 文件两种方式用于创建 GCPChaos 实验。
 
-## GcpChaos 介绍
+## GCPChaos 介绍
 
-GcpChaos 能够帮助你模拟指定的 GCP 实例发生故障的情景。目前，GcpChaos 支持以下类型的故障：
+GCPChaos 能够帮助你模拟指定的 GCP 实例发生故障的情景。目前，GCPChaos 支持以下类型的故障：
 
--  **Node Stop**：使指定的 GCP 实例进入停止状态。
--  **Node Reset**：重置指定的 GCP 实例。
--  **Disk Loss**：从指定的 EC2 实例中卸载存储卷。
+- **Node Stop**：使指定的 GCP 实例进入停止状态。
+- **Node Reset**：重置指定的 GCP 实例。
+- **Disk Loss**：从指定的 EC2 实例中卸载存储卷。
 
 ## Secret 文件
 
@@ -39,6 +39,7 @@ stringData:
 :::note 注意
 
 在使用 Dashboard 方式创建实验前，请确保满足以下条件：
+
 1. 已安装 Dashboard。
 2. 可以通过 **kubectl port-forward** 方式访问 Dashboard ：
    ```bash
@@ -72,16 +73,16 @@ stringData:
 
 ```yaml
 apiVersion: chaos-mesh.org/v1alpha1
-kind: GcpChaos
+kind: GCPChaos
 metadata:
   name: node-stop-example
   namespace: chaos-testing
 spec:
   action: node-stop
   secretName: 'cloud-key-secret'
-  project: "your-project"
-  zone: "your-zone"
-  instance: "your-instance"
+  project: 'your-project'
+  zone: 'your-zone'
+  instance: 'your-instance'
   duration: '5m'
 ```
 
@@ -101,16 +102,16 @@ spec:
 
 ```yaml
 apiVersion: chaos-mesh.org/v1alpha1
-kind: GcpChaos
+kind: GCPChaos
 metadata:
   name: node-reset-example
   namespace: chaos-testing
 spec:
   action: node-reset
   secretName: 'cloud-key-secret'
-  project: "your-project"
-  zone: "your-zone"
-  instance: "your-instance"
+  project: 'your-project'
+  zone: 'your-zone'
+  instance: 'your-instance'
   duration: '5m'
 ```
 
@@ -130,17 +131,17 @@ spec:
 
 ```yaml
 apiVersion: chaos-mesh.org/v1alpha1
-kind: GcpChaos
+kind: GCPChaos
 metadata:
   name: disk-loss-example
   namespace: chaos-testing
 spec:
   action: disk-loss
   secretName: 'cloud-key-secret'
-  project: "your-project"
-  zone: "your-zone"
-  instance: "your-instance"
-  deviceNames: ["disk-name"]
+  project: 'your-project'
+  zone: 'your-zone'
+  instance: 'your-instance'
+  deviceNames: ['disk-name']
   duration: '5m'
 ```
 
@@ -158,14 +159,14 @@ spec:
 
 下表介绍以上 YAML 配置文件中的字段。
 
-|参数|类型|说明|默认值|是否必填|示例|
-|---|---|---|---|---|---|
-|action|string|表示具体的故障类型，仅支持 node-stop、node-reset、disk-loss|ec2-stop|是|node-stop|
-|mode|string|指定实验的运行方式，可选择的方式包括：`one`（表示随机选出一个符合条件的 Pod）、`all`（表示选出所有符合条件的 Pod）、`fixed`（表示选出指定数量且符合条件的 Pod）、`fixed-percent`（表示选出占符合条件的 Pod 中指定百分比的 Pod）、`random-max-percent`（表示选出占符合条件的 Pod 中不超过指定百分比的 Pod）|无|是|`one`|
-|value|string|取决与 `mode` 的配置，为 `mode` 提供对应的参数。例如，当你将 `mode` 配置为 `fixed-percent` 时，`value` 用于指定 Pod 的百分比。|无|否|2|
-|secretName|string|指定存储 GCP 认证信息的 Kubernetes Secret 名字|无|否|cloud-key-secret|
-|project|string|指定 GCP 项目名|无|是|your-project|
-|zone|string|指定 GCP 实例区域|无|是|us-central1-a|
-|instance|string|指定 GCP 实例的 ID|无|是|your-gcp-instance-id|
-|deviceNames|[]string|当 action 为 disk-loss 必填，指定设备磁盘 ID|无|否|["your-disk-id"]|
-|duration|string|指定实验的持续时间|无|是|30s|
+| 参数        | 类型     | 说明                                                                                                                                                                                                                                                                                                       | 默认值   | 是否必填 | 示例                 |
+| ----------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | -------- | -------------------- |
+| action      | string   | 表示具体的故障类型，仅支持 node-stop、node-reset、disk-loss                                                                                                                                                                                                                                                | ec2-stop | 是       | node-stop            |
+| mode        | string   | 指定实验的运行方式，可选择的方式包括：`one`（表示随机选出一个符合条件的 Pod）、`all`（表示选出所有符合条件的 Pod）、`fixed`（表示选出指定数量且符合条件的 Pod）、`fixed-percent`（表示选出占符合条件的 Pod 中指定百分比的 Pod）、`random-max-percent`（表示选出占符合条件的 Pod 中不超过指定百分比的 Pod） | 无       | 是       | `one`                |
+| value       | string   | 取决与 `mode` 的配置，为 `mode` 提供对应的参数。例如，当你将 `mode` 配置为 `fixed-percent` 时，`value` 用于指定 Pod 的百分比。                                                                                                                                                                             | 无       | 否       | 2                    |
+| secretName  | string   | 指定存储 GCP 认证信息的 Kubernetes Secret 名字                                                                                                                                                                                                                                                             | 无       | 否       | cloud-key-secret     |
+| project     | string   | 指定 GCP 项目名                                                                                                                                                                                                                                                                                            | 无       | 是       | your-project         |
+| zone        | string   | 指定 GCP 实例区域                                                                                                                                                                                                                                                                                          | 无       | 是       | us-central1-a        |
+| instance    | string   | 指定 GCP 实例的 ID                                                                                                                                                                                                                                                                                         | 无       | 是       | your-gcp-instance-id |
+| deviceNames | []string | 当 action 为 disk-loss 必填，指定设备磁盘 ID                                                                                                                                                                                                                                                               | 无       | 否       | ["your-disk-id"]     |
+| duration    | string   | 指定实验的持续时间                                                                                                                                                                                                                                                                                         | 无       | 是       | 30s                  |
