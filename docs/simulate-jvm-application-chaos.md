@@ -89,8 +89,13 @@ kubectl apply -f app.yaml
 
 执行 `kubectl -n app get pods`，预期能够观察到命名空间 `app` 中出现 `1` 个名称形如 `springboot-jvmchaos-demo-777d94c5b9-7t7l2` 的 Pod，等待其 `READY` 为 `1/1` 后进行下一步。
 
-```text
+```shell
 kubectl -n app get pods
+```
+
+预期结果如下：
+
+```text
 NAME                                        READY   STATUS    RESTARTS   AGE
 springboot-jvmchaos-demo-777d94c5b9-7t7l2   1/1     Running   0          21s
 ```
