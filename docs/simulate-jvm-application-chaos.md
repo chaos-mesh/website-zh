@@ -21,7 +21,7 @@ JVMChaos 能向目标容器中的 JVM 注入故障，适用于任何使用 JVM �
 
 - Kubernetes 需要启用 Webhook 支持。
 - 在为命名空间配置 MutatingAdmissionWebhook 之前已经存在 Pod，不会受到 JVMChaos 影响。
-- 命名空间下的所有容器中的 JVM 都会在启动阶段加载 java agent，VMChaos 在被删除后也不会卸载 java agent。若考虑到 java agent 可能对程序行为或性能带来的影响，期望清理 java agnet，请将工作负载移出该命名空间。
+- 命名空间下的所有容器中的 JVM 都会在启动阶段加载 java agent，JVMChaos 在被删除后也不会卸载 java agent。若考虑到 java agent 可能对程序行为或性能带来的影响，期望清理 java agnet，请将工作负载移出该命名空间。
 
 另外，目前无法通过 Chaos Dashboard 创建 JVMChaos。
 
@@ -167,7 +167,7 @@ hello chaos mesh!
 | 名称   | 含义                                   |
 | ------ | -------------------------------------- |
 | delay  | 指定方法调用延迟                       |
-| return | 编写 groovy 和 java 实现场景           |
+| return | 修改返回值                             |
 | script | 编写 groovy 和 java 实现场景           |
 | cfl    | java 进程 CPU 使用率满载               |
 | oom    | 内存溢出，支持堆、栈、metaspace 区溢出 |
