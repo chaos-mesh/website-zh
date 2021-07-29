@@ -13,8 +13,8 @@ sidebar_label: 创建 Chaos Mesh Workflow
 
 - 串行编排
 - 并行编排
-- 自定义任务 (Work In Progress)
-- 条件分支 (Work In Progress)
+- 自定义任务
+- 条件分支
 
 使用场景举例：
 
