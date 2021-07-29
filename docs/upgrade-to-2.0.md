@@ -12,7 +12,7 @@ CRD 在 Chaos Mesh 2.0 中发生了变化，旧版本实验的 YAML 文件无法
 为了简化升级过程，Chaos Mesh 2.0 提供了以下升级工具：
 
 - `migrate.sh`：用于自动导出并升级实验 YAML 文件、升级 CRD、导入升级后的 YAML 文件。
-- `schedule-migration`：用于将手动指定的旧版 YAML 更新为新版 YAML。
+- `schedule-migration`：用于将手动指定的旧版 YAML 文件更新为新版 YAML 文件。
 
 要获取升级工具，建议将 Chaos Mesh 项目克隆至本地执行 `make schedule-migration.tar.gz`，或是从 https://mirrors.chaos-mesh.org/v2.0.0/schedule-migration.tar.gz 下载。使用以下命令将其解压，即可得到上述两个工具：
 
