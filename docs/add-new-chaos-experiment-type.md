@@ -177,7 +177,7 @@ Chaos Mesh 使用 [fx](https://github.com/uber-go/fx) 这个库来进行依赖�
 		Group: "objs",
 		Target: Object{
 			Name:   "gcpchaos",
-			Object: &v1alpha1.GcpChaos{},
+			Object: &v1alpha1.GCPChaos{},
 		},
 	},
 

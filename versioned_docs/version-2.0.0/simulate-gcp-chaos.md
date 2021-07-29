@@ -3,11 +3,11 @@ title: 模拟 GCP 故障
 sidebar_label: 模拟 GCP 故障
 ---
 
-本文档介绍如何使用 Chaos Mesh 为 GCP 节点注入故障，并提供 Dashboard 和 YAML 文件两种方式用于创建 GcpChaos 实验。
+本文档介绍如何使用 Chaos Mesh 为 GCP 节点注入故障，并提供 Dashboard 和 YAML 文件两种方式用于创建 GCPChaos 实验。
 
-## GcpChaos 介绍
+## GCPChaos 介绍
 
-GcpChaos 能够帮助你模拟指定的 GCP 实例发生故障的情景。目前，GcpChaos 支持以下类型的故障：
+GCPChaos 能够帮助你模拟指定的 GCP 实例发生故障的情景。目前，GCPChaos 支持以下类型的故障：
 
 - **Node Stop**：使指定的 GCP 实例进入停止状态。
 - **Node Reset**：重置指定的 GCP 实例。
@@ -73,7 +73,7 @@ stringData:
 
 ```yaml
 apiVersion: chaos-mesh.org/v1alpha1
-kind: GcpChaos
+kind: GCPChaos
 metadata:
   name: node-stop-example
   namespace: chaos-testing
@@ -102,7 +102,7 @@ spec:
 
 ```yaml
 apiVersion: chaos-mesh.org/v1alpha1
-kind: GcpChaos
+kind: GCPChaos
 metadata:
   name: node-reset-example
   namespace: chaos-testing
@@ -131,7 +131,7 @@ spec:
 
 ```yaml
 apiVersion: chaos-mesh.org/v1alpha1
-kind: GcpChaos
+kind: GCPChaos
 metadata:
   name: disk-loss-example
   namespace: chaos-testing

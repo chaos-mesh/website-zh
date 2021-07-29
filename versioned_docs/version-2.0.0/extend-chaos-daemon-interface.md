@@ -41,7 +41,7 @@ func (obj *HelloWorldChaos) GetSelectorSpecs() map[string]interface{} {
 }
 ```
 
-在 Chaos Mesh 中，混沌实验通过选择器来定义试验范围。选择器可以限定目标的命名空间、注解、标签等。选择器也可以是一些更特殊的值（如 AwsChaos 中的 AwsSelector）。通常来说，每个混沌实验只需要一个选择器，但也有例外，比如 NetworkChaos 有时需要两个选择器作为网络分区的两个对象。
+在 Chaos Mesh 中，混沌实验通过选择器来定义试验范围。选择器可以限定目标的命名空间、注解、标签等。选择器也可以是一些更特殊的值（如 AWSChaos 中的 AWSSelector）。通常来说，每个混沌实验只需要一个选择器，但也有例外，比如 NetworkChaos 有时需要两个选择器作为网络分区的两个对象。
 
 ## 实现 gRPC 接口
 
