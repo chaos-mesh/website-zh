@@ -39,6 +39,11 @@ module.exports = {
           label: 'GitHub',
           position: 'right',
         },
+        {
+          href: 'https://chaos-mesh.org',
+          label: 'English',
+          position: 'right',
+        },
       ],
     },
     footer: {
