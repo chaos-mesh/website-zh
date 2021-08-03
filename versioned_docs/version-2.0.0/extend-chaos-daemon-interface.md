@@ -14,7 +14,7 @@ sidebar_label: 拓展 Chaos Daemon 接口
 - [选择器](#选择器)
 - [实现 gRPC 接口](#实现-grpc-接口)
 - [验证实验效果](#验证实验效果)
-- [下一步](#下一步)
+- [探索更多](#探索更多)
 
 ## 选择器
 
@@ -67,7 +67,7 @@ func (obj *HelloWorldChaos) GetSelectorSpecs() map[string]interface{} {
    make proto
    ```
 
-2. 在 Chaos Daemon 中实现 gRPC 服务
+2. 在 Chaos Daemon 中实现 gRPC 服务。
 
    在 `pkg/chaosdaemon` 目录下新建一个名为 `helloworld_server.go` 的文件，写入以下内容：
 
@@ -112,7 +112,7 @@ func (obj *HelloWorldChaos) GetSelectorSpecs() map[string]interface{} {
 
 3. 在应用混沌实验中发送 gRPC 请求。
 
-   每个混沌实验都有其生命周期，它首先被应用，然后被恢复。有一些混沌实验无法被恢复（如 PodChaos 中的 PodKill，以及 HelloWorldChaos），我们称之为 OneShot 实验，你可以在 HelloWorldChaos 结构的定义上方找到一行 `+chaos-mesh:oneshot=true`。
+   每个混沌实验都有其生命周期，首先被应用，然后被恢复。有一些混沌实验无法被恢复（如 PodChaos 中的 PodKill，以及 HelloWorldChaos），我们称之为 OneShot 实验，你可以在 HelloWorldChaos 结构的定义上方找到一行 `+chaos-mesh:oneshot=true`。
 
    Chaos Controller Manager 需要在应用 HelloWorldChaos 时给 Chaos Daemon 发送请求。为此，你需要对 `controllers/chaosimpl/helloworldchaos/types.go` 稍作修改。
 
@@ -270,13 +270,13 @@ func (obj *HelloWorldChaos) GetSelectorSpecs() map[string]interface{} {
      可以看到两条 `ps aux`，对应两个不同的 Pod。
 
      :::note 注意
-     如果你的集群有多个节点，你会发现有不止一个 Chaos Daemon Pod！试着查看每一个 Chaos Daemon Pod 的日志，寻找真正被调用的那一个。
+     如果你的集群有多个节点，你会发现有不止一个 Chaos Daemon Pod。试着查看每一个 Chaos Daemon Pod 的日志，寻找真正被调用的那一个。
      :::
 
-## 下一步
+## 探索更多
 
 在完成上述步骤后，HelloWorldChaos 已经成为一种有实际作用的混沌实验。如果你在这一过程中遇到了问题，请在 GitHub 创建一个 [issue](https://github.com/pingcap/chaos-mesh/issues) 向 Chaos Mesh 团队反馈。
 
-你可能很好奇这一切是如何生效的。你可以试着看看 `controllers` 目录下的各类 `controller`，它们有自己的 README（如 [controllers/common/README.md](https://github.com/chaos-mesh/chaos-mesh/blob/master/controllers/common/README.md)。你可以通过这些 README 了解每个 controller 的功能，也可以阅读 [Chaos Mesh  架构](architecture.md)了解 Chaos Mesh 背后的原理。
+你可能很好奇这一切是如何生效的。可以试着看看 `controllers` 目录下的各类 `controller`，它们有自己的 README（如 [controllers/common/README.md](https://github.com/chaos-mesh/chaos-mesh/blob/master/controllers/common/README.md)）。你可以通过这些 README 了解每个 controller 的功能，也可以阅读 [Chaos Mesh  架构](architecture.md)了解 Chaos Mesh 背后的原理。
 
-你已经准备好成为一名真正的 Chaos Mesh 开发者了！到 [Chaos Mesh](https://github.com/chaos-mesh/chaos-mesh) 里找一找练手的任务吧！推荐你先从简单的入手，就像这些 [good first issues](https://github.com/chaos-mesh/chaos-mesh/labels/good%20first%20issue)。
+你已经准备好成为一名真正的 Chaos Mesh 开发者了！到 [Chaos Mesh](https://github.com/chaos-mesh/chaos-mesh) 里找一找练手的任务吧！推荐你先从简单的入手，例如这些 [good first issues](https://github.com/chaos-mesh/chaos-mesh/labels/good%20first%20issue)。
