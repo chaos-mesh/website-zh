@@ -26,7 +26,7 @@ tar xvf ./schedule-migration.tar.gz
 
 你可以使用升级工具 `migrate.sh` 自动导出并升级实验。在运行之前，请确保当前用户有足够的权限访问集群。
 
-假设 `migrate.sh` 位于当前目录下，将 `schedule-migration` 工具也置于该目录下并重命名为 "main"，请执行以下命令导出并升级实验：
+假设 `migrate.sh` 位于当前目录下，并且 `schedule-migration` 工具也置于该目录下，请执行以下命令导出并升级实验：
 
 ```bash
 bash migrate.sh -e
