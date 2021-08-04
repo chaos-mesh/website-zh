@@ -269,9 +269,9 @@ dashboard:
    kubectl get pods --namespace chaos-testing -l app.kubernetes.io/instance=chaos-mesh
    ```
 
-:::note 注意
-`--set chaosDaemon.runtime=containerd --set chaosDaemon.socketPath=/run/containerd/containerd.sock` 是用来在 kind 上运行 NetworkChaos 的。
-:::
+    :::note 注意
+    `--set chaosDaemon.runtime=containerd --set chaosDaemon.socketPath=/run/containerd/containerd.sock` 是用来在 kind 上运行 NetworkChaos 的。
+    :::
 
 3. 部署用于测试的目标 Pod：
 
@@ -320,9 +320,9 @@ dashboard:
    2021-06-24T06:42:26.858Z        INFO    helloworldchaos Hello World!
    ```
 
-:::note 注意
-`{pod-post-fix}` 是一个随机串。你可以运行 `kubectl get pod -n chaos-testing` 来查看它。
-:::
+    :::note 注意
+    `{pod-post-fix}` 是一个随机串。你可以运行 `kubectl get pod -n chaos-testing` 来查看它。
+    :::
 
 ## 探索更多
 
