@@ -15,48 +15,48 @@ sidebar_label: 新增混沌实验类型
 
 1. 在 API 目录 `api/v1alpha1` 中新建一个名为 `helloworldchaos_types.go` 的文件，写入以下内容:
 
-  ```go
-  package v1alpha1
+    ```go
+    package v1alpha1
 
-  import (
-    metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-  )
+    import (
+        metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+    )
 
-  // +kubebuilder:object:root=true
-  // +chaos-mesh:base
-  // +chaos-mesh:oneshot=true
+    // +kubebuilder:object:root=true
+    // +chaos-mesh:base
+    // +chaos-mesh:oneshot=true
 
-  // HelloWorldChaos is the Schema for the helloworldchaos API
-  type HelloWorldChaos struct {
-    metav1.TypeMeta   `json:",inline"`
-    metav1.ObjectMeta `json:"metadata,omitempty"`
+    // HelloWorldChaos is the Schema for the helloworldchaos API
+    type HelloWorldChaos struct {
+        metav1.TypeMeta   `json:",inline"`
+        metav1.ObjectMeta `json:"metadata,omitempty"`
 
-    Spec   HelloWorldChaosSpec   `json:"spec"`
-    Status HelloWorldChaosStatus `json:"status,omitempty"`
-  }
-
-  // HelloWorldChaosSpec is the content of the specification for a HelloWorldChaos
-  type HelloWorldChaosSpec struct {
-    // ContainerSelector specifies target
-    ContainerSelector `json:",inline"`
-
-    // Duration represents the duration of the chaos action
-    // +optional
-    Duration *string `json:"duration,omitempty"`
-  }
-
-  // HelloWorldChaosStatus represents the status of a HelloWorldChaos
-  type HelloWorldChaosStatus struct {
-    ChaosStatus `json:",inline"`
-  }
-
-  // GetSelectorSpecs is a getter for selectors
-  func (obj *HelloWorldChaos) GetSelectorSpecs() map[string]interface{} {
-    return map[string]interface{}{
-      ".": &obj.Spec.ContainerSelector,
+        Spec   HelloWorldChaosSpec   `json:"spec"`
+        Status HelloWorldChaosStatus `json:"status,omitempty"`
     }
-  }
-  ```
+
+    // HelloWorldChaosSpec is the content of the specification for a HelloWorldChaos
+    type HelloWorldChaosSpec struct {
+        // ContainerSelector specifies target
+        ContainerSelector `json:",inline"`
+
+        // Duration represents the duration of the chaos action
+        // +optional
+        Duration *string `json:"duration,omitempty"`
+    }
+
+    // HelloWorldChaosStatus represents the status of a HelloWorldChaos
+    type HelloWorldChaosStatus struct {
+        ChaosStatus `json:",inline"`
+    }
+
+    // GetSelectorSpecs is a getter for selectors
+    func (obj *HelloWorldChaos) GetSelectorSpecs() map[string]interface{} {
+        return map[string]interface{}{
+            ".": &obj.Spec.ContainerSelector,
+        }
+    }
+    ```
 
   这个文件定义了 HelloWorldChaos 的结构类型，它可以用一个 YAML 文件描述:
 
@@ -99,101 +99,101 @@ sidebar_label: 新增混沌实验类型
 
 1. 创建一个新文件 `controllers/chaosimpl/helloworldchaos/types.go` 并写入如下内容：
 
-  ```go
-  package helloworldchaos
+    ```go
+    package helloworldchaos
 
-  import (
-    "context"
+    import (
+        "context"
 
-    "github.com/go-logr/logr"
-    "go.uber.org/fx"
-    "sigs.k8s.io/controller-runtime/pkg/client"
+        "github.com/go-logr/logr"
+        "go.uber.org/fx"
+        "sigs.k8s.io/controller-runtime/pkg/client"
 
-    "github.com/chaos-mesh/chaos-mesh/api/v1alpha1"
-    "github.com/chaos-mesh/chaos-mesh/controllers/chaosimpl/utils"
-    "github.com/chaos-mesh/chaos-mesh/controllers/common"
-    "github.com/chaos-mesh/chaos-mesh/controllers/utils/chaosdaemon"
-  )
+        "github.com/chaos-mesh/chaos-mesh/api/v1alpha1"
+        "github.com/chaos-mesh/chaos-mesh/controllers/chaosimpl/utils"
+        "github.com/chaos-mesh/chaos-mesh/controllers/common"
+        "github.com/chaos-mesh/chaos-mesh/controllers/utils/chaosdaemon"
+    )
 
-  type Impl struct {
-    client.Client
-    Log logr.Logger
-    decoder *utils.ContianerRecordDecoder
-  }
-
-  // Apply applies HelloWorldChaos
-  func (impl *Impl) Apply(ctx context.Context, index int, records []*v1alpha1.Record, obj v1alpha1.InnerObject) (v1alpha1.Phase, error) {
-    impl.Log.Info("Hello world!")
-    return v1alpha1.Injected, nil
-  }
-
-  // Recover means the reconciler recovers the chaos action
-  func (impl *Impl) Recover(ctx context.Context, index int, records []*v1alpha1.Record, obj v1alpha1.InnerObject) (v1alpha1.Phase, error) {
-    impl.Log.Info("Goodbye world!")
-    return v1alpha1.NotInjected, nil
-  }
-
-  func NewImpl(c client.Client, log logr.Logger, decoder *utils.ContianerRecordDecoder) *common.ChaosImplPair {
-    return &common.ChaosImplPair{
-      Name:   "helloworldchaos",
-      Object: &v1alpha1.HelloWorldChaos{},
-      Impl: &Impl{
-        Client: c,
-        Log:    log.WithName("helloworldchaos"),
-        decoder: decoder,
-      },
-      ObjectList: &v1alpha1.HelloWorldChaosList{},
+    type Impl struct {
+        client.Client
+        Log logr.Logger
+        decoder *utils.ContianerRecordDecoder
     }
-  }
 
-  var Module = fx.Provide(
-    fx.Annotated{
-      Group:  "impl",
-      Target: NewImpl,
-    },
-  )
+    // Apply applies HelloWorldChaos
+    func (impl *Impl) Apply(ctx context.Context, index int, records []*v1alpha1.Record, obj v1alpha1.InnerObject) (v1alpha1.Phase, error) {
+        impl.Log.Info("Hello world!")
+        return v1alpha1.Injected, nil
+    }
 
-  ```
+    // Recover means the reconciler recovers the chaos action
+    func (impl *Impl) Recover(ctx context.Context, index int, records []*v1alpha1.Record, obj v1alpha1.InnerObject) (v1alpha1.Phase, error) {
+        impl.Log.Info("Goodbye world!")
+        return v1alpha1.NotInjected, nil
+    }
+
+    func NewImpl(c client.Client, log logr.Logger, decoder *utils.ContianerRecordDecoder) *common.ChaosImplPair {
+        return &common.ChaosImplPair{
+            Name:   "helloworldchaos",
+            Object: &v1alpha1.HelloWorldChaos{},
+            Impl: &Impl{
+                Client: c,
+                Log:    log.WithName("helloworldchaos"),
+                decoder: decoder,
+            },
+            ObjectList: &v1alpha1.HelloWorldChaosList{},
+        }
+    }
+
+    var Module = fx.Provide(
+        fx.Annotated{
+            Group:  "impl",
+            Target: NewImpl,
+        },
+    )
+
+    ```
 
 2. Chaos Mesh 使用 [fx](https://github.com/uber-go/fx) 这个库来进行依赖注入。为了注册进 Controller Manager，需要在 `controllers/chaosimpl/fx.go` 中加入一行：
 
-  ```go
-    ...
-    gcpchaos.Module,
-    stresschaos.Module,
-    jvmchaos.Module,
-    timechaos.Module,
-    helloworldchaos.Module // 新增一行，注意处理 import
-  ```
+    ```go
+        ...
+        gcpchaos.Module,
+        stresschaos.Module,
+        jvmchaos.Module,
+        timechaos.Module,
+        helloworldchaos.Module // 新增一行，注意处理 import
+    ```
 
   以及在 `controllers/types/types.go` 中加入：
 
-  ```go
-    ...
-    fx.Annotated{
-      Group: "objs",
-      Target: Object{
-        Name:   "timechaos",
-        Object: &v1alpha1.TimeChaos{},
-      },
-    },
+    ```go
+        ...
+        fx.Annotated{
+            Group: "objs",
+            Target: Object{
+                Name:   "timechaos",
+                Object: &v1alpha1.TimeChaos{},
+            },
+        },
 
-    fx.Annotated{
-      Group: "objs",
-      Target: Object{
-        Name:   "gcpchaos",
-        Object: &v1alpha1.GCPChaos{},
-      },
-    },
+        fx.Annotated{
+            Group: "objs",
+            Target: Object{
+                Name:   "gcpchaos",
+                Object: &v1alpha1.GCPChaos{},
+            },
+        },
 
-    fx.Annotated{
-      Group: "objs",
-      Target: Object{
-        Name:   "helloworldchaos",
-        Object: &v1alpha1.HelloWorldChaos{},
-      },
-    },
-  ```
+        fx.Annotated{
+            Group: "objs",
+            Target: Object{
+                Name:   "helloworldchaos",
+                Object: &v1alpha1.HelloWorldChaos{},
+            },
+        },
+    ```
 
 ## 第 4 步：编译 Docker 镜像
 
