@@ -272,7 +272,9 @@ dashboard:
    ```
 
     :::note 注意
+
     `--set chaosDaemon.runtime=containerd --set chaosDaemon.socketPath=/run/containerd/containerd.sock` 是用来在 kind 上运行 NetworkChaos 的。
+    
     :::
 
 3. 部署用于测试的目标 Pod：
@@ -322,12 +324,14 @@ dashboard:
    2021-06-24T06:42:26.858Z        INFO    helloworldchaos Hello World!
    ```
 
-    :::note 注意
-    `{pod-post-fix}` 是一个随机串。你可以运行 `kubectl get pod -n chaos-testing` 来查看它。
-    :::
+   :::note 注意
+
+   `{pod-post-fix}` 是一个随机串。你可以运行 `kubectl get pod -n chaos-testing` 来查看它。
+    
+   :::
 
 ## 探索更多
 
-如果你在新增混沌实验类型的过程中遇到了问题，请在 GitHub 创建一个 [issue](https://github.com/pingcap/chaos-mesh/issues) 向 Chaos Mesh 团队反馈。
+如果你在新增混沌实验类型的过程中遇到了问题，请在 GitHub 创建一个 [issue](https://github.com/pingcap/chaos-mesh/issues) 向 Chaos Mesh 团队反馈。 
 
 如果你想进一步尝试开发工作，请参阅 [拓展 Chaos Daemon 接口](extend-chaos-daemon-interface.md)。
