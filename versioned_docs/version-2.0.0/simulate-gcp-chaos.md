@@ -11,7 +11,7 @@ GCPChaos 是 Chaos Mesh 中的一种故障类型。通过创建 GCPChaos 类型�
 
 - **Node Stop**：使指定的 GCP 实例进入停止状态。
 - **Node Reset**：重置指定的 GCP 实例。
-- **Disk Loss**：从指定的 EC2 实例中卸载存储卷。
+- **Disk Loss**：从指定的 GCP 实例中卸载存储卷。
 
 ## 创建 Secret 文件
 
@@ -161,7 +161,7 @@ stringData:
 
 | 参数        | 类型     | 说明                                                                                                                                                                                                                                                                                                       | 默认值   | 是否必填 | 示例                 |
 | ----------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | -------- | -------------------- |
-| action      | string   | 指定故障类型，可选择的类型包括：node-stop、node-reset、disk-loss                                                                                                                                                                                                                                                | ec2-stop | 是       | node-stop            |
+| action      | string   | 指定故障类型，可选择的类型包括：node-stop、node-reset、disk-loss                                                                                                                                                                                                                                                | node-stop | 是       | node-stop            |
 | mode        | string   | 指定实验的运行方式，可选择的方式包括：`one`（表示随机选出一个符合条件的 Pod）、`all`（表示选出所有符合条件的 Pod）、`fixed`（表示选出指定数量且符合条件的 Pod）、`fixed-percent`（表示选出占符合条件的 Pod 中指定百分比的 Pod）、`random-max-percent`（表示选出占符合条件的 Pod 中不超过指定百分比的 Pod） | 无       | 是       | `one`                |
 | value       | string   | 取决与 `mode` 的配置，为 `mode` 提供对应的参数。例如，当你将 `mode` 配置为 `fixed-percent` 时，`value` 用于指定 Pod 的百分比。                                                                                                                                                                             | 无       | 否       | 2                    |
 | secretName  | string   | 指定存储 GCP 认证信息的 Kubernetes Secret 名字                                                                                                                                                                                                                                                             | 无       | 否       | cloud-key-secret     |
