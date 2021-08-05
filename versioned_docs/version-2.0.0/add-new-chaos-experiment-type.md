@@ -3,216 +3,223 @@ title: 新增混沌实验类型
 sidebar_label: 新增混沌实验类型
 ---
 
-本文档介绍如何开发一种新的混沌实验类型。以开发一种名为 HelloWorldChaos 的混沌实验类型为例，它的功能是向日志中输出一行 "Hello world!"。为了完成这一目标，你需要完成如下几步：
+本文档介绍如何开发一种新的混沌实验类型。
 
-- [定义结构类型](#定义结构类型)
-- [注册 CRD](#注册-crd)
-- [注册混沌实验的处理函数](#注册混沌实验的处理函数)
-- [编译 Docker 镜像](#编译-docker-镜像)
-- [运行混沌实验](#运行混沌实验)
-- [下一步](#下一步)
+以开发一种名为 HelloWorldChaos 的混沌实验类型为例，它的功能是向日志中输出一行 "Hello world!"。为了完成这一目标，你需要完成以下步骤：
 
-## 定义结构类型
+- 第 1 步：定义混沌实验的结构类型
+- 第 2 步：注册 CRD
+- 第 3 步：注册混沌实验的处理函数
+- 第 4 步：编译 Docker 镜像
+- 第 5 步：运行混沌实验
 
-为了定义新混沌实验的结构类型，在 API 目录中 `api/v1alpha1` 新建一个名为 `helloworldchaos_types.go` 的文件，写入以下内容:
+## 第 1 步：定义混沌实验的结构类型
 
-```go
-package v1alpha1
+1. 在 API 目录 `api/v1alpha1` 中新建一个名为 `helloworldchaos_types.go` 的文件，写入以下内容:
 
-import (
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-)
+    ```go
+    package v1alpha1
 
-// +kubebuilder:object:root=true
-// +chaos-mesh:base
-// +chaos-mesh:oneshot=true
+    import (
+        metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+    )
 
-// HelloWorldChaos is the Schema for the helloworldchaos API
-type HelloWorldChaos struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
+    // +kubebuilder:object:root=true
+    // +chaos-mesh:base
+    // +chaos-mesh:oneshot=true
 
-	Spec   HelloWorldChaosSpec   `json:"spec"`
-	Status HelloWorldChaosStatus `json:"status,omitempty"`
-}
+    // HelloWorldChaos is the Schema for the helloworldchaos API
+    type HelloWorldChaos struct {
+        metav1.TypeMeta   `json:",inline"`
+        metav1.ObjectMeta `json:"metadata,omitempty"`
 
-// HelloWorldChaosSpec is the content of the specification for a HelloWorldChaos
-type HelloWorldChaosSpec struct {
-	// ContainerSelector specifies target
-	ContainerSelector `json:",inline"`
+        Spec   HelloWorldChaosSpec   `json:"spec"`
+        Status HelloWorldChaosStatus `json:"status,omitempty"`
+    }
 
-	// Duration represents the duration of the chaos action
-	// +optional
-	Duration *string `json:"duration,omitempty"`
-}
+    // HelloWorldChaosSpec is the content of the specification for a HelloWorldChaos
+    type HelloWorldChaosSpec struct {
+        // ContainerSelector specifies target
+        ContainerSelector `json:",inline"`
 
-// HelloWorldChaosStatus represents the status of a HelloWorldChaos
-type HelloWorldChaosStatus struct {
-	ChaosStatus `json:",inline"`
-}
+        // Duration represents the duration of the chaos action
+        // +optional
+        Duration *string `json:"duration,omitempty"`
+    }
 
-// GetSelectorSpecs is a getter for selectors
-func (obj *HelloWorldChaos) GetSelectorSpecs() map[string]interface{} {
-	return map[string]interface{}{
-		".": &obj.Spec.ContainerSelector,
-	}
-}
-```
+    // HelloWorldChaosStatus represents the status of a HelloWorldChaos
+    type HelloWorldChaosStatus struct {
+        ChaosStatus `json:",inline"`
+    }
 
-这个文件定义了 HelloWorldChaos 的结构类型，它可以用一个 YAML 文件描述:
+    // GetSelectorSpecs is a getter for selectors
+    func (obj *HelloWorldChaos) GetSelectorSpecs() map[string]interface{} {
+        return map[string]interface{}{
+            ".": &obj.Spec.ContainerSelector,
+        }
+    }
+    ```
 
-```yaml
-apiVersion: chaos-mesh.org/v1alpha1
-kind: HelloWorldChaos
-metadata:
-  name: <资源名>
-  namespace: <命名空间名>
-spec:
-  duration: <持续时间>
-status:
-  experiment: <实验状态>
-  ...
-```
+  这个文件定义了 HelloWorldChaos 的结构类型，它可以用一个 YAML 文件描述:
 
-在 Chaos Mesh 根目录下运行 `make generate` 会为 HelloWorldChaos 生成一些用于编译 Chaos Mesh 的辅助代码。
+  ```yaml
+  apiVersion: chaos-mesh.org/v1alpha1
+  kind: HelloWorldChaos
+  metadata:
+    name: <资源名>
+    namespace: <命名空间名>
+  spec:
+    duration: <持续时间>
+  status:
+    experiment: <实验状态>
+    ...
+  ```
 
-## 注册 CRD
+2. 在 Chaos Mesh 根目录下运行 `make generate`，为 HelloWorldChaos 生成一些用于编译 Chaos Mesh 的辅助代码。
 
-HelloWorldChaos 是一种 Kubernetes 自定义资源。这就要求你预先在 Kubernetes API 中注册 HelloWorldChaos 的 CRD。在根目录下运行 `make yaml`， 生成的 YAML 文件位于 `config/crd/bases/chaos-mesh.org_helloworldchaos.yaml`。 为将这个 YAML 文件合并入 `manifests/crd.yaml` 中，修改 `config/crd/kustomization.yaml`，在其中加入新的一行:
+## 第 2 步：注册 CRD
 
-```yaml
-resources:
-  - bases/chaos-mesh.org_podchaos.yaml
-  - bases/chaos-mesh.org_networkchaos.yaml
-  - bases/chaos-mesh.org_iochaos.yaml
-  - bases/chaos-mesh.org_helloworldchaos.yaml # 新增一行
-```
+在 Kubernetes API 中注册 HelloWorldChaos 的 CRD，使 HelloWorldChaos 成为一种 Kubernetes 自定义资源。
 
-再运行一次 `make yaml`, HelloWorldChaos 的定义就会出现在 `manifests/crd.yaml` 里。 如需确认，你可以使用 `git diff` 命令。
+1. 在根目录下运行 `make yaml`。
 
-## 注册混沌实验的处理函数
+  生成的 YAML 文件位于 `config/crd/bases/chaos-mesh.org_helloworldchaos.yaml`。
 
-创建一个新文件 `controllers/chaosimpl/helloworldchaos/types.go` 并写入如下内容：
+2. 为将这个 YAML 文件合并入 `manifests/crd.yaml` 中，修改 `config/crd/kustomization.yaml`，在其中加入新的一行:
 
-```go
-package helloworldchaos
+  ```yaml
+  resources:
+    - bases/chaos-mesh.org_podchaos.yaml
+    - bases/chaos-mesh.org_networkchaos.yaml
+    - bases/chaos-mesh.org_iochaos.yaml
+    - bases/chaos-mesh.org_helloworldchaos.yaml # 新增一行
+  ```
 
-import (
-	"context"
+3. 再次运行 `make yaml`，HelloWorldChaos 的定义就会出现在 `manifests/crd.yaml` 里。 如需确认，你可以使用 `git diff` 命令。
 
-	"github.com/go-logr/logr"
-	"go.uber.org/fx"
-	"sigs.k8s.io/controller-runtime/pkg/client"
+## 第 3 步：注册混沌实验的处理函数
 
-	"github.com/chaos-mesh/chaos-mesh/api/v1alpha1"
-	"github.com/chaos-mesh/chaos-mesh/controllers/chaosimpl/utils"
-	"github.com/chaos-mesh/chaos-mesh/controllers/common"
-	"github.com/chaos-mesh/chaos-mesh/controllers/utils/chaosdaemon"
-)
+1. 创建一个新文件 `controllers/chaosimpl/helloworldchaos/types.go` 并写入如下内容：
 
-type Impl struct {
-	client.Client
-	Log logr.Logger
-	decoder *utils.ContianerRecordDecoder
-}
+    ```go
+    package helloworldchaos
 
-// Apply applies HelloWorldChaos
-func (impl *Impl) Apply(ctx context.Context, index int, records []*v1alpha1.Record, obj v1alpha1.InnerObject) (v1alpha1.Phase, error) {
-	impl.Log.Info("Hello world!")
-	return v1alpha1.Injected, nil
-}
+    import (
+        "context"
 
-// Recover means the reconciler recovers the chaos action
-func (impl *Impl) Recover(ctx context.Context, index int, records []*v1alpha1.Record, obj v1alpha1.InnerObject) (v1alpha1.Phase, error) {
-	impl.Log.Info("Goodbye world!")
-	return v1alpha1.NotInjected, nil
-}
+        "github.com/go-logr/logr"
+        "go.uber.org/fx"
+        "sigs.k8s.io/controller-runtime/pkg/client"
 
-func NewImpl(c client.Client, log logr.Logger, decoder *utils.ContianerRecordDecoder) *common.ChaosImplPair {
-	return &common.ChaosImplPair{
-		Name:   "helloworldchaos",
-		Object: &v1alpha1.HelloWorldChaos{},
-		Impl: &Impl{
-			Client: c,
-			Log:    log.WithName("helloworldchaos"),
-			decoder: decoder,
-		},
-		ObjectList: &v1alpha1.HelloWorldChaosList{},
-	}
-}
+        "github.com/chaos-mesh/chaos-mesh/api/v1alpha1"
+        "github.com/chaos-mesh/chaos-mesh/controllers/chaosimpl/utils"
+        "github.com/chaos-mesh/chaos-mesh/controllers/common"
+        "github.com/chaos-mesh/chaos-mesh/controllers/utils/chaosdaemon"
+    )
 
-var Module = fx.Provide(
-	fx.Annotated{
-		Group:  "impl",
-		Target: NewImpl,
-	},
-)
+    type Impl struct {
+        client.Client
+        Log logr.Logger
+        decoder *utils.ContianerRecordDecoder
+    }
 
-```
+    // Apply applies HelloWorldChaos
+    func (impl *Impl) Apply(ctx context.Context, index int, records []*v1alpha1.Record, obj v1alpha1.InnerObject) (v1alpha1.Phase, error) {
+        impl.Log.Info("Hello world!")
+        return v1alpha1.Injected, nil
+    }
 
-Chaos Mesh 使用 [fx](https://github.com/uber-go/fx) 这个库来进行依赖注入。为了注册进 Controller Manager，需要在 `controllers/chaosimpl/fx.go` 中加入一行：
+    // Recover means the reconciler recovers the chaos action
+    func (impl *Impl) Recover(ctx context.Context, index int, records []*v1alpha1.Record, obj v1alpha1.InnerObject) (v1alpha1.Phase, error) {
+        impl.Log.Info("Goodbye world!")
+        return v1alpha1.NotInjected, nil
+    }
 
-```go
-	...
-	gcpchaos.Module,
-	stresschaos.Module,
-	jvmchaos.Module,
-	timechaos.Module,
-	helloworldchaos.Module // 新增一行，注意处理 import
-```
+    func NewImpl(c client.Client, log logr.Logger, decoder *utils.ContianerRecordDecoder) *common.ChaosImplPair {
+        return &common.ChaosImplPair{
+            Name:   "helloworldchaos",
+            Object: &v1alpha1.HelloWorldChaos{},
+            Impl: &Impl{
+                Client: c,
+                Log:    log.WithName("helloworldchaos"),
+                decoder: decoder,
+            },
+            ObjectList: &v1alpha1.HelloWorldChaosList{},
+        }
+    }
 
-以及在 `controllers/types/types.go` 中加入：
+    var Module = fx.Provide(
+        fx.Annotated{
+            Group:  "impl",
+            Target: NewImpl,
+        },
+    )
 
-```go
-	...
-	fx.Annotated{
-		Group: "objs",
-		Target: Object{
-			Name:   "timechaos",
-			Object: &v1alpha1.TimeChaos{},
-		},
-	},
+    ```
 
-	fx.Annotated{
-		Group: "objs",
-		Target: Object{
-			Name:   "gcpchaos",
-			Object: &v1alpha1.GCPChaos{},
-		},
-	},
+2. Chaos Mesh 使用 [fx](https://github.com/uber-go/fx) 这个库来进行依赖注入。为了注册进 Controller Manager，需要在 `controllers/chaosimpl/fx.go` 中加入一行：
 
-	fx.Annotated{
-		Group: "objs",
-		Target: Object{
-			Name:   "helloworldchaos",
-			Object: &v1alpha1.HelloWorldChaos{},
-		},
-	},
-```
+    ```go
+        ...
+        gcpchaos.Module,
+        stresschaos.Module,
+        jvmchaos.Module,
+        timechaos.Module,
+        helloworldchaos.Module // 新增一行，注意处理 import
+    ```
 
-## 编译 Docker 镜像
+  以及在 `controllers/types/types.go` 中加入：
+
+    ```go
+        ...
+        fx.Annotated{
+            Group: "objs",
+            Target: Object{
+                Name:   "timechaos",
+                Object: &v1alpha1.TimeChaos{},
+            },
+        },
+
+        fx.Annotated{
+            Group: "objs",
+            Target: Object{
+                Name:   "gcpchaos",
+                Object: &v1alpha1.GCPChaos{},
+            },
+        },
+
+        fx.Annotated{
+            Group: "objs",
+            Target: Object{
+                Name:   "helloworldchaos",
+                Object: &v1alpha1.HelloWorldChaos{},
+            },
+        },
+    ```
+
+## 第 4 步：编译 Docker 镜像
 
 1. 在完成了前面所有步骤后，你可以尝试编译镜像：
 
-```bash
-make
-```
+  ```bash
+  make
+  ```
 
-2. 将它推送到本地的 Docker Registry 中
+2. 将镜像推送到本地的 Docker Registry 中：
 
-```bash
-make docker-push
-```
+  ```bash
+  make docker-push
+  ```
 
-3. 如果你的 Kubernetes 集群部署在 kind 上，则还需要将镜像加载进 kind 中
+3. 如果你的 Kubernetes 集群部署在 kind 上，则还需要将镜像加载进 kind 中：
 
-```bash
-kind load docker-image localhost:5000/pingcap/chaos-mesh:latest
-kind load docker-image localhost:5000/pingcap/chaos-daemon:latest
-kind load docker-image localhost:5000/pingcap/chaos-dashboard:latest
-```
+  ```bash
+  kind load docker-image localhost:5000/pingcap/chaos-mesh:latest
+  kind load docker-image localhost:5000/pingcap/chaos-daemon:latest
+  kind load docker-image localhost:5000/pingcap/chaos-dashboard:latest
+  ```
 
-## 运行混沌实验
+## 第 5 步：运行混沌实验
 
 在这一步中，你需要部署修改版的 Chaos Mesh 并测试 HelloWorldChaos。
 
@@ -232,7 +239,7 @@ dashboard:
   ...
 ```
 
-接下来，请尝试运行 HelloWorldChaos。
+完成上述模板修改后，请尝试运行 HelloWorldChaos。
 
 1. 将 CRD 注册进集群：
 
@@ -264,9 +271,11 @@ dashboard:
    kubectl get pods --namespace chaos-testing -l app.kubernetes.io/instance=chaos-mesh
    ```
 
-:::note 注意
-`--set chaosDaemon.runtime=containerd --set chaosDaemon.socketPath=/run/containerd/containerd.sock` 是用来在 kind 上运行 NetworkChaos 的。
-:::
+   :::note 注意
+
+   `--set chaosDaemon.runtime=containerd --set chaosDaemon.socketPath=/run/containerd/containerd.sock` 是用来在 kind 上运行 NetworkChaos 的。
+
+   :::
 
 3. 部署用于测试的目标 Pod：
 
@@ -302,7 +311,7 @@ dashboard:
    kubectl get HelloWorldChaos -n chaos-testing
    ```
 
-   现在查看 `chaos-controller-manager` 的日志，就会看到 `Hello World!` ：
+   现在查看 `chaos-controller-manager` 的日志，就会看到 `Hello World!`：
 
    ```bash
    kubectl logs chaos-controller-manager-{pod-post-fix} -n chaos-testing
@@ -315,12 +324,14 @@ dashboard:
    2021-06-24T06:42:26.858Z        INFO    helloworldchaos Hello World!
    ```
 
-:::note 注意
-`{pod-post-fix}` 是一个随机串。你可以运行 `kubectl get pod -n chaos-testing` 来查看它。
-:::
+   :::note 注意
 
-## 下一步
+   `{pod-post-fix}` 是一个随机串。你可以运行 `kubectl get pod -n chaos-testing` 来查看它。
 
-如果你在新增混沌实验类型的过程中遇到了问题，请在 GitHub 创建一个 [issue](https://github.com/pingcap/chaos-mesh/issues) 向 Chaos Mesh 团队反馈。
+   :::
+
+## 探索更多
+
+如果你在新增混沌实验类型的过程中遇到了问题，请在 GitHub 创建一个 [issue](https://github.com/pingcap/chaos-mesh/issues) 向 Chaos Mesh 团队反馈。 
 
 如果你想进一步尝试开发工作，请参阅 [拓展 Chaos Daemon 接口](extend-chaos-daemon-interface.md)。

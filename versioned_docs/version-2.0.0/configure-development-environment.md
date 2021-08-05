@@ -7,6 +7,8 @@ sidebar_label: 配置开发环境
 
 ## 环境要求
 
+安装 Chaos Mesh 所需的开发工具。
+
 - [golang](https://golang.org/dl/) 版本不低于 v1.15
 - [docker](https://www.docker.com/)
 - [gcc](https://gcc.gnu.org/)
@@ -16,7 +18,7 @@ sidebar_label: 配置开发环境
 
 ## 准备工具链
 
-配置好上述环境后，请按照以下步骤配置用于编译 Chaos Mesh 的工具链。
+准备好上述环境后，请按照以下步骤配置用于编译 Chaos Mesh 的工具链。
 
 1. 将 Chaos Mesh 项目克隆至本地。
 
@@ -25,7 +27,7 @@ sidebar_label: 配置开发环境
    cd chaos-mesh
    ```
 
-2. 安装 Kubernetes API 开发框架 - [kubebuilder](https://github.com/kubernetes-sigs/kubebuilder) 和 [kustomize](https://github.com/kubernetes-sigs/kustomize)。
+2. 安装 Kubernetes API 开发框架 [kubebuilder](https://github.com/kubernetes-sigs/kubebuilder) 和 [kustomize](https://github.com/kubernetes-sigs/kustomize)。
 
    ```bash
    make ensure-all
@@ -40,7 +42,7 @@ sidebar_label: 配置开发环境
    source ~/.bash_profile
    ```
 
-5. 确保 `${GOPATH}/bin` 在你的 `PATH` 环境变量中.
+5. 确保 `${GOPATH}/bin` 在你的 `PATH` 环境变量中。
 
    ```bash
    echo 'export PATH=$(go env GOPATH)/bin:${PATH}' >> ~/.bash_profile
@@ -57,17 +59,17 @@ sidebar_label: 配置开发环境
     yarn -v
    ```
 
-现在你可以尝试编译 Chaos Mesh：
+7. 尝试编译 Chaos Mesh：
 
-```bash
-make
-```
+   ```bash
+   make
+   ```
 
-如果没有报错，那么工具链已经配置完毕。
+   如果没有报错，那么工具链已经配置完毕。
 
 ## 准备部署环境
 
-在工具链准备完之后，你还需要一个本地的 Kubernetes 集群用于部署 Chaos Mesh。由于 kind 已经安装好了，你可以直接使用以下脚本启动一个 Kubernetes 集群：
+在工具链准备完之后，你还需要启动一个本地的 Kubernetes 集群用于部署 Chaos Mesh。由于 kind 已经安装好了，你可以直接使用以下脚本启动一个 Kubernetes 集群：
 
 ```bash
 hack/kind-cluster-build.sh
