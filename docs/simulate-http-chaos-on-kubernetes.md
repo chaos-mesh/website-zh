@@ -23,6 +23,7 @@ HTTPChaos 支持多种类型故障的组合。在创建 HTTPChaos 实验时，�
 在注入 HTTPChaos 相关故障之前，请注意以下事项：
 
 - 确保目标 Pod 上没有运行 Chaos Mesh 的 Control Manager。
+- 确保目标服务禁用了 HTTPS 访问，HTTPChaos 暂不支持注入 HTTPS 连接。
 - 为使 HTTPChaos 注入生效，尽量避免复用客户端的 TCP socket。因为在注入故障前建立的 TCP socket 上进行 HTTP 请求不受 HTTPChaos 影响。
 - 在生产环境下谨慎使用非幂等语义请求（例如大多数 POST 请求）。若使用了这类请求，注入故障后可能无法通过重复请求使目标服务恢复正常状态。
 
