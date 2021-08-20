@@ -7,7 +7,7 @@ sidebar_label: 模拟 HTTP 故障
 
 ## HTTPChaos 简介
 
-HTTPChaos 是 Chaos Mesh 中的一种故障类型。通过创建 HTTPChaos 实验，你可以模拟 HTTP 服务端在请求或响应过程中发生故障的场景。目前，HTTPChaos 支持模拟以下故障类型：
+HTTPChaos 是 Chaos Mesh 中的一种故障类型。通过创建 HTTPChaos 实验，你可以模拟 **HTTP 服务端**在请求或响应过程中发生故障的场景。目前，HTTPChaos 支持模拟以下故障类型：
 
 - `abort`：中断服务端的连接
 - `delay`：为目标过程注入延迟
