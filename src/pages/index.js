@@ -66,7 +66,7 @@ function Home() {
 
       <div className={clsx('hero', styles.hero)}>
         <div className="container text--center">
-          <h2 className="hero__subtitle">用户列表</h2>
+          <h2 className="hero__subtitle">谁在使用</h2>
           <div className={styles.whiteboard}>
             <div className="row">
               {whoIsUsing.map((w) => (
