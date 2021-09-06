@@ -182,6 +182,10 @@
             {
               "type": "doc",
               "id": "version-2.0.1/simulate-disk-pressure-in-physical-nodes"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.1/simulate-jvm-application-chaos-in-physical-nodes"
             }
           ]
         }
