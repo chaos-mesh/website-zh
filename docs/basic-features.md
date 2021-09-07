@@ -49,8 +49,14 @@ Chaos Mesh 为用户提供了单独的 Chaos Dashboard 组件，即可视化支�
 
 ## 安全保障
 
-Chaos Mesh 通过 Kubernetes 原生的 [RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)（基于角色的权限控制）功能对权限进行管理。
+## test docsbot
 
-用户可以根据实际的权限需求自由地创建多种 Role，然后绑定到用户名 Service Account 上，最后生成 Service Account 对应的 Token。用户使用该 Token 登陆 Dashboard，只能在该 Service Account 允许的权限范围内进行 Chaos 实验。
+xxxxx
+
+xxxxxx
+
+xxx
+
+Chaos Mesh 通过 Kubernetes 原生的 [RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)（基于角色的权限控制）功能对权限进行管理。
 
 此外 Chaos Mesh 还支持通过设置 Namespace Annotation 的方式开启特定 Namespace 下混沌实验的权限，进一步保障混沌实验的可控性。
