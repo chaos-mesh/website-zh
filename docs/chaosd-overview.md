@@ -63,12 +63,6 @@ Linux 系统内核必须为 2.17 及以上版本。
    export PATH=/usr/local/chaosd-$CHAOSD_VERSION-linux-amd64:$PATH
    ```
 
-xxxxx
-
-xxxxx
-
-test-docs
-
 ### 运行模式
 
 你可以通过以下模式使用 Chaosd：
