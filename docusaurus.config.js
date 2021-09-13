@@ -6,6 +6,7 @@ module.exports = {
   favicon: 'img/favicon.ico',
   organizationName: 'chaos-mesh', // Usually your GitHub org/user name.
   projectName: 'website-zh', // Usually your repo name.
+  trailingSlash: true,
   themeConfig: {
     image: 'img/logos/logo-mini.svg',
     algolia: {
@@ -24,15 +25,8 @@ module.exports = {
         srcDark: 'img/logos/logo-mini-white.svg',
       },
       items: [
-        {
-          type: 'docsVersionDropdown',
-          position: 'left',
-        },
-        {
-          to: 'docs',
-          activeBasePath: 'docs',
-          label: '文档',
-        },
+        { type: 'docsVersionDropdown' },
+        { to: 'docs', label: '文档' },
         { to: 'interactive-tutorial', label: '在线教程' },
         {
           href: 'https://github.com/chaos-mesh/chaos-mesh',
@@ -77,18 +71,13 @@ module.exports = {
               label: 'GitHub',
               href: 'https://github.com/chaos-mesh/chaos-mesh',
             },
-            {
-              label: 'Blog',
-              to: 'blog',
-            },
           ],
         },
         {
           title: '其他',
           items: [
             {
-              html:
-                '<a href="https://www.netlify.com"><img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" /></a>',
+              html: '<a href="https://www.netlify.com"><img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" /></a>',
             },
           ],
         },

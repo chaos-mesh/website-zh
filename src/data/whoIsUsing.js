@@ -19,6 +19,10 @@ const whoisUsing = [
     img: 'img/logos/dailymotion.svg',
   },
   {
+    name: 'DataStax',
+    img: 'img/logos/datastax.svg',
+  },
+  {
     name: 'Fuxi Lab',
     img: 'img/logos/fuxilab.png',
   },
@@ -36,6 +40,10 @@ const whoisUsing = [
   {
     name: 'Meituan Dianping',
     img: 'img/logos/meituandianping.png',
+  },
+  {
+    name: 'Percona',
+    img: 'img/logos/percona.jpeg',
   },
   {
     name: 'PingCAP',

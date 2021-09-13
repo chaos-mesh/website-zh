@@ -156,26 +156,26 @@ workflow 本质上是按顺序自动进行的作业配置。 请注意，以下�
 
 ### 第 3 步：运行 workflow
 
-  创建好 workflow 后，可以通过向 master 分支提交 pull request 来触发它。workflow 运行完成后，验证 job 中输出的结果类似于以下内容：
+创建好 workflow 后，可以通过向 master 分支提交 pull request 来触发它。workflow 运行完成后，验证 job 中输出的结果类似于以下内容：
 
-  ```log
-  do some verification
-  Unable to use a TTY - input is not a terminal or the right kind of file
-  PING busybox-1.busybox.busybox.svc (10.244.0.6): 56 data bytes
-  64 bytes from 10.244.0.6: seq=0 ttl=63 time=0.069 ms
-  64 bytes from 10.244.0.6: seq=1 ttl=63 time=10.136 ms
-  64 bytes from 10.244.0.6: seq=2 ttl=63 time=10.192 ms
-  64 bytes from 10.244.0.6: seq=3 ttl=63 time=10.129 ms
-  64 bytes from 10.244.0.6: seq=4 ttl=63 time=10.120 ms
-  64 bytes from 10.244.0.6: seq=5 ttl=63 time=0.070 ms
-  64 bytes from 10.244.0.6: seq=6 ttl=63 time=0.073 ms
-  64 bytes from 10.244.0.6: seq=7 ttl=63 time=0.111 ms
-  64 bytes from 10.244.0.6: seq=8 ttl=63 time=0.070 ms
-  64 bytes from 10.244.0.6: seq=9 ttl=63 time=0.077 ms
-  ……
-  ```
+```log
+do some verification
+Unable to use a TTY - input is not a terminal or the right kind of file
+PING busybox-1.busybox.busybox.svc (10.244.0.6): 56 data bytes
+64 bytes from 10.244.0.6: seq=0 ttl=63 time=0.069 ms
+64 bytes from 10.244.0.6: seq=1 ttl=63 time=10.136 ms
+64 bytes from 10.244.0.6: seq=2 ttl=63 time=10.192 ms
+64 bytes from 10.244.0.6: seq=3 ttl=63 time=10.129 ms
+64 bytes from 10.244.0.6: seq=4 ttl=63 time=10.120 ms
+64 bytes from 10.244.0.6: seq=5 ttl=63 time=0.070 ms
+64 bytes from 10.244.0.6: seq=6 ttl=63 time=0.073 ms
+64 bytes from 10.244.0.6: seq=7 ttl=63 time=0.111 ms
+64 bytes from 10.244.0.6: seq=8 ttl=63 time=0.070 ms
+64 bytes from 10.244.0.6: seq=9 ttl=63 time=0.077 ms
+……
+```
 
-  输出显示了一连串的 10 毫秒延迟，每次延迟大约 5 秒（也就是 5 次）。 这与我们使用 chaos-mesh-action 注入的的混沌实验配置一致。
+输出显示了一连串的 10 毫秒延迟，每次延迟大约 5 秒（也就是 5 次）。 这与我们使用 chaos-mesh-action 注入的的混沌实验配置一致。
 
 ## 探索更多
 

@@ -73,6 +73,7 @@ module.exports = {
             'simulate-heavy-stress-in-physical-nodes',
             'simulate-host-console-in-physical-nodes',
             'simulate-disk-pressure-in-physical-nodes',
+            'simulate-jvm-application-chaos-in-physical-nodes',
           ],
         },
       ],

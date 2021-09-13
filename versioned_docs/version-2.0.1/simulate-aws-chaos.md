@@ -9,8 +9,8 @@ sidebar_label: 模拟 AWS 故障
 
 AWSChaos 能够帮助你模拟指定的 AWS 实例发生故障的情景。目前，AWSChaos 支持以下类型的故障：
 
-- **Ec2 Stop**: 使指定的 EC2 实例进入停止状态。
-- **Ec2 Restart**: 重启指定的 EC2 实例。
+- **EC2 Stop**: 使指定的 EC2 实例进入停止状态。
+- **EC2 Restart**: 重启指定的 EC2 实例。
 - **Detach Volume**: 从指定的 EC2 实例中卸载存储卷。
 
 ## Secret 文件
