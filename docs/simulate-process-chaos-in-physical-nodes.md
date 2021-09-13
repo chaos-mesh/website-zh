@@ -71,13 +71,13 @@ Global Flags:
 #### 模拟进程被终止示例
 
 ```bash
-chaosd attack process kill python
+chaosd attack process kill -p python
 ```
 
 输出结果如下所示：
 
 ```bash
-chaosd attack process kill -p python
+
 Attack process python successfully, uid: 10e633ac-0a37-41ba-8b4a-cd5ab92099f9
 ```
 
@@ -114,13 +114,13 @@ Global Flags:
 #### 模拟进程被暂停示例
 
 ```bash
-chaosd attack process stop python
+chaosd attack process stop -p python
 ```
 
 输出结果如下所示：
 
 ```bash
-chaosd attack process stop -p python
+
 Attack process python successfully, uid: 9cb6b3be-4f5b-4ecb-ae05-51050fcd0010
 ```
 
