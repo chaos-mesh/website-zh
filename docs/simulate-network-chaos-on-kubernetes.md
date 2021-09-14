@@ -123,6 +123,8 @@ spec:
       'app': 'app1'
   bandwidth:
     rate: '1mbps'
+    limit: 100
+    buffer: 10000
 ```
 
 该配置将限制 `app1` 的带宽为 1 mbps。
