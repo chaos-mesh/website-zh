@@ -1,7 +1,7 @@
 <!-- markdownlint-disable-file MD033 -->
 <!-- markdownlint-disable-file MD041 -->
 
-**This repo is deprecated because we have [merged zh docs](https://github.com/chaos-mesh/website/pull/135) into [chaos-mesh/website](https://github.com/chaos-mesh/website).**
+## This repo is deprecated because we have [merged zh docs](https://github.com/chaos-mesh/website/pull/135) into [chaos-mesh/website](https://github.com/chaos-mesh/website)
 
 <p align="center">
   <img src="logo.svg" width="512" alt="Chaos Mesh Logo" />

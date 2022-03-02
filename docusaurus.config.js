@@ -16,6 +16,10 @@ module.exports = {
     googleAnalytics: {
       trackingID: 'UA-90760217-2',
     },
+    announcementBar: {
+      content: '此站点已归档，请前往 <a href="https://chaos-mesh.org/zh/">最新的中文站点</a>。',
+      backgroundColor: '#37b5fb',
+    },
     navbar: {
       hideOnScroll: true,
       title: 'Chaos Mesh®',
